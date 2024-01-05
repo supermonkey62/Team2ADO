@@ -1,2 +1,2 @@
 select *,
-from {{ ref ('nwtdata_order_details')}}
+from {{ ref ('nwtdata_order_detail')}}
