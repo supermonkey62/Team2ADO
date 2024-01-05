@@ -1,3 +1,0 @@
-Select *
-FROM
-NWTDATA.NWT.ORDERS
