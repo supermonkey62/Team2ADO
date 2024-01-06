@@ -15,3 +15,4 @@ JOIN {{ ref('nwtdata_product') }} AS p ON od.ProductId = p.ProductId
 JOIN {{ ref('nwtdata_category') }} AS c ON p.CategoryId = c.CategoryId
 
 GROUP BY o.OrderId, OrderDate, OrderMonth, Quantity, CategoryName, ProductName
+ORDER BY OrderMonth ASC
