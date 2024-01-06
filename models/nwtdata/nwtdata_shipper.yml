@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: nwtdata_shipper
+    columns:
+      - name: shipperid
+        tests:
+          - unique
+          - not_null

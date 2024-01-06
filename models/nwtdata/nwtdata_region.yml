@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: nwtdata_region
+    columns:
+      - name: regionid
+        tests:
+          - unique
+          - not_null

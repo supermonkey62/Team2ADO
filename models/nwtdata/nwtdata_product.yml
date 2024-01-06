@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: nwtdata_product
+    columns:
+      - name: productid
+        tests:
+          - unique
+          - not_null
