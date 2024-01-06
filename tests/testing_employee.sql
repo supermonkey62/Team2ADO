@@ -1,21 +1,107 @@
-SELECT *
+SELECT
+  'employeeID' AS column_name,
+  COUNT(*) AS null_count
 FROM NWTDATA.NWT.EMPLOYEE
-WHERE
-  employeeID LIKE '%NULL%' OR
-  lastName LIKE '%NULL%' OR
-  firstName LIKE '%NULL%' OR
-  title LIKE '%NULL%' OR
-  titleOfCourtesy LIKE '%NULL%' OR
-  birthDate LIKE '%NULL%' OR
-  hireDate LIKE '%NULL%' OR
-  address LIKE '%NULL%' OR
-  city LIKE '%NULL%' OR
-  region LIKE '%NULL%' OR
-  postalCode LIKE '%NULL%' OR
-  country LIKE '%NULL%' OR
-  homePhone LIKE '%NULL%' OR
-  extension LIKE '%NULL%' OR
-  photo LIKE '%NULL%' OR
-  notes LIKE '%NULL%' OR
-  reportsTo LIKE '%NULL%' OR
-  photoPath LIKE '%NULL%';
+WHERE employeeID LIKE '%NULL%'
+UNION ALL
+SELECT
+  'lastName' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE lastName LIKE '%NULL%'
+UNION ALL
+SELECT
+  'firstName' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE firstName LIKE '%NULL%'
+UNION ALL
+SELECT
+  'title' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE title LIKE '%NULL%'
+UNION ALL
+SELECT
+  'titleOfCourtesy' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE titleOfCourtesy LIKE '%NULL%'
+UNION ALL
+SELECT
+  'birthDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE birthDate LIKE '%NULL%'
+UNION ALL
+SELECT
+  'hireDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE hireDate LIKE '%NULL%'
+UNION ALL
+SELECT
+  'address' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE address LIKE '%NULL%'
+UNION ALL
+SELECT
+  'city' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE city LIKE '%NULL%'
+UNION ALL
+SELECT
+  'region' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE region LIKE '%NULL%'
+UNION ALL
+SELECT
+  'postalCode' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE postalCode LIKE '%NULL%'
+UNION ALL
+SELECT
+  'country' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE country LIKE '%NULL%'
+UNION ALL
+SELECT
+  'homePhone' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE homePhone LIKE '%NULL%'
+UNION ALL
+SELECT
+  'extension' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE extension LIKE '%NULL%'
+UNION ALL
+SELECT
+  'photo' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE photo LIKE '%NULL%'
+UNION ALL
+SELECT
+  'notes' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE notes LIKE '%NULL%'
+UNION ALL
+SELECT
+  'reportsTo' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE reportsTo LIKE '%NULL%'
+UNION ALL
+SELECT
+  'photoPath' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.EMPLOYEE
+WHERE photoPath LIKE '%NULL%';
