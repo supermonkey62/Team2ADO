@@ -8,5 +8,5 @@
 --     od.productid = p.productid
 
 
-select *,
+-- select *,
 

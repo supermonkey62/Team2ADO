@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: NWT
+    description: a clone of the Snowflake Database
+    database: NWTDATA
+    schema: NWT
+    tables: 
+      - name: FRESH_ORDERS
+        description: fresh orders to be appended into ORDERS table
+        columns:
+          - name: ORDERID
+            description: primary key for FRESH_ORDERS
