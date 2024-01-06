@@ -12,5 +12,5 @@ SELECT
     END AS OrderStatus,
     C.CustomerID,
     C.CompanyName
-FROM {{ ref('nwtdata_order') }} AS O
+FROM {{ ref('nwtdata_orders') }} AS O
 JOIN {{ ref('nwtdata_customers') }} AS C ON O.CustomerID = C.CustomerID
