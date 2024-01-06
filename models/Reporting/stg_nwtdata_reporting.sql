@@ -1,27 +1,19 @@
-select (UnitPrice * (1 - Discount)) * Quantity as Sales
+{{ config(materialized='view') }}
 
-from {{ ref('Product') }} as p
-join {{ ref('OrderDetail') }} as o
-on p.ProductId = o.ProductId
--- {{ config (materialized='view')}}
+SELECT
+  orderid,
+  p.unitprice,
+  quantity,
+  discount,
+  productname,
+  supplierid,
+  categoryid,
+  QuantityPerUnit,
+  unitsinstock,
+  unitsonorder,
+  reorderlevel,
+  discontinued,
+  (p.unitprice * (1 - discount)) * Quantity AS Sales
 
--- select
--- orderid
--- p.productid
--- unitprice
--- quantity
--- discount
--- productname
--- supplierid
--- categoryid
--- quantityperunit
--- unitprice
--- unitsinstock
--- unitsinorder
--- reorderlevel
--- discontinued
--- (unitprice * (1 - discount)) * Quantity as Sales
-
--- from {{ ref('nwtdata_product') }} as p
--- inner join {{ ref('nwtdata_order_detail') }} as o
--- on p.productid = o.productid
+FROM {{ ref('nwtdata_product') }} AS p
+JOIN {{ ref('nwtdata_order_detail') }} AS o ON p.ProductId = o.ProductId
