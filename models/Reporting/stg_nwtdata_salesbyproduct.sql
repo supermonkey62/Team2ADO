@@ -16,4 +16,4 @@ SELECT
   (p.unitprice * (1 - discount)) * Quantity AS Sales
 
 FROM {{ ref('nwtdata_product') }} AS p
-JOIN {{ ref('nwtdata_order_detail') }} AS o ON p.ProductId = o.ProductId
+JOIN {{ ref('nwtdata_order_detail') }} AS od ON p.ProductId = od.ProductId
