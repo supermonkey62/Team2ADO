@@ -14,3 +14,4 @@ JOIN {{ ref('nwtdata_order_detail') }} AS od ON o.OrderId = od.OrderId
 JOIN {{ ref('nwtdata_product') }} AS p ON od.ProductId = p.ProductId
 
 GROUP BY r.RegionId, RegionDescription
+ORDER BY RegionSales DESC
