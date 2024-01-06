@@ -38,5 +38,8 @@ models:
     FRESH_ORDERS:
       +materialized: table
       unique_key: ORDERID
+    FRESH_ORDER_DETAIL:
+      +materialised: table
+      unique_key: ORDERID
     
   
