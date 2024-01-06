@@ -11,3 +11,9 @@ sources:
         columns:
           - name: ORDERID
             description: primary key for FRESH_ORDERS
+      - name: FRESH_ORDER_DETAIL
+        description: fresh orders_detail to be appended into ORDER_DETAIL table
+        columns:
+          - name: ORDERID
+            description: primary key for FRESH_ORDER_DETAIL
+
