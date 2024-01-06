@@ -1,7 +1,8 @@
 {{ config(materialized='view') }}
 
 SELECT
-  Region,
+  r.RegionId,
+  RegionDescription,
   SUM((p.unitprice * (1 - discount)) * Quantity) AS RegionSales
 
 FROM {{ ref('nwtdata_region') }} AS r
@@ -12,4 +13,4 @@ JOIN {{ ref('nwtdata_orders') }} AS o ON e.EmployeeId = o.EmployeeId
 JOIN {{ ref('nwtdata_order_detail') }} AS od ON o.OrderId = od.OrderId
 JOIN {{ ref('nwtdata_product') }} AS p ON od.ProductId = p.ProductId
 
-GROUP BY Region
+GROUP BY r.RegionId, RegionDescription
