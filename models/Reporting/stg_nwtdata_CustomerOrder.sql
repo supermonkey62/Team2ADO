@@ -1,4 +1,5 @@
 {{ config(materialized='view') }}
+
 SELECT
     O.OrderID,
     O.OrderDate,
@@ -11,7 +12,5 @@ SELECT
     END AS OrderStatus,
     C.CustomerID,
     C.CompanyName
-FROM
-    [Order] O
-JOIN
-    Customer C ON O.CustomerID = C.CustomerID;
+FROM {{ ref('nwtdata_orders') }} AS O
+JOIN {{ ref('nwtdata_customers') }} AS C ON O.CustomerID = C.CustomerID
