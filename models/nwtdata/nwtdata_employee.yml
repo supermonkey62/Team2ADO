@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: nwtdata_employee
+    columns:
+      - name: employeeid
+        tests:
+          - unique
+          - not_null

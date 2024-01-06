@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: nwtdata_supplier
+    columns:
+      - name: supplierid
+        tests:
+          - unique
+          - not_null
