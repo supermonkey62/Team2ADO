@@ -1,0 +1,6 @@
+SELECT *
+FROM NWTDATA.NWT.SHIPPER
+WHERE
+  shipperID LIKE '%NULL%' OR
+  companyName LIKE '%NULL%' OR
+  phone LIKE '%NULL%';

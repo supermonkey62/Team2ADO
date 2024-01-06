@@ -3,3 +3,4 @@
 Select *
 From 
 NWTDATA.NWT.EMPLOYEE
+
