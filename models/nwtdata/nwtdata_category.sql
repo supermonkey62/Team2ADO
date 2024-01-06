@@ -2,7 +2,7 @@
 
 Select *
 From 
-NWTDATA.NWT.CATEGORY;
+NWTDATA.NWT.CATEGORY
 
 
 
