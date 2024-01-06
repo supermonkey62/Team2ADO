@@ -7,14 +7,14 @@ NWTDATA.NWT.CUSTOMERS;
 SELECT *
 FROM NWTDATA.NWT.CUSTOMERS
 WHERE
-  customerID LIKE '%null%' OR
-  companyName LIKE '%null%' OR
-  contactName LIKE '%null%' OR
-  contactTitle LIKE '%null%' OR
-  address LIKE '%null%' OR
-  city LIKE '%null%' OR
-  region LIKE '%null%' OR
-  postalCode LIKE '%null%' OR
-  country LIKE '%null%' OR
-  phone LIKE '%null%' OR
-  fax LIKE '%null%';
+  customerID LIKE '%NULL%' OR
+  companyName LIKE '%NULL%' OR
+  contactName LIKE '%NULL%' OR
+  contactTitle LIKE '%NULL%' OR
+  address LIKE '%NULL%' OR
+  city LIKE '%NULL%' OR
+  region LIKE '%NULL%' OR
+  postalCode LIKE '%NULL%' OR
+  country LIKE '%NULL%' OR
+  phone LIKE '%NULL%' OR
+  fax LIKE '%NULL%';
