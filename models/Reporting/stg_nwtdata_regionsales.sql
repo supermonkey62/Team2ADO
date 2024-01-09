@@ -3,7 +3,7 @@
 SELECT
   r.RegionId,
   RegionDescription,
-  SUM((p.unitprice * (1 - discount)) * Quantity) AS RegionSales
+  SUM((od.unitprice * (1 - discount)) * Quantity) AS RegionSales
 
 FROM {{ ref('nwtdata_region') }} AS r
 JOIN {{ ref('nwtdata_territory') }} AS t ON r.RegionId = t.RegionId

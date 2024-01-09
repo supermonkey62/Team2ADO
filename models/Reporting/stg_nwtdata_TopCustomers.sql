@@ -2,7 +2,7 @@
 
 SELECT
   c.CustomerId,
-  SUM((p.unitprice * (1 - discount)) * Quantity) AS CustomerSales
+  SUM((od.unitprice * (1 - discount)) * Quantity) AS CustomerSales
 FROM {{ ref('nwtdata_customers') }} AS c
 JOIN {{ ref('nwtdata_orders') }} AS o ON c.CustomerId = o.CustomerId
 JOIN {{ ref('nwtdata_order_detail') }} AS od ON od.OrderId = o.OrderID
