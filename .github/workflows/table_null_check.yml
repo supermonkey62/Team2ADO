@@ -1,0 +1,29 @@
+name: Check for "NULL" String in Tables
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-dbt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        pip install dbt
+
+    - name: Run dbt
+      run: dbt run
+
+    - name: Run dbt tests on category table
+      run: dbt test -s testing_categoryv2
