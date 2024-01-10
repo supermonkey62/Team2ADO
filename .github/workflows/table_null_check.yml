@@ -21,6 +21,12 @@ jobs:
         pip install dbt_snowflake
 
     - name: Run dbt
+      env:
+        DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+        DBT_USER: ${{ secrets.DBT_USER }}
+        DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+
+        
       run: dbt run
 
     - name: Run dbt tests on category table
