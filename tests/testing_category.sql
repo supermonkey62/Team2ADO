@@ -20,4 +20,4 @@ SELECT
   'picture' AS column_name,
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.CATEGORY
-WHERE picture LIKE '%NULL%';
+WHERE picture LIKE '%NULL%'
