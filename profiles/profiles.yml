@@ -1,0 +1,21 @@
+NWTDB:
+  outputs:
+    dev:
+      account: VMRXVKW-EM09200
+      database: NWTDATA
+      password: Team2ado
+      role: accountadmin
+      schema: NWT
+      threads: 6
+      type: snowflake
+      user: team2
+      warehouse: NWTWH
+      client_session_keep_alive: False
+
+  config:
+    env:
+      DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+      DBT_USER: ${{ secrets.DBT_USER }}
+      DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+
+  target: dev
