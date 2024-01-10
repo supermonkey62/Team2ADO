@@ -7,7 +7,7 @@ SELECT
   Quantity,
   CategoryName,
   ProductName,
-  SUM((p.unitprice * (1 - discount)) * Quantity) AS ProductSales
+  SUM((od.unitprice * (1 - discount)) * Quantity) AS ProductSales
 
 FROM {{ ref('nwtdata_orders') }} AS o
 JOIN {{ ref('nwtdata_order_detail') }} AS od ON o.OrderId = od.OrderId
