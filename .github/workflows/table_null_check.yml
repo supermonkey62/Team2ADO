@@ -1,6 +1,9 @@
 name: Check for "NULL" String in Tables
 
-on: push
+on:
+  push:
+    paths:
+      - 'pushtext.txt'
 
 jobs:
   run-dbt:
