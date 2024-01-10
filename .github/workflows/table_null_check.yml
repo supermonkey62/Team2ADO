@@ -1,6 +1,9 @@
 name: Check for "NULL" String in Tables
 
-on: push
+on:
+  push:
+    paths:
+      - 'pushtext.txt'
 
 jobs:
   run-dbt:
@@ -26,8 +29,8 @@ jobs:
         DBT_USER: ${{ secrets.DBT_USER }}
         DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
 
-        
-      run: dbt run
+      run: dbt run --profiles-dir profiles
 
     - name: Run dbt tests on category table
-      run: dbt test -s testing_categoryv2
+      run: dbt test -s testing_categoryv2 --profiles-dir profiles
+
