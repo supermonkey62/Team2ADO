@@ -1,7 +1,6 @@
 SELECT
     EmployeeID,
-    LastName,
-    FirstName,
+    EmployeeName,
     TotalOrders,
     TotalSales,
     AvgOrderValue
