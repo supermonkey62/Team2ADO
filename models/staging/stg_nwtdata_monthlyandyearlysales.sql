@@ -4,6 +4,7 @@ SELECT
   o.OrderId,
   OrderDate,
   EXTRACT(MONTH FROM OrderDate) AS OrderMonth,
+  EXTRACT(YEAR FROM OrderDate) AS OrderYear,
   Quantity,
   CategoryName,
   ProductName,
