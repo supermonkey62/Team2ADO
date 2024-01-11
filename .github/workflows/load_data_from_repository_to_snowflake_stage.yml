@@ -34,5 +34,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
         run: |
-          python Team2ADO/load_data_into_snowflake_stage.py
+          python load_data_into_snowflake_stage.py
 
