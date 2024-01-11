@@ -17,16 +17,13 @@ snowflake_warehouse = "NWTWH"
 snowflake_stage = "NWT_STAGING"
 
 def upload_to_snowflake_stage(conn, file_content, file_name, stage_name):
-    cursor = conn.cursor()
     try:
-        # Use the PUT method directly with file_content
-        cursor.put(file_content, stage_name, file_name)
+        # Use the SnowflakeConnection object to perform put
+        conn.put(stage_name, file_name, file_content)
         
         print(f"File '{file_name}' uploaded to Snowflake stage '{stage_name}'.")
     except Error as e:
         print(f"Error uploading file to Snowflake: {e}")
-    finally:
-        cursor.close()
 
 def main():
     # Connect to Snowflake
