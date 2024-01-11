@@ -24,7 +24,7 @@ jobs:
         pip install dbt_snowflake
         
   run-dbt:
-    needs: {set-up-python}
+    needs: "set-up-python"
     runs-on: ubuntu-latest
     
     steps:
