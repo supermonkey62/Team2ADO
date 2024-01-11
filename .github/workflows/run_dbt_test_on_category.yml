@@ -8,38 +8,36 @@ on:
 jobs:
   set-up-python:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install dbt_snowflake
-        
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
   run-dbt:
-    needs: "set-up-python"
+    needs:
+      - set-up-python
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Run dbt
-      env:
-        DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
-        DBT_USER: ${{ secrets.DBT_USER }}
-        DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-      run: dbt run --profiles-dir profiles
+      - name: Run dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles
 
   run-dbt-test:
-    needs: {run-dbt}
+    needs:
+      - run-dbt
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Run dbt tests on category table
-      run: dbt test -s testing_categoryv2 --profiles-dir profiles
-
+      - name: Run dbt tests on category table
+        run: dbt test -s testing_categoryv2 --profiles-dir profiles
