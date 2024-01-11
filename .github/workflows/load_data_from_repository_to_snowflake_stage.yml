@@ -25,13 +25,12 @@ jobs:
 
       - name: Run dbt
         env:
-          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          DBT_USER: ${{ secrets.SNOWFLAKE_USER }}
+          DBT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          DBT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-          GITHUB_REPO: ${{ secrets.GITHUB_REPO }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NWT_REPO: ${{ secrets.GITHUB_REPO }}
       
         run: |
           python load_data_into_snowflake_stage.py
