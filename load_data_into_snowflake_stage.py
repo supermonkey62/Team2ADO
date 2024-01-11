@@ -9,7 +9,7 @@ github_api_url = f"https://api.github.com/repos/just4jc/Northwind-Traders-Datase
 # Snowflake connection details
 snowflake_user = "team2"
 snowflake_password = "Team2ado"
-snowflake_account = "https://ui26303.ap-southeast-1.snowflakecomputing.com"
+snowflake_account = "VMRXVKW-EM09200"
 snowflake_database = "NWTDATA"
 snowflake_warehouse = "NWTWH"
 
