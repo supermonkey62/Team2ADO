@@ -145,3 +145,23 @@ SELECT
 FROM NWTDATA.NWT.ORDERS
 WHERE shipCountry LIKE '%NULL%';
 
+SELECT *
+FROM NWTDATA.NWT.ORDERS
+WHERE
+  orderID IS NULL OR
+  customerID IS NULL OR
+  employeeID IS NULL OR
+  orderDate IS NULL OR
+  requiredDate IS NULL OR
+  shippedDate IS NULL OR
+  shipVia IS NULL OR
+  freight IS NULL OR
+  shipName IS NULL OR
+  shipAddress IS NULL OR
+  shipCity IS NULL OR
+  shipRegion IS NULL OR
+  shipPostalCode IS NULL OR
+  shipCountry IS NULL;
+
+  
+
