@@ -16,15 +16,16 @@ snowflake_warehouse = "NWTWH"
 # Snowflake stage details
 snowflake_stage = "NWT_STAGING"
 
-def upload_to_snowflake_stage(conn, file_content, file_name, stage_name):
-    cursor = conn.cursor()
+def upload_to_snowflake_stage(conn, file_url, file_name, stage_name):
     try:
-        cursor.execute(f"PUT 'data:text/plain,{file_content}' @{stage_name}/{file_name}")
-        print(f"File '{file_name}' uploaded to Snowflake stage '{stage_name}'.")
+        cursor = conn.cursor()
+        # Use the correct syntax for PUT command
+        put_command = f"PUT '{file_url}' @{stage_name}/{file_name}"
+        cursor.execute(put_command)
+        print(f"File '{file_name}' streamed to Snowflake stage '{stage_name}'.")
     except Error as e:
-        print(f"Error uploading file to Snowflake: {e}")
-    finally:
-        cursor.close()
+        print(f"Error streaming file to Snowflake: {e}")
+
 
 def main():
     # Connect to Snowflake
@@ -47,18 +48,16 @@ def main():
 
     # Upload each file content directly to Snowflake stage
     for file_info in files:
-        if file_info["name"].endswith(".csv"):
-            file_name = file_info["name"]
-            download_url = file_info["download_url"]
-            
-            response = requests.get(download_url)
-            file_content = response.content.decode('utf-8')
-            
-            upload_to_snowflake_stage(conn, file_content, file_name, snowflake_stage)
+      if file_info["name"].endswith(".csv"):
+        file_name = file_info["name"]
+        download_url = file_info["download_url"]
+        upload_to_snowflake_stage(conn, download_url, file_name, snowflake_stage)
 
     # Close Snowflake connection
     conn.close()
     print("Disconnected from Snowflake.")
 
+# Execute the main function
 if __name__ == "__main__":
     main()
+
