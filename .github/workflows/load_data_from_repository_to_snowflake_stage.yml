@@ -30,8 +30,7 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
-          NWT_REPO: ${{ secrets.GITHUB_REPO }}
-      
+
         run: |
           python load_data_into_snowflake_stage.py
 
