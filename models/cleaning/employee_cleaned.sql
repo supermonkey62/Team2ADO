@@ -104,11 +104,11 @@ SELECT
   'photoPath' AS column_name,
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.EMPLOYEE
-WHERE photoPath LIKE '%NULL%';
+WHERE photoPath LIKE '%NULL%'
 
 UPDATE NWTDATA.NWT.EMPLOYEE
 SET region = CASE 
                WHEN region LIKE '%NULL%' THEN country
                ELSE region
              END
-WHERE region LIKE '%NULL%';
+WHERE region LIKE '%NULL%'

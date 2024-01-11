@@ -3,21 +3,21 @@ SET fax = CASE
             WHEN fax LIKE '%NULL%' THEN 'NONE'
             ELSE fax
           END
-WHERE fax LIKE '%NULL%';
+WHERE fax LIKE '%NULL%'
 
 UPDATE NWTDATA.NWT.CUSTOMERS
 SET region = CASE 
                WHEN region LIKE '%NULL%' THEN country
                ELSE region
              END
-WHERE region LIKE '%NULL%';
+WHERE region LIKE '%NULL%'
 
 UPDATE NWTDATA.NWT.CUSTOMERS
 SET postalCode = CASE 
             WHEN postalCode LIKE '%NULL%' THEN 'NONE'
             ELSE postalCode
           END
-WHERE postalCode LIKE '%NULL%';
+WHERE postalCode LIKE '%NULL%'
 
 
 SELECT
@@ -84,4 +84,4 @@ SELECT
   'fax' AS column_name,
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.CUSTOMERS
-WHERE fax LIKE '%NULL%';
+WHERE fax LIKE '%NULL%'
