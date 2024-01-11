@@ -6,7 +6,7 @@ on:
       - 'pushtext.txt'
 
 jobs:
-  set-up-python:
+  run-dbt:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,11 +22,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt_snowflake
 
-  run-dbt:
-    needs:
-      - set-up-python
-    runs-on: ubuntu-latest
-    steps:
       - name: Run dbt
         env:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
