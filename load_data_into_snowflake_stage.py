@@ -19,7 +19,9 @@ snowflake_stage = "NWT_STAGING"
 def upload_to_snowflake_stage(conn, file_content, file_name, stage_name):
     cursor = conn.cursor()
     try:
-        cursor.execute(f"PUT 'data:text/plain,{file_content}' @{stage_name}/{file_name}")
+        # Use the PUT method directly with file_content
+        cursor.put(file_content, stage_name, file_name)
+        
         print(f"File '{file_name}' uploaded to Snowflake stage '{stage_name}'.")
     except Error as e:
         print(f"Error uploading file to Snowflake: {e}")
@@ -60,5 +62,7 @@ def main():
     conn.close()
     print("Disconnected from Snowflake.")
 
+# Execute the main function
 if __name__ == "__main__":
     main()
+
