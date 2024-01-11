@@ -13,11 +13,11 @@
             "previewLimit": 50,
             "driver": "Snowflake",
             "name": "NWT",
-            "account": "kc16743.ap-southeast-1",
+            "account": "ui26303.ap-southeast-1",
             "username": "team2",
             "password": "Team2ado",
             "database": "nwtdata",
-            "warehouse": "NWTADO"
+            "warehouse": "NWTWH"
         }
     ]
 }

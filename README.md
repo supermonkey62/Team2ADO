@@ -1,6 +1,6 @@
 Welcome to your new dbt project!
 
-### Using the starter project
+### Using the starter project push
 
 Try running the following commands:
 - dbt run
