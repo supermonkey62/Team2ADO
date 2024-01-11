@@ -17,16 +17,15 @@ snowflake_warehouse = "NWTWH"
 snowflake_stage = "NWT_STAGING"
 
 def upload_to_snowflake_stage(conn, file_url, file_name, stage_name):
-  try:
-    cursor = conn.cursor()
-    with requests.get(file_url, stream=True) as response:
-      response.raise_for_status()  # Raise an exception for non-200 status codes
-      chunk_size = 1024 * 1024  # Set chunk size for streaming
-      for chunk in response.iter_content(chunk_size=chunk_size):
-        cursor.executemany("PUT file://%s @%s" % (file_name, stage_name), [chunk])
-    print(f"File '{file_name}' streamed to Snowflake stage '{stage_name}'.")
-  except Error as e:
-    print(f"Error streaming file to Snowflake: {e}")
+    try:
+        cursor = conn.cursor()
+        # Use the correct syntax for PUT command
+        put_command = f"PUT '{file_url}' @{stage_name}/{file_name}"
+        cursor.execute(put_command)
+        print(f"File '{file_name}' streamed to Snowflake stage '{stage_name}'.")
+    except Error as e:
+        print(f"Error streaming file to Snowflake: {e}")
+
 
 def main():
     # Connect to Snowflake
