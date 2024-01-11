@@ -29,10 +29,5 @@ jobs:
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
         run: dbt run --profiles-dir profiles
 
-  run-dbt-test:
-    needs:
-      - run-dbt
-    runs-on: ubuntu-latest
-    steps:
       - name: Run dbt tests on category table
         run: dbt test -s testing_categoryv2 --profiles-dir profiles
