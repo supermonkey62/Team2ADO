@@ -36,7 +36,7 @@ for file_info in files:
         download_url = file_info["download_url"]
 
         # Extract the object key from the download URL
-        object_key = urlparse(download_url).path.lstrip("/")
+        object_key = file_name
 
         # Now you have the object key and download URL, and you can proceed with downloading and uploading
         download_and_upload_to_s3(download_url, object_key)
