@@ -38,17 +38,14 @@ SELECT * FROM TABLE(INFER_SCHEMA(
 # Execute the query
 result = conn.cursor().execute(infer_schema_query).fetchall()
 
-# Generate column definitions for CREATE TABLE using TEMPLATE
+# Generate column definitions for CREATE TABLE
 columns_definition = ',\n'.join(f'"{col[0]}" {col[1]}' for col in result)
 
-# Create the table using TEMPLATE
+# Create the table using the inferred schema
 create_table_query = f"""
-CREATE OR REPLACE TABLE RAW_{staged_file_name.replace(".csv", "")} USING TEMPLATE (
-SELECT ARRAY_AGG(OBJECT_CONSTRUCT(*)) 
- WITHIN GROUP (ORDER BY ORDER_ID)
- FROM TABLE (INFER_SCHEMA(
- LOCATION=>'@{stage_name}/{staged_file_name}',
- FILE_FORMAT=>'{file_format_name}')));
+CREATE OR REPLACE TABLE RAW_{staged_file_name.replace(".csv", "")} (
+{columns_definition}
+);
 """
 
 # Execute the CREATE TABLE query
@@ -66,5 +63,6 @@ conn.cursor().execute(copy_query)
 
 # Close the connection
 conn.close()
+
 
 
