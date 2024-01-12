@@ -19,52 +19,50 @@ conn = snowflake.connector.connect(
     schema=snowflake_schema
 )
 
-# Snowflake stage name
-stage_name = "NWT_STAGING"
+import snowflake.connector
 
-# File format
-file_format_name = "MY_CSV_FORMAT"  # Change this to your desired file format name
+# Replace with your Snowflake credentials
+account = os.getenv('DBT_ACCOUNT')
+user = os.getenv('DBT_USER')
+password = os.getenv('DBT_PASSWORD')
+warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
+database = os.getenv('SNOWFLAKE_DATABASE')
+schema = os.getenv('SNOWFLAKE_SCHEMA')
+stage_name = 'NWT_STAGING'
+file_format_name = 'my_csv_format'
 
-# List files in Snowflake stage
-list_files_query = f"LIST '@{stage_name}/'"
-result = conn.cursor().execute(list_files_query).fetchall()
+# Connect to Snowflake
+ctx = snowflake.connector.connect(
+    account=account,
+    user=user,
+    password=password,
+    warehouse=warehouse,
+    database=database,
+    schema=schema
+)
 
-# Loop through all CSV files in the stage
-for file_info in result:
-    file_name = file_info[0]  # File name is the first column in the result
-    if file_name.endswith(".csv"):
-        # Create FILE FORMAT
-        create_file_format_query = f"""
-        CREATE OR REPLACE FILE FORMAT {file_name.replace(".csv", "")}_FORMAT
-          TYPE = CSV
-          FIELD_DELIMITER = ','
-          SKIP_HEADER = 1
-          FIELD_OPTIONALLY_ENCLOSED_BY='"'
-          -- Explicitly specify the S3 bucket here
-          -- Replace 'your-s3-bucket' with the actual bucket name
-          STAGE_FILE_PATTERN = 's3://team2adonwtbucket/{stage_name}/{file_name}';
-        """
-        conn.cursor().execute(create_file_format_query)
+cs = ctx.cursor()
 
-        # Create TABLE using TEMPLATE
-        create_table_query = f"""
-        CREATE OR REPLACE TABLE RAW_{file_name.replace(".csv", "")} 
-        USING TEMPLATE (
-            SELECT * FROM @{stage_name}/{file_name} (FILE_FORMAT => '{file_name.replace(".csv", "")}_FORMAT')
-        );
-        """
-        conn.cursor().execute(create_table_query)
+# Create the file format (if it doesn't exist)
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
-        # COPY INTO the created TABLE
-        copy_query = f"""
-        COPY INTO RAW_{file_name.replace(".csv", "")}
-        FROM '@{stage_name}/{file_name}'
-        FILE_FORMAT = '{file_name.replace(".csv", "")}_FORMAT';
-        """
-        conn.cursor().execute(copy_query)
+# List CSV files in the stage
+cs.execute(f"SHOW FILES IN @my_stage")
+files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
 
-# Close the connection
-conn.close()
+# Process each CSV file
+for file in files:
+    table_name = file.replace('.csv', '')
+
+    # Create the table
+    cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE (SELECT * FROM @my_stage/{file} (FILE_FORMAT => '{file_format_name}'))")
+
+    # Load data into the table
+    cs.execute(f"COPY INTO {table_name} FROM @my_stage/{file} FILE_FORMAT = '{file_format_name}'")
+
+cs.close()
+ctx.close()
+
 
 
 
