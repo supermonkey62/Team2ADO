@@ -47,7 +47,7 @@ cs = ctx.cursor()
 cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
-cs.execute(f"LIST @my_stage")
+cs.execute(f"LIST @NWT_STAGING")
 files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
 
 # Process each CSV file
