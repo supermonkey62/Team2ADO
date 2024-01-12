@@ -38,7 +38,11 @@ for file_info in result:
         CREATE OR REPLACE FILE FORMAT {file_name.replace(".csv", "")}_FORMAT
           TYPE = CSV
           FIELD_DELIMITER = ','
-          SKIP_HEADER = 1;
+          SKIP_HEADER = 1
+          FIELD_OPTIONALLY_ENCLOSED_BY='"'
+          -- Explicitly specify the S3 bucket here
+          -- Replace 'your-s3-bucket' with the actual bucket name
+          STAGE_FILE_PATTERN = 's3://team2adonwtbucket/{stage_name}/{file_name}';
         """
         conn.cursor().execute(create_file_format_query)
 
@@ -61,6 +65,7 @@ for file_info in result:
 
 # Close the connection
 conn.close()
+
 
 
 
