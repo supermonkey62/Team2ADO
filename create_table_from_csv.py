@@ -53,7 +53,8 @@ print(f"Files in the stage: {files}")
 
 # Process each CSV file
 for file in files:
-    table_name = file.replace('.csv', '')
+    # Extract the table name from the file path
+    table_name = file.split('/')[-1].replace('.csv', '')
 
     # Create the table
     cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE (SELECT * FROM @NWT_STAGING/{file} (FILE_FORMAT => '{file_format_name}'))")
@@ -63,6 +64,7 @@ for file in files:
 
 cs.close()
 ctx.close()
+
 
 
 
