@@ -9,7 +9,7 @@ aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
 region_name = 'us-east-1'  # Replace with your AWS region
 
 # GitHub repository URL
-github_repo_url = 'https://raw.githubusercontent.com/just4jc/Northwind-Traders-Dataset/main/'
+github_repo_url = 'https://api.github.com/repos/just4jc/Northwind-Traders-Dataset/contents/'
 
 # Amazon S3 bucket
 s3_bucket = 'team2adonwtbucket'
@@ -36,9 +36,10 @@ for file_info in files:
         download_url = file_info["download_url"]
 
         # Extract the object key from the download URL
-        object_key = file_name
+        object_key = urlparse(download_url).path.lstrip("/")
 
         # Now you have the object key and download URL, and you can proceed with downloading and uploading
         download_and_upload_to_s3(download_url, object_key)
+
 
 
