@@ -23,46 +23,45 @@ conn = snowflake.connector.connect(
 stage_name = "NWT_STAGING"
 
 # File format
-file_format_name = "CSV_FILE_FORMAT"
+file_format_name = "MY_CSV_FORMAT"  # Change this to your desired file format name
 
-# Staged file name
-staged_file_name = "category.csv"  # Replace with the actual staged file name
+# List files in Snowflake stage
+list_files_query = f"LIST '@{stage_name}/'"
+result = conn.cursor().execute(list_files_query).fetchall()
 
-# Infer schema from the staged file
-infer_schema_query = f"""
-SELECT * FROM TABLE(INFER_SCHEMA(
- LOCATION=>'@{stage_name}/{staged_file_name}',
- FILE_FORMAT=>'{file_format_name}'));
-"""
+# Loop through all CSV files in the stage
+for file_info in result:
+    file_name = file_info[0]  # File name is the first column in the result
+    if file_name.endswith(".csv"):
+        # Create FILE FORMAT
+        create_file_format_query = f"""
+        CREATE OR REPLACE FILE FORMAT {file_name.replace(".csv", "")}_FORMAT
+          TYPE = CSV
+          FIELD_DELIMITER = ','
+          SKIP_HEADER = 1;
+        """
+        conn.cursor().execute(create_file_format_query)
 
-# Execute the query
-result = conn.cursor().execute(infer_schema_query).fetchall()
+        # Create TABLE using TEMPLATE
+        create_table_query = f"""
+        CREATE OR REPLACE TABLE RAW_{file_name.replace(".csv", "")} 
+        USING TEMPLATE (
+            SELECT * FROM @{stage_name}/{file_name} (FILE_FORMAT => '{file_name.replace(".csv", "")}_FORMAT')
+        );
+        """
+        conn.cursor().execute(create_table_query)
 
-# Generate column definitions for CREATE TABLE
-columns_definition = ',\n'.join(f'"{col[0]}" {col[1]}' for col in result)
-
-# Create the table using the inferred schema
-create_table_query = f"""
-CREATE OR REPLACE TABLE RAW_{staged_file_name.replace(".csv", "")} (
-{columns_definition}
-);
-"""
-
-# Execute the CREATE TABLE query
-conn.cursor().execute(create_table_query)
-
-# Copy data from the staged file into the created table
-copy_query = f"""
-COPY INTO RAW_{staged_file_name.replace(".csv", "")}
-FROM '@{stage_name}/{staged_file_name}'
-FILE_FORMAT = ('{file_format_name}');
-"""
-
-# Execute the COPY INTO query
-conn.cursor().execute(copy_query)
+        # COPY INTO the created TABLE
+        copy_query = f"""
+        COPY INTO RAW_{file_name.replace(".csv", "")}
+        FROM '@{stage_name}/{file_name}'
+        FILE_FORMAT = '{file_name.replace(".csv", "")}_FORMAT';
+        """
+        conn.cursor().execute(copy_query)
 
 # Close the connection
 conn.close()
+
 
 
 
