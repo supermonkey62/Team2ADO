@@ -61,14 +61,14 @@ for file in files:
     columns = cs.fetchall()
 
     # Create the table using TEMPLATE with column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE ({','.join([f'{col[0]} {col[1]}' for col in columns])})"
+    create_table_query = f"CREATE TABLE IF NOT EXISTS RAW_{table_name} USING TEMPLATE ({','.join([f'{col[0]} AS col{index + 1}' for index, col in enumerate(columns)])})"print(create_table_query)
     print(create_table_query)
     cs.execute(create_table_query)
 
 
 
     # Load data into the table
-    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    cs.execute(f"COPY INTO RAW_{table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
