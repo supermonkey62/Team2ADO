@@ -19,8 +19,6 @@ conn = snowflake.connector.connect(
     schema=snowflake_schema
 )
 
-import snowflake.connector
-
 # Replace with your Snowflake credentials
 account = os.getenv('DBT_ACCOUNT')
 user = os.getenv('DBT_USER')
@@ -56,8 +54,14 @@ for file in files:
     # Extract the table name from the file path
     table_name = file.split('/')[-1].replace('.csv', '')
 
-    # Create the table
-    cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE (SELECT * FROM @NWT_STAGING/{file} (FILE_FORMAT => '{file_format_name}'))")
+    # Use INFER_SCHEMA to get column definitions
+    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file}', FILE_FORMAT=>'{file_format_name}'))"
+    cs.execute(infer_schema_query)
+    columns = cs.fetchall()
+
+    # Create the table using TEMPLATE with column definitions
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE ({','.join([f'{col[0]} {col[1]}' for col in columns])})"
+    cs.execute(create_table_query)
 
     # Load data into the table
     cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
