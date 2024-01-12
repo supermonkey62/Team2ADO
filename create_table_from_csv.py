@@ -60,10 +60,10 @@ for file in files:
     columns = cs.fetchall()
 
     # Create the table using TEMPLATE with column definitions
-create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE ("
-create_table_query += ','.join([f'{col[0]} {col[1]}' for col in columns])
-create_table_query += ")"
-cs.execute(create_table_query)
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE ("
+    create_table_query += ','.join([f'{col[0]} {col[1]}' for col in columns])
+    create_table_query += ")"
+    cs.execute(create_table_query)
 
 
     # Load data into the table
