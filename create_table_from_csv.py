@@ -60,11 +60,7 @@ for file in files:
     columns = cs.fetchall()
 
     # Create the table using TEMPLATE with column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE ("
-    create_table_query += ','.join([f'{col[0]} {col[1]}' for col in columns])
-    create_table_query += ")"
-    cs.execute(create_table_query)
-
+    cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE {','.join([f'{col[0]} {col[1]}' for col in columns])}")
 
     # Load data into the table
     cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
