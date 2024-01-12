@@ -24,13 +24,14 @@ jobs:
           pip install snowflake-connector-python requests
           pip install pandas
 
-      - name: Run dbt
+      - name: Run python file
         env:
-          DBT_USER: ${{ secrets.SNOWFLAKE_USER }}
-          DBT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-          DBT_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
         run: |
           python create_table_from_csv.py
