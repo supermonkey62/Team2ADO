@@ -37,7 +37,7 @@ def create_table_from_stage(stage_name, file_name, table_name):
 # Assume the files in the stage have a similar structure (columns)
 # Loop through all files in the stage
 stage_name = 'NWT_STAGING'
-for file_name in os.listdir(stage_name):
+for file_name in os.listdir('NWT_STAGING'):
     if file_name.endswith(".csv"):
         table_name = file_name.replace(".csv", "")  # Remove extension for table name
         create_table_from_stage(stage_name, file_name, table_name)
