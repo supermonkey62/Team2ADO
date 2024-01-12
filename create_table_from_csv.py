@@ -56,6 +56,7 @@ for file in files:
 
     # Use INFER_SCHEMA to get column definitions
     infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file}', FILE_FORMAT=>'{file_format_name}'))"
+    print(infer_schema_query)
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
