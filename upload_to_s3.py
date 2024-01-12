@@ -1,10 +1,22 @@
 import boto3
 import os
 import requests
+from urllib.parse import urlparse
 
-def download_and_upload_to_s3(download_url, object_key, s3_bucket, aws_access_key_id, aws_secret_access_key, region_name):
+# AWS credentials
+aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
+aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
+region_name = 'us-east-1'  # Replace with your AWS region
+
+# GitHub repository URL
+github_repo_url = 'https://raw.githubusercontent.com/just4jc/Northwind-Traders-Dataset/main/'
+
+# Amazon S3 bucket
+s3_bucket = 'team2adonwtbucket'
+
+def download_and_upload_to_s3(file_url, object_key):
     # Download data from GitHub
-    response = requests.get(download_url)
+    response = requests.get(file_url)
     file_content = response.content
 
     # Upload data to Amazon S3
@@ -13,20 +25,20 @@ def download_and_upload_to_s3(download_url, object_key, s3_bucket, aws_access_ke
 
     print(f'Data loaded into S3 bucket: {s3_bucket}, Object key: {object_key}')
 
-# AWS credentials
-aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
-aws_secret_access_key = os.environ.get('AWS_SECRET_ACCESS_KEY')
-region_name = 'us-east-1'  # Replace with your AWS region
+# Fetch file information from GitHub repository
+response = requests.get(github_repo_url)
+files = response.json()
 
-# GitHub raw file URL
-github_raw_url = 'https://raw.githubusercontent.com/just4jc/Northwind-Traders-Dataset/main/category.csv'
+# Download and upload each CSV file
+for file_info in files:
+    if file_info["name"].endswith(".csv"):
+        file_name = file_info["name"]
+        download_url = file_info["download_url"]
 
-# Amazon S3 bucket and object key
-s3_bucket = 'team2adonwtbucket'
+        # Extract the object key from the download URL
+        object_key = file_name
 
-# Extract the object key from the download URL
-object_key = github_raw_url.split('/')[-1]
+        # Now you have the object key and download URL, and you can proceed with downloading and uploading
+        download_and_upload_to_s3(download_url, object_key)
 
-# Now you have the object key and download URL, and you can proceed with downloading and uploading
-download_and_upload_to_s3(github_raw_url, object_key, s3_bucket, aws_access_key_id, aws_secret_access_key, region_name)
 
