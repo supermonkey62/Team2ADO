@@ -1,6 +1,6 @@
 {{ config(materialized='view') }}
 
-- -- Delete rows where orderID is null
+-- Delete rows where orderID is null
 -- DELETE FROM NWTDATA.NWT.ORDERS
 -- WHERE orderID IS NULL;
 

@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: fresh_orders
+    columns:
+      - name: orderid
+        tests:
+          - unique
+          - not_null
