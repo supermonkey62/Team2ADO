@@ -7,7 +7,7 @@ snowflake_account = os.getenv('DBT_ACCOUNT')
 snowflake_user = os.getenv('DBT_USER')
 snowflake_password = os.getenv('DBT_PASSWORD')
 snowflake_database = os.getenv('SNOWFLAKE_DATABASE')
-snowflake_schema = os.getenv('SNOWFLAKE_SCHEMA')
+snowflake_schema = os.getenv('SNOWFLAKE_SCHEMA')  # Use the schema from GitHub Secrets
 snowflake_warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
 
 # Connect to Snowflake
@@ -17,29 +17,25 @@ conn = snowflake.connector.connect(
     account=snowflake_account,
     warehouse=snowflake_warehouse,
     database=snowflake_database,
-    schema="NWT"
+    schema=snowflake_schema
 )
 
-# Function to create a table based on CSV file from a Snowflake stage
+# Function to create a table based on CSV file
 def create_table_from_stage(stage_name, file_name, table_name):
-    # Generate SQL column definitions based on the CSV file
-    get_column_defs_query = f"SHOW COLUMNS IN {stage_name}/{file_name}"
-    column_defs = ',\n'.join(row[2] + ' ' + row[3] for row in conn.cursor().execute(get_column_defs_query).fetchall())
-
-    # Create the table dynamically
-    create_table_query = f'CREATE TABLE RAW_{table_name} (\n{column_defs}\n)'
-    conn.cursor().execute(create_table_query)
-
-    # Copy data from the staged CSV file to the created table
-    copy_query = f'COPY INTO RAW_{table_name} FROM @{stage_name}/{file_name} FILE_FORMAT=(TYPE=CSV FIELD_OPTIONALLY_ENCLOSED_BY=\'"\')'
+    # Copy data from Snowflake stage to the created table
+    copy_query = f'COPY INTO {table_name} FROM @{stage_name}/{file_name} FILE_FORMAT=(TYPE=CSV FIELD_OPTIONALLY_ENCLOSED_BY=\'"\')'
     conn.cursor().execute(copy_query)
 
-# Assume the files in the stage have a similar structure (columns)
-# Loop through all files in the stage
-stage_name = 'NWT_STAGING'
-for file_name in os.listdir("NWT_STAGING"):
+# List files in Snowflake stage
+stage_name = "NWT_STAGING"  # Replace with the actual stage name
+list_files_query = f"LIST '@{stage_name}/'"
+result = conn.cursor().execute(list_files_query).fetchall()
+
+# Loop through all CSV files in the stage
+for file_info in result:
+    file_name = file_info[0]  # File name is the first column in the result
     if file_name.endswith(".csv"):
-        table_name = file_name.replace(".csv", "")  # Remove extension for table name
+        table_name = f'RAW_{file_name.replace(".csv", "")}'  # Remove extension for table name and prepend 'RAW_'
         create_table_from_stage(stage_name, file_name, table_name)
 
 # Close the connection
