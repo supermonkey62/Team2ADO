@@ -55,10 +55,10 @@ for file in files:
     table_name = file.replace('.csv', '')
 
     # Create the table
-    cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE (SELECT * FROM @my_stage/{file} (FILE_FORMAT => '{file_format_name}'))")
+    cs.execute(f"CREATE TABLE IF NOT EXISTS {table_name} USING TEMPLATE (SELECT * FROM @NWT_STAGING/{file} (FILE_FORMAT => '{file_format_name}'))")
 
     # Load data into the table
-    cs.execute(f"COPY INTO {table_name} FROM @my_stage/{file} FILE_FORMAT = '{file_format_name}'")
+    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
