@@ -23,8 +23,13 @@ conn = snowflake.connector.connect(
 # Function to create a table based on CSV file
 def create_table_from_stage(stage_name, file_name, table_name):
     # Copy data from Snowflake stage to the created table
-    copy_query = f'COPY INTO {table_name} FROM @{stage_name}/{file_name} FILE_FORMAT=(TYPE=CSV FIELD_OPTIONALLY_ENCLOSED_BY=\'"\')'
+    copy_query = f"""
+    COPY INTO {table_name}
+    FROM '@{stage_name}/{file_name}'
+    FILE_FORMAT = (TYPE='CSV' FIELD_OPTIONALLY_ENCLOSED_BY='"')
+    """
     conn.cursor().execute(copy_query)
+
 
 # List files in Snowflake stage
 stage_name = "NWT_STAGING"  # Replace with the actual stage name
