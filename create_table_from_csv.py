@@ -41,8 +41,9 @@ for file in files:
     file_name = file.split('/')[-1]
 
     # Check if the table already exists
-    check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name}' AND TABLE_SCHEMA = 'NWT';"
+    check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name.upper()}' AND TABLE_SCHEMA = 'NWT';"
     cs.execute(check_table_query)
+
 
 
     table_exists = cs.fetchone()[0] > 0
