@@ -27,6 +27,7 @@ cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
 cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_csv_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -67,9 +68,12 @@ for file in files:
     cs.execute(create_table_query)
 
     # # Load data into the table
-    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name}"
+    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} COPY_OPTIONS = (SKIP_HEADER = 1);"
     print(load_data_query)
     cs.execute(load_data_query)
+    
+    
+
 
 cs.close()
 ctx.close()
