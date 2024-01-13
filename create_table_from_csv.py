@@ -79,16 +79,9 @@ for file in files:
 
     print(columns_string)
 
-
-
-    # # Use the header names from the CSV file (IGNORE THIS)
-    # column_definitions = [f'{column_names[index]} {col[1]}' for index, col in enumerate(columns)]
-    # columns_string = ', '.join(column_definitions)
-    # print(column_string)
-
     # # Create the table using specified column definitions
-    # create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
-    # print(create_table_query)
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
+    print(create_table_query)
     # cs.execute(create_table_query)
 
     # # Load data into the table
