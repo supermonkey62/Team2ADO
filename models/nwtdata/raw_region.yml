@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_order_detail
+  - name: raw_region
     columns:
-      - name: orderid
+      - name: regionid
         tests:
           - unique
           - not_null

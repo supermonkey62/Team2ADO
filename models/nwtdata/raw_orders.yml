@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_product
+  - name: raw_orders
     columns:
-      - name: productid
+      - name: orderid
         tests:
           - unique
           - not_null

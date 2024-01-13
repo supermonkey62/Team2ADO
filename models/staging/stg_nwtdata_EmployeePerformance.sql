@@ -5,9 +5,9 @@ SELECT
     COUNT(O.OrderID) AS TotalOrders,
     SUM(OD.Quantity * OD.UnitPrice * (1 - OD.Discount)) AS TotalSales,
     AVG(OD.Quantity * OD.UnitPrice * (1 - OD.Discount)) AS AvgOrderValue
-FROM {{ ref('nwtdata_employee') }} AS E
-JOIN {{ ref('nwtdata_orders') }} AS O ON E.EmployeeID = O.EmployeeID
-JOIN {{ ref('nwtdata_order_detail') }} AS OD ON O.OrderID = OD.OrderID
+FROM {{ ref('raw_employee') }} AS E
+JOIN {{ ref('raw_orders') }} AS O ON E.EmployeeID = O.EmployeeID
+JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
 GROUP BY E.EmployeeID, EmployeeName
 ORDER BY TotalOrders DESC
 
