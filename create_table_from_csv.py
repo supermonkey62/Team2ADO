@@ -9,6 +9,7 @@ user = os.getenv('DBT_USER')
 password = os.getenv('DBT_PASSWORD')
 warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
 schema = os.getenv('SNOWFLAKE_SCHEMA')
+database = 'NWTDATA'
 stage_name = 'NWT_STAGING'
 file_format_name = 'my_csv_format'
 
