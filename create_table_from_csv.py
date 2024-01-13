@@ -63,12 +63,12 @@ for file in files:
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-# Access the column names
-column_names = [col[0] for col in columns]
-print("Column Names:", column_names)
+    # Access the column names
+    column_names = [col[0] for col in columns]
+    print("Column Names:", column_names)
 
-# Print the columns
-for col in columns:
+    # Print the columns
+    for col in columns:
     print(col)
     # # Use the header names from the CSV file (IGNORE THIS)
     # column_definitions = [f'{column_names[index]} {col[1]}' for index, col in enumerate(columns)]
