@@ -62,9 +62,9 @@ for file in files:
     print(columns_string)
 
     # # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {database}.RAW.{table_name} ({columns_string});"
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {database}.RAW.RAW_{table_name} ({columns_string});"
     print(create_table_query)
-    # cs.execute(create_table_query)
+    cs.execute(create_table_query)
 
     # # Load data into the table
     # cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
