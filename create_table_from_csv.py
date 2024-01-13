@@ -80,7 +80,7 @@ for file in files:
     print(columns_string)
 
     # # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
+    create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.RAW{table_name} ({columns_string});"
     print(create_table_query)
     # cs.execute(create_table_query)
 
