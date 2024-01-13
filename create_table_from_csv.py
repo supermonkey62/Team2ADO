@@ -1,5 +1,7 @@
 import os
 import snowflake.connector
+import csv
+from io import StringIO
 
 # Snowflake connection parameters
 snowflake_account = os.getenv('DBT_ACCOUNT')
@@ -54,6 +56,7 @@ for file in files:
     # Extract the table name from the file path
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
+
     # Use INFER_SCHEMA to get column definitions
     infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
     print(infer_schema_query)
@@ -62,9 +65,14 @@ for file in files:
 
     # Extract header names from the first row of the CSV file
     cs.execute(f"GET @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
-    header_row = cs.fetchone()
-    header_names = header_row[0].split(',')
+    file_contents = cs.fetchone()[0]
+    file_like_object = StringIO(file_contents)
+    csv_reader = csv.reader(file_like_object)
+    header_row = next(csv_reader)
     
+    # Use the header names from the CSV file to match with INFER_SCHEMA result
+    header_names = header_row[:len(columns)]
+
     # Use the header names from the CSV file
     column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
     columns_string = ', '.join(column_definitions)
