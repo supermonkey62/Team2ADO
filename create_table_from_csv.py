@@ -64,25 +64,25 @@ for file in files:
     columns = cs.fetchall()
 
     # Print the column names
-    column_names = [col[0] for col in cs.description]
+    column_names = [col[0] for col in columns]
     print(column_names)
 
     # Print the columns
     for col in columns:
         print(col)
 
-    # Use the header names from the CSV file
-    column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
-    columns_string = ', '.join(column_definitions)
-    print(column_string)
+    # # Use the header names from the CSV file
+    # column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+    # columns_string = ', '.join(column_definitions)
+    # print(column_string)
 
-    # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
-    print(create_table_query)
-    cs.execute(create_table_query)
+    # # Create the table using specified column definitions
+    # create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
+    # print(create_table_query)
+    # cs.execute(create_table_query)
 
-    # Load data into the table
-    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    # # Load data into the table
+    # cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
