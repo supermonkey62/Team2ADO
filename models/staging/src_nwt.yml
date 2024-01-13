@@ -6,6 +6,17 @@ sources:
     database: NWTDATA
     schema: NWT
     tables: 
+      - name: CATEGORY
+      - name: CUSTOMERS
+      - name: EMPLOYEE_TERRITORY 
+      - name: EMPLOYEE 
+      - name: ORDER_DETAIL
+      - name: ORDERS 
+      - name: PRODUCT 
+      - name: REGION
+      - name: SHIPPER 
+      - name: SUPPLIER 
+      - name: TERRITORY 
       - name: FRESH_ORDERS
         description: fresh orders to be appended into ORDERS table
         columns:

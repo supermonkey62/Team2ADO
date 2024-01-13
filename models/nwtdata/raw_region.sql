@@ -1,5 +1,4 @@
 {{ config (materialized='table')}}
 
 Select *
-From 
-NWTDATA.NWT.REGION
+from {{ source('NWT', 'REGION') }}
