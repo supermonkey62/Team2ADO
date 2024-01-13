@@ -35,6 +35,12 @@ models:
     # Config indicated by + and applies to all files under models/example/
     nwtdata:
       +materialized: table
+    reporting:
+      +materialized: table
+    staging:
+      +materialized: table
+    cleaning:
+      +materialized: table
     FRESH_ORDERS:
       +materialized: table
       unique_key: ORDERID
