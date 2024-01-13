@@ -72,12 +72,12 @@ for file in files:
         print(col)
 
         # Construct the column definitions
-        column_definitions = col[0] + ' ' + col[0]
+        column_definitions = col[0] + ' ' + col[1]
 
-        # Join the column definitions into a string
-        columns_string = ', '.join(column_definitions)
+    # Join the column definitions into a string
+    columns_string = ', '.join(column_definitions)
 
-        print(columns_string)
+    print(columns_string)
 
 
     # # Use the header names from the CSV file (IGNORE THIS)
