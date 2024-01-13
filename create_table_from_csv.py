@@ -63,27 +63,35 @@ for file in files:
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-    # Extract header names from the first row of the CSV file
-    cs.execute(f"GET @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
-    file_contents = cs.fetchone()[0]
-    file_like_object = StringIO(file_contents)
-    csv_reader = csv.reader(file_like_object)
-    header_row = next(csv_reader)
+    # Print the column names
+    column_names = [col[0] for col in cs.description]
+    print(column_names)
+
+    # Print the columns
+    for col in columns:
+    print(col)
+
+    # # Extract header names from the first row of the CSV file
+    # cs.execute(f"GET @NWT_STAGING/{file_name} FILE_FORMAT = '{file_format_name}'")
+    # file_contents = cs.fetchone()[0]
+    # file_like_object = StringIO(file_contents)
+    # csv_reader = csv.reader(file_like_object)
+    # header_row = next(csv_reader)
     
-    # Use the header names from the CSV file to match with INFER_SCHEMA result
-    header_names = header_row[:len(columns)]
+    # # Use the header names from the CSV file to match with INFER_SCHEMA result
+    # header_names = header_row[:len(columns)]
 
-    # Use the header names from the CSV file
-    column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
-    columns_string = ', '.join(column_definitions)
+    # # Use the header names from the CSV file
+    # column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+    # columns_string = ', '.join(column_definitions)
 
-    # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
-    print(create_table_query)
-    cs.execute(create_table_query)
+    # # Create the table using specified column definitions
+    # create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
+    # print(create_table_query)
+    # cs.execute(create_table_query)
 
-    # Load data into the table
-    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    # # Load data into the table
+    # cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
