@@ -71,8 +71,8 @@ for file in files:
     for col in columns:
         print(col)
 
-        # Construct the column definitions
-        column_definitions = col[0] + ' ' + col[1]
+    # Construct the column definitions
+    column_definitions = col[0] + ' ' + col[1]
 
     # Join the column definitions into a string
     columns_string = ', '.join(column_definitions)
