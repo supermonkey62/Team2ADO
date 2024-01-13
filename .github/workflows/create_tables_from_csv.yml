@@ -28,7 +28,6 @@ jobs:
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
-          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE}}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
