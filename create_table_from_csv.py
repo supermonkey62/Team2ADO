@@ -60,15 +60,22 @@ for file in files:
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-    # Create the table using TEMPLATE with column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS RAW_{table_name} USING TEMPLATE ({','.join([f'{col[0]} AS col{index + 1}' for index, col in enumerate(columns)])})"print(create_table_query)
+    # Extract header names from the first row of the CSV file
+    cs.execute(f"GET @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    header_row = cs.fetchone()
+    header_names = header_row[0].split(',')
+    
+    # Use the header names from the CSV file
+    column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+    columns_string = ', '.join(column_definitions)
+
+    # Create the table using specified column definitions
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
     print(create_table_query)
     cs.execute(create_table_query)
 
-
-
     # Load data into the table
-    cs.execute(f"COPY INTO RAW_{table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
