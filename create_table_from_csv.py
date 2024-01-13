@@ -40,37 +40,44 @@ for file in files:
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
 
-    # Use INFER_SCHEMA to get column definitions
-    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
-    print(infer_schema_query)
-    cs.execute(infer_schema_query)
-    columns = cs.fetchall()
+    # Check if the table already exists
+    check_table_query = f"SELECT COUNT(*) FROM NWT.TABLES WHERE TABLE_NAME = 'RAW_{table_name}';"
+    cs.execute(check_table_query)
 
-    # Access the column names
-    column_names = [col[0] for col in columns]
-    print("Column Names:", column_names)
+    table_exists = cs.fetchone()[0] > 0
 
-    # Print the columns
-    for col in columns:
-        print(col)
+    if not table_exists:
+        # # Use INFER_SCHEMA to get column definitions
+        # infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+        # print(infer_schema_query)
+        # cs.execute(infer_schema_query)
+        # columns = cs.fetchall()
 
-    # Construct the column definitions
-    column_definitions = [f'{col[0]} {col[1]}' for col in columns]
+        # # Access the column names
+        # column_names = [col[0] for col in columns]
+        # print("Column Names:", column_names)
 
-    # Join the column definitions into a string
-    columns_string = ',\n\t'.join(column_definitions)
+        # # Construct the column definitions
+        # column_definitions = [f'{col[0]} {col[1]}' for col in columns]
 
-    print(columns_string)
+        # # Join the column definitions into a string
+        # columns_string = ',\n\t'.join(column_definitions)
 
-    # # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
-    print(create_table_query)
-    cs.execute(create_table_query)
+        # print(columns_string)
 
-    # # Load data into the table
-    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
-    print(load_data_query)
-    cs.execute(load_data_query)
+        # # Create the table using specified column definitions
+        # create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
+        # print(create_table_query)
+        # cs.execute(create_table_query)
+
+        # # Load data into the table
+        # load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+        # print(load_data_query)
+        # cs.execute(load_data_query)
+        print("Run data loading code")
+    else:
+        print(f"Table {table_name} already exists. Skipping.")
+
     
     
 
