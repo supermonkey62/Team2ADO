@@ -44,7 +44,7 @@ ctx = snowflake.connector.connect(
 cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ','")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -58,7 +58,7 @@ for file in files:
     file_name = file.split('/')[-1]
 
     # Use INFER_SCHEMA to get column definitions
-    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}', FIELD_OPTIONALLY_ENCLOSED_BY => '\"'))"
     print(infer_schema_query)
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
@@ -71,30 +71,22 @@ for file in files:
     for col in columns:
         print(col)
 
-    # # Extract header names from the first row of the CSV file
-    # cs.execute(f"GET @NWT_STAGING/{file_name} FILE_FORMAT = '{file_format_name}'")
-    # file_contents = cs.fetchone()[0]
-    # file_like_object = StringIO(file_contents)
-    # csv_reader = csv.reader(file_like_object)
-    # header_row = next(csv_reader)
-    
-    # # Use the header names from the CSV file to match with INFER_SCHEMA result
-    # header_names = header_row[:len(columns)]
+    # Use the header names from the CSV file
+    column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+    columns_string = ', '.join(column_definitions)
+    print(column_string)
 
-    # # Use the header names from the CSV file
-    # column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
-    # columns_string = ', '.join(column_definitions)
+    # Create the table using specified column definitions
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
+    print(create_table_query)
+    cs.execute(create_table_query)
 
-    # # Create the table using specified column definitions
-    # create_table_query = f"CREATE TABLE IF NOT EXISTS {table_name} ({columns_string})"
-    # print(create_table_query)
-    # cs.execute(create_table_query)
-
-    # # Load data into the table
-    # cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
+    # Load data into the table
+    cs.execute(f"COPY INTO {table_name} FROM @NWT_STAGING/{file} FILE_FORMAT = '{file_format_name}'")
 
 cs.close()
 ctx.close()
+
 
 
 
