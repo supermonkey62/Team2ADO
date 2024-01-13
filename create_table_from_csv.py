@@ -67,12 +67,8 @@ for file in files:
     print(create_table_query)
     cs.execute(create_table_query)
 
-    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{load_format_name}'))"
-    print(infer_schema_query)
-    cs.execute(infer_schema_query)
-
     # # Load data into the table
-    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name};"
+    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
     print(load_data_query)
     cs.execute(load_data_query)
     
