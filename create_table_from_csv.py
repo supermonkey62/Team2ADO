@@ -71,13 +71,15 @@ for file in files:
     for col in columns:
         print(col)
 
-    # Construct the column definitions
-    column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+        for col_name in column_names:
 
-    # Join the column definitions into a string
-    columns_string = ', '.join(column_definitions)
+            # Construct the column definitions
+            column_definitions = col_name + col
 
-    print(columns_string)
+            # Join the column definitions into a string
+            columns_string = ', '.join(column_definitions)
+
+            print(columns_string)
 
 
     # # Use the header names from the CSV file (IGNORE THIS)
