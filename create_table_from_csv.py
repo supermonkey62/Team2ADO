@@ -69,7 +69,7 @@ for file in files:
 
     # Print the columns
     for col in columns:
-    print(col)
+        print(col)
 
     # # Extract header names from the first row of the CSV file
     # cs.execute(f"GET @NWT_STAGING/{file_name} FILE_FORMAT = '{file_format_name}'")
