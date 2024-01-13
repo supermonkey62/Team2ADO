@@ -67,8 +67,9 @@ for file in files:
     cs.execute(create_table_query)
 
     # # Load data into the table
-    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name}.csv"
+    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name}"
     print(load_data_query)
+    cs.execute(load_data_query)
 
 cs.close()
 ctx.close()
