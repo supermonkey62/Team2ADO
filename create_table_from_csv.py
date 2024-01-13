@@ -69,7 +69,7 @@ for file in files:
 
     # Print the columns
     for col in columns:
-    print(col)
+        print(col)
     # # Use the header names from the CSV file (IGNORE THIS)
     # column_definitions = [f'{column_names[index]} {col[1]}' for index, col in enumerate(columns)]
     # columns_string = ', '.join(column_definitions)
