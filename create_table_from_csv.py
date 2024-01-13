@@ -27,7 +27,6 @@ cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
 cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_csv_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
