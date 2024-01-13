@@ -1,6 +1,5 @@
 {{ config (materialized='table')}}
 
 Select *
-From 
-NWTDATA.NWT.EMPLOYEE
+from {{ source('NWT', 'EMPLOYEE') }}
 
