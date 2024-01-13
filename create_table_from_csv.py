@@ -3,24 +3,6 @@ import snowflake.connector
 import csv
 from io import StringIO
 
-# Snowflake connection parameters
-snowflake_account = os.getenv('DBT_ACCOUNT')
-snowflake_user = os.getenv('DBT_USER')
-snowflake_password = os.getenv('DBT_PASSWORD')
-snowflake_database = os.getenv('SNOWFLAKE_DATABASE')
-snowflake_schema = os.getenv('SNOWFLAKE_SCHEMA')
-snowflake_warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
-
-# Connect to Snowflake
-conn = snowflake.connector.connect(
-    user=snowflake_user,
-    password=snowflake_password,
-    account=snowflake_account,
-    warehouse=snowflake_warehouse,
-    database=snowflake_database,
-    schema=snowflake_schema
-)
-
 # Replace with your Snowflake credentials
 account = os.getenv('DBT_ACCOUNT')
 user = os.getenv('DBT_USER')
@@ -80,7 +62,7 @@ for file in files:
     print(columns_string)
 
     # # Create the table using specified column definitions
-    create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.RAW{table_name} ({columns_string});"
+    create_table_query = f"CREATE TABLE IF NOT EXISTS {database}.RAW.{table_name} ({columns_string});"
     print(create_table_query)
     # cs.execute(create_table_query)
 
