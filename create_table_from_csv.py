@@ -12,7 +12,7 @@ schema = os.getenv('SNOWFLAKE_SCHEMA')
 database = 'NWTDATA'
 stage_name = 'NWT_STAGING'
 file_format_name = 'my_csv_format'
-
+load_format_name = 'load_csv_format'
 # Connect to Snowflake
 ctx = snowflake.connector.connect(
     account=account,
@@ -27,6 +27,7 @@ cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
 cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -66,8 +67,12 @@ for file in files:
     print(create_table_query)
     cs.execute(create_table_query)
 
+    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{load_format_name}'))"
+    print(infer_schema_query)
+    cs.execute(infer_schema_query)
+
     # # Load data into the table
-    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} COPY_OPTIONS = (SKIP_HEADER = 1);"
+    load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name};"
     print(load_data_query)
     cs.execute(load_data_query)
     
