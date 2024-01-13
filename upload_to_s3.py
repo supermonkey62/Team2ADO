@@ -2,6 +2,8 @@ import boto3
 import os
 import requests
 from urllib.parse import urlparse
+import botocore
+
 
 # AWS credentials
 aws_access_key_id = os.environ.get('AWS_ACCESS_KEY_ID')
