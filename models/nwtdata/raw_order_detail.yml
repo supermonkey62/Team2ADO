@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_supplier
+  - name: raw_order_detail
     columns:
-      - name: supplierid
+      - name: orderid
         tests:
           - unique
           - not_null

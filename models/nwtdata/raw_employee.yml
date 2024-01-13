@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_shipper
+  - name: raw_employee
     columns:
-      - name: shipperid
+      - name: employeeid
         tests:
           - unique
           - not_null

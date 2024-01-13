@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_territory
+  - name: raw_supplier
     columns:
-      - name: territoryid
+      - name: supplierid
         tests:
           - unique
           - not_null

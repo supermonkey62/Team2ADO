@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_customers
+  - name: raw_product
     columns:
-      - name: customerid
+      - name: productid
         tests:
           - unique
           - not_null

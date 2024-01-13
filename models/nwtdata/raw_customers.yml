@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: nwtdata_region
+  - name: raw_customers
     columns:
-      - name: regionid
+      - name: customerid
         tests:
           - unique
           - not_null

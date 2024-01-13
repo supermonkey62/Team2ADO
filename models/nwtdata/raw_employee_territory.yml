@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: nwtdata_employee_territory
+  - name: raw_territory
     columns:
       - name: territoryid
         tests:
