@@ -19,7 +19,7 @@ ctx = snowflake.connector.connect(
     user=user,
     password=password,
     warehouse=warehouse,
-    database=database,
+    database='NWT_DATA',
     schema=schema
 )
 
