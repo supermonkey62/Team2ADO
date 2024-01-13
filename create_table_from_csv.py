@@ -64,7 +64,7 @@ for file in files:
     columns = cs.fetchall()
 
     # Print the column names
-    column_names = [col[0] for col in columns]
+    column_names = [col[0] for col in cs.description]
     print(column_names)
 
     # Print the columns
