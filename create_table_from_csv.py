@@ -44,7 +44,7 @@ ctx = snowflake.connector.connect(
 cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ','")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -63,16 +63,15 @@ for file in files:
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-    # Print the column names
-    column_names = [col[0] for col in cs.description]
-    print(column_names)
+# Access the column names
+column_names = [col[0] for col in columns]
+print("Column Names:", column_names)
 
-    # Print the columns
-    for col in columns:
-        print(col)
-
-    # # Use the header names from the CSV file
-    # column_definitions = [f'{header_names[index]} {col[1]}' for index, col in enumerate(columns)]
+# Print the columns
+for col in columns:
+    print(col)
+    # # Use the header names from the CSV file (IGNORE THIS)
+    # column_definitions = [f'{column_names[index]} {col[1]}' for index, col in enumerate(columns)]
     # columns_string = ', '.join(column_definitions)
     # print(column_string)
 
