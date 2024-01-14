@@ -37,6 +37,8 @@ for file in files:
     # Create temporary table and load data from external stage
     query = f"CREATE TEMPORARY TABLE {table_name} AS " \
             f"SELECT * FROM @{stage_name}/{file_name}"
+
+    print(query)
   
     cs.execute(query)
 
