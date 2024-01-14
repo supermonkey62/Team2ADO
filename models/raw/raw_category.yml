@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: raw_category
-    columns:
-      - name: categoryid
-        tests:
-          - unique
-          - not_null

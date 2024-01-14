@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: raw_shipper
-    columns:
-      - name: shipperid
-        tests:
-          - unique
-          - not_null

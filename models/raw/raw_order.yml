@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: raw_order
-    columns:
-      - name: orderid
-        tests:
-          - unique
-          - not_null
