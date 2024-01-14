@@ -48,13 +48,13 @@ for file in files:
     if not table_exists:
         # Use INFER_SCHEMA to get column definitions
         infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
-        print(infer_schema_query)
+        # print(infer_schema_query)
         cs.execute(infer_schema_query)
         columns = cs.fetchall()
 
         # Access the column names
         column_names = [col[0] for col in columns]
-        print("Column Names:", column_names)
+        # print("Column Names:", column_names)
 
         # Construct the column definitions
         column_definitions = [f'{col[0]} {col[1]}' for col in columns]
@@ -62,17 +62,21 @@ for file in files:
         # Join the column definitions into a string
         columns_string = ',\n\t'.join(column_definitions)
 
-        print(columns_string)
+        #print(columns_string)
 
         # Create the table using specified column definitions
         create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
         print(create_table_query)
         cs.execute(create_table_query)
 
+         print(f"Successfully created RAW_{table_name}")
+
         # Load data into the table
         load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
         print(load_data_query)
         cs.execute(load_data_query)
+
+        print(f"Successfully copied {filed_name} into RAW_{table_name}")
 
     else:
         print(f"Table {table_name} already exists. Skipping.")
