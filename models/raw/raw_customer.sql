@@ -1,5 +1,5 @@
 {{ config (materialized='table')}}
 
 Select *
-from {{ source('NWT', 'CUSTOMERS') }}
+from {{ source('NWT', 'RAW_CUSTOMER') }}
 

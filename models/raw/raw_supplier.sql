@@ -1,4 +1,4 @@
 {{ config (materialized='table')}}
 
 Select *
-from {{ source('NWT', 'SUPPLIER') }}
+from {{ source('NWT', 'RAW_SUPPLIER') }}

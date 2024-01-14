@@ -1,4 +1,4 @@
 {{ config (materialized='table')}}
 
 Select *
-from {{ source('NWT', 'REGION') }}
+from {{ source('NWT', 'RAW_REGION') }}

@@ -7,7 +7,7 @@ SET region = CASE
              END
 WHERE region LIKE '%NULL%';
 
-UPDATE NWTDATA.NWT.CUSTOMERS
+UPDATE NWTDATA.NWT.RAW_CUSTOMER
 SET postalCode = CASE 
                    WHEN postalCode LIKE '%NULL%' THEN 'NONE'
                    ELSE postalCode

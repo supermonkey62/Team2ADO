@@ -33,7 +33,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   nwt:
     # Config indicated by + and applies to all files under models/example/
-    nwtdata:
+    rawS:
       +materialized: table
     reporting:
       +materialized: table
@@ -41,10 +41,10 @@ models:
       +materialized: table
     cleaning:
       +materialized: table
-    FRESH_ORDERS:
+    RAW_ORDER_FRESH:
       +materialized: table
       unique_key: ORDERID
-    FRESH_ORDER_DETAIL:
+    RAW_ORDER_DETAIL_FRESH:
       +materialised: table
       unique_key: ORDERID
     

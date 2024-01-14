@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: raw_territory
+  - name: raw_employee_territory
     columns:
       - name: territoryid
         tests:
