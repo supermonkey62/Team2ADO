@@ -1,4 +1,4 @@
 {{ config (materialized='table')}}
 
 SELECT *
-from {{ source('NWT', 'FRESH_ORDERS') }}
+from {{ source('NWT', 'RAW_ORDER_FRESH') }}

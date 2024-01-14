@@ -1,5 +1,4 @@
 {{ config (materialized='table')}}
 
 Select *
-From 
-NWTDATA.NWT.SHIPPER
+from {{ source('NWT', 'RAW_SUPPLIER') }}

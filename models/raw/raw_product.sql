@@ -1,6 +1,4 @@
 {{ config (materialized='table')}}
 
 Select *
-From 
-NWTDATA.NWT.CUSTOMERS
-
+from {{ source('NWT', 'RAW_PRODUCT') }}

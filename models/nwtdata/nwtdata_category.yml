@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: nwtdata_category
-    columns:
-      - name: categoryid
-        tests:
-          - unique
-          - not_null

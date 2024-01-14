@@ -1,10 +1,5 @@
 {{ config (materialized='table')}}
 
 Select *
-From 
-NWTDATA.NWT.CATEGORY
-
-
-
-
+from {{ source('NWT', 'RAW_EMPLOYEE') }}
 
