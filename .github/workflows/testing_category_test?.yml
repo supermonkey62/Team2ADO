@@ -1,10 +1,11 @@
-name: Load Data from repository to Snowflake Stage
+name: appending to text file testing results
 
 on:
-  push:
-    paths:
-      - 'testing_category.sql'
-
+  workflow_run:
+    workflows: ['testing_category.sql']
+    types:
+      - completed
+      
 jobs:
   load-data:
     runs-on: ubuntu-latest
