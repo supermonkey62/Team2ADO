@@ -105,3 +105,111 @@ SELECT
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.RAW_EMPLOYEE
 WHERE photoPath LIKE '%NULL%';
+
+SELECT
+  'employeeID' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE employeeID IS NULL
+UNION ALL
+SELECT
+  'lastName' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE lastName IS NULL
+UNION ALL
+SELECT
+  'firstName' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE firstName IS NULL
+UNION ALL
+SELECT
+  'title' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE title IS NULL
+UNION ALL
+SELECT
+  'titleOfCourtesy' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE titleOfCourtesy IS NULL
+UNION ALL
+SELECT
+  'birthDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE birthDate IS NULL
+UNION ALL
+SELECT
+  'hireDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE hireDate IS NULL
+UNION ALL
+SELECT
+  'address' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE address IS NULL
+UNION ALL
+SELECT
+  'city' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE city IS NULL
+UNION ALL
+SELECT
+  'region' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE region IS NULL
+UNION ALL
+SELECT
+  'postalCode' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE postalCode IS NULL
+UNION ALL
+SELECT
+  'country' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE country IS NULL
+UNION ALL
+SELECT
+  'homePhone' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE homePhone IS NULL
+UNION ALL
+SELECT
+  'extension' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE extension IS NULL
+UNION ALL
+SELECT
+  'photo' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE photo IS NULL
+UNION ALL
+SELECT
+  'notes' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE notes IS NULL
+UNION ALL
+SELECT
+  'reportsTo' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE reportsTo IS NULL
+UNION ALL
+SELECT
+  'photoPath' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_EMPLOYEE
+WHERE photoPath IS NULL;

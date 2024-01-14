@@ -1,48 +1,5 @@
-SELECT
-  'orderID' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE orderID IS NULL
-UNION ALL
-SELECT
-  'customerID' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE customerID IS NULL
-UNION ALL
-SELECT
-  'employeeID' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE employeeID IS NULL
-UNION ALL
-SELECT
-  'orderDate' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE orderDate IS NULL
-UNION ALL
-SELECT
-  'requiredDate' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE requiredDate IS NULL
-UNION ALL
-SELECT
-  'shippedDate' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shippedDate IS NULL
-UNION ALL
-SELECT
-  'shipVia' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipVia IS NULL
-UNION ALL
-SELECT
-  'freight' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE freight IS NULL
-UNION ALL
-SELECT
-  'shipName' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipName IS NULL
-UNION ALL
-SELECT
-  'shipAddress' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipAddress IS NULL
-UNION ALL
-SELECT
-  'shipCity' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipCity IS NULL
-UNION ALL
-SELECT
-  'shipRegion' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipRegion IS NULL
-UNION ALL
-SELECT
-  'shipPostalCode' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipPostalCode IS NULL
-UNION ALL
-SELECT
-  'shipCountry' AS column_name, COUNT(*) AS null_count FROM NWTDATA.NWT.RAW_ORDER WHERE shipCountry IS NULL;
-
-DELETE FROM NWTDATA.NWT.RAW_ORDER_DETAIL
+DELETE FROM NWTDATA.NWT.RAW_ORDER
 WHERE orderID IS NULL;
-
 
 SELECT
   'orderID' AS column_name,
@@ -128,23 +85,90 @@ SELECT
 FROM NWTDATA.NWT.RAW_ORDER
 WHERE shipCountry LIKE '%NULL%';
 
-SELECT *
+
+SELECT
+  'orderID' AS column_name,
+  COUNT(*) AS null_count
 FROM NWTDATA.NWT.RAW_ORDER
-WHERE
-  orderID IS NULL OR
-  customerID IS NULL OR
-  employeeID IS NULL OR
-  orderDate IS NULL OR
-  requiredDate IS NULL OR
-  shippedDate IS NULL OR
-  shipVia IS NULL OR
-  freight IS NULL OR
-  shipName IS NULL OR
-  shipAddress IS NULL OR
-  shipCity IS NULL OR
-  shipRegion IS NULL OR
-  shipPostalCode IS NULL OR
-  shipCountry IS NULL;
+WHERE orderID IS NULL
+UNION ALL
+SELECT
+  'customerID' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE customerID IS NULL
+UNION ALL
+SELECT
+  'employeeID' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE employeeID IS NULL
+UNION ALL
+SELECT
+  'orderDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE orderDate IS NULL
+UNION ALL
+SELECT
+  'requiredDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE requiredDate IS NULL
+UNION ALL
+SELECT
+  'shippedDate' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shippedDate IS NULL
+UNION ALL
+SELECT
+  'shipVia' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipVia IS NULL
+UNION ALL
+SELECT
+  'freight' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE freight IS NULL
+UNION ALL
+SELECT
+  'shipName' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipName IS NULL
+UNION ALL
+SELECT
+  'shipAddress' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipAddress IS NULL
+UNION ALL
+SELECT
+  'shipCity' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipCity IS NULL
+UNION ALL
+SELECT
+  'shipRegion' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipRegion IS NULL
+UNION ALL
+SELECT
+  'shipPostalCode' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipPostalCode IS NULL
+UNION ALL
+SELECT
+  'shipCountry' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_ORDER
+WHERE shipCountry IS NULL;
 
   
 

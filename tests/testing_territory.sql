@@ -16,3 +16,20 @@ SELECT
 FROM NWTDATA.NWT.RAW_TERRITORY
 WHERE regionID LIKE '%NULL%';
 
+SELECT
+  'territoryID' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_TERRITORY
+WHERE territoryID IS NULL
+UNION ALL
+SELECT
+  'territoryDescription' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_TERRITORY
+WHERE territoryDescription IS NULL
+UNION ALL
+SELECT
+  'regionID' AS column_name,
+  COUNT(*) AS null_count
+FROM NWTDATA.NWT.RAW_TERRITORY
+WHERE regionID IS NULL;
