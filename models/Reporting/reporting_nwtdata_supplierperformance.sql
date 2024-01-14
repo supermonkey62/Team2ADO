@@ -5,4 +5,4 @@ SELECT
     AverageProductPrice,
     OnTimeDeliveryRate
 
-from {{ ref('stg_nwtdata_SupplierPerformance') }}
+from {{ ref('stg_nwtdata_supplierperformance') }}
