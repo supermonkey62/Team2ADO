@@ -5,4 +5,4 @@ SELECT
     TotalSales,
     AvgOrderValue
 
-from {{ ref('stg_nwtdata_EmployeePerformance') }}
+from {{ ref('stg_nwtdata_employeeperformance') }}

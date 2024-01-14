@@ -7,4 +7,4 @@ SELECT
     CustomerRegion,
     CustomerTerritory
 
-from {{ ref('stg_nwtdata_CustomerDemographics') }}
+from {{ ref('stg_nwtdata_customerdemographics') }}
