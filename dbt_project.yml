@@ -33,7 +33,7 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   nwt:
     # Config indicated by + and applies to all files under models/example/
-    rawS:
+    raw:
       +materialized: table
     reporting:
       +materialized: table
