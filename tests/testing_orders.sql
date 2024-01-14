@@ -43,23 +43,6 @@ SELECT
 DELETE FROM NWTDATA.NWT.RAW_ORDER_DETAIL
 WHERE orderID IS NULL;
 
--- SELECT *
--- FROM NWTDATA.NWT.ORDERS
--- WHERE
---   orderID LIKE '%NULL%' OR
---   customerID LIKE '%NULL%' OR
---   employeeID LIKE '%NULL%' OR
---   orderDate LIKE '%NULL%' OR
---   requiredDate LIKE '%NULL%' OR
---   shippedDate LIKE '%NULL%' OR
---   shipVia LIKE '%NULL%' OR
---   freight LIKE '%NULL%' OR
---   shipName LIKE '%NULL%' OR
---   shipAddress LIKE '%NULL%' OR
---   shipCity LIKE '%NULL%' OR
---   shipRegion LIKE '%NULL%' OR
---   shipPostalCode LIKE '%NULL%' OR
---   shipCountry LIKE '%NULL%';
 
 SELECT
   'orderID' AS column_name,
