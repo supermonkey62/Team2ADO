@@ -76,7 +76,21 @@ models:
       - name: territoryid
         tests:
           - unique
-          - not_null                       
+          - not_null          
+
+  - name: raw_order_detail_fresh
+    columns:
+      - name: orderid
+        tests:
+          - unique
+          - not_null     
+
+  - name: raw_order_fresh
+    columns:
+      - name: orderid
+        tests:
+          - unique
+          - not_null                 
 
 
 
