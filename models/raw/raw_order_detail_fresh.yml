@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: fresh_order_detail
+  - name: raw_order_detail_fresh
     columns:
       - name: orderid
         tests:

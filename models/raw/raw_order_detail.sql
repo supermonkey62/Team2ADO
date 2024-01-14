@@ -1,9 +1,6 @@
--- {{ config(materialized='incremental', unique_key='ORDERID') }}
+{{ config (materialized='table')}}
 
--- SELECT *
--- FROM {{ ref ('fresh_order_detail') }}
--- {% if is_incremental() %}
--- WHERE CAST(ORDERID AS BIGINT) > (SELECT MAX(CAST(ORDERID AS BIGINT))  FROM {{this}})
--- {% endif %}
+select *
+from {{ source('NWT', 'RAW_ORDER_DETAIL') }}
 
 

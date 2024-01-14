@@ -7,11 +7,11 @@
 --     C.City AS CustomerCity,
 --     C.Region AS CustomerRegion,
 --     T.TerritoryDescription AS CustomerTerritory
--- FROM {{ ref('nwtdata_customers') }} AS C
--- JOIN {{ ref('nwtdata_orders') }} AS O ON C.CustomerID = O.CustomerID
--- JOIN {{ ref('nwtdata_employee') }} AS E ON O.EmployeeID = E.EmployeeID
--- JOIN {{ ref('nwtdata_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
--- JOIN {{ ref('nwtdata_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
+-- FROM {{ ref('raw_customer') }} AS C
+-- JOIN {{ ref('raw_order') }} AS O ON C.CustomerID = O.CustomerID
+-- JOIN {{ ref('raw_employee') }} AS E ON O.EmployeeID = E.EmployeeID
+-- JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
+-- JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
 
 {{ config(materialized='view') }}
 
@@ -23,8 +23,8 @@ SELECT
     MAX(C.City) AS CustomerCity,
     MAX(C.Region) AS CustomerRegion,
     MAX(T.TerritoryDescription) AS CustomerTerritory
-FROM {{ ref('raw_customers') }} AS C
-JOIN {{ ref('raw_orders') }} AS O ON C.CustomerID = O.CustomerID
+FROM {{ ref('raw_customer') }} AS C
+JOIN {{ ref('raw_order') }} AS O ON C.CustomerID = O.CustomerID
 JOIN {{ ref('raw_employee') }} AS E ON O.EmployeeID = E.EmployeeID
 JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
 JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
