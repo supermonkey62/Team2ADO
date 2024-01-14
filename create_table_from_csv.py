@@ -76,7 +76,7 @@ for file in files:
         print(load_data_query)
         cs.execute(load_data_query)
 
-        print(f"Successfully copied {filed_name} into RAW_{table_name}")
+        print(f"Successfully copied {file_name} into RAW_{table_name}")
 
     else:
         print(f"Table {table_name} already exists. Skipping.")
