@@ -1,10 +1,9 @@
 name: appending to text file testing results
 
 on:
-  workflow_run:
-    workflows: ['testing_text.txt']
-    types:
-      - completed
+  push:
+    paths:
+      - 'testing_text.txt'
       
 jobs:
   load-data:
