@@ -2,9 +2,18 @@ import os
 import snowflake.connector
 import csv
 from io import StringIO
-# Define the path for the text file
-text_file_path = './testing_category_output.txt'
 
+# # Define the path for the text file
+# text_file_path = './testing_category_output.txt'
+
+# Define the path for the text file
+text_file_path = 'testing1.txt'
+
+# Check if the file exists, and create it if not
+if not os.path.exists(text_file_path):
+    with open(text_file_path, 'w'):
+        pass  # This creates an empty file
+    
 # Replace with your Snowflake credentials
 account = os.getenv('DBT_ACCOUNT')
 user = os.getenv('DBT_USER')
@@ -64,17 +73,63 @@ for table_name in tables:
 
     with open(text_file_path, 'a') as text_file:
         text_file.write(f"Table: {table_name}\n")
-        # Check for null values
+        # Check for null values, "NULL" string, and negative values
+        
         for column_name in column_names:
+            # Check for null values
             check_null_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} IS NULL;"
             cs.execute(check_null_query)
             null_count = cs.fetchone()[0]
-            print(f"Null count in {column_name} of RAW_{table_name}: {null_count}")
-            text_file.write(f"Null count in {column_name} of RAW_{table_name}: {null_count}\n")
+            print(f"Null count in {column_name} of {table_name}: {null_count}")
+            text_file.write(f"Null count in {column_name} of {table_name}: {null_count}\n")
+
+            # Check for "NULL" string in columns with data type 'STRING'
+            if any(col[0] == column_name and col[1] == 'STRING' for col in columns):
+                check_null_string_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} = 'NULL';"
+                cs.execute(check_null_string_query)
+                null_string_count = cs.fetchone()[0]
+                print(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}")
+                text_file.write(f"'String NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
+            # Check for negative values (assuming the data type is string)
+
+ 
+            # Check for negative values (assuming the data type is numeric)
+            if any(col[0] == column_name and col[1] in ('NUMBER', 'INTEGER', 'FLOAT', 'DOUBLE') for col in columns):
+                check_negative_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} < 0;"
+                cs.execute(check_negative_query)
+                negative_count = cs.fetchone()[0]
+                print(f"Negative count in {column_name} of {table_name}: {negative_count}")
+                text_file.write(f"Negative values count in {column_name} of {table_name}: {negative_count}\n")
 
 
 cs.close()
 conn.close()
+
+# # Process each table
+# for table_name in tables:
+#     # Fetch columns from INFORMATION_SCHEMA.COLUMNS
+#     cs.execute(f"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{table_name}' AND TABLE_SCHEMA = 'NWT'")
+#     columns = cs.fetchall()
+#     # Access the column names
+#     column_names = [col[0] for col in columns]
+#     print(f"Columns in {table_name}: {column_names}")
+
+#     # Construct the column definitions
+#     column_definitions = [f'{col[0]} {col[1]}' for col in columns]
+
+#     with open(text_file_path, 'a') as text_file:
+#         text_file.write(f"Table: {table_name}\n")
+#         # Check for null values
+#         for column_name in column_names:
+#             check_null_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} IS NULL;"
+#             cs.execute(check_null_query)
+#             null_count = cs.fetchone()[0]
+#             print(f"Null count in {column_name} of RAW_{table_name}: {null_count}")
+#             text_file.write(f"Null count in {column_name} of RAW_{table_name}: {null_count}\n")
+
+
+# cs.close()
+# conn.close()
 
 # # # Create a cursor
 # # cursor = conn.cursor()
