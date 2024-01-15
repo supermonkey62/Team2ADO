@@ -2,7 +2,7 @@ import os
 import snowflake.connector
 
 # Define the path for the text file
-text_file_path = 'testing3.txt'
+text_file_path = 'testing4.txt'
 
 # Check if the file exists, and create it if not
 if not os.path.exists(text_file_path):
@@ -60,12 +60,12 @@ with open(text_file_path, 'w') as text_file:
             text_file.write(f"Null count in {column_name} of {table_name}: {null_count}\n")
 
             # Check for "NULL" string in every column
-            if any(col[0] == column_name and 'STRING' in col[1] for col in columns):
-                check_null_string_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} LIKE '%NULL%';"
-                cs.execute(check_null_string_query)
-                null_string_count = cs.fetchone()[0]
-                print(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}")
-                text_file.write(f"'String NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
+            # if any(col[0] == column_name and 'STRING' in col[1] for col in columns):
+            #     check_null_string_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} LIKE '%NULL%';"
+            #     cs.execute(check_null_string_query)
+            #     null_string_count = cs.fetchone()[0]
+            #     print(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}")
+            #     text_file.write(f"'String NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
 
             # Check for negative values (assuming the data type is numeric)
             if any(col[0] == column_name and col[1] in ('NUMBER', 'INTEGER', 'FLOAT', 'DOUBLE') for col in columns):
