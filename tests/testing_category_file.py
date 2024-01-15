@@ -4,22 +4,21 @@ import os
 import csv
 
 # Replace with your Snowflake credentials
-account = os.getenv('DBT_ACCOUNT')
-user = os.getenv('DBT_USER')
-password = os.getenv('DBT_PASSWORD')
-warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
-schema = os.getenv('SNOWFLAKE_SCHEMA')
-database = 'NWTDATA'
-stage_name = 'NWT_STAGING'
+# account = os.getenv('DBT_ACCOUNT')
+# user = os.getenv('DBT_USER')
+# password = os.getenv('DBT_PASSWORD')
+# warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
+# schema = os.getenv('SNOWFLAKE_SCHEMA')
+# database = 'NWTDATA'
+# stage_name = 'NWT_STAGING'
 
-# Connect to Snowflake
 conn = snowflake.connector.connect(
-    account=account,
-    user=user,
-    password=password,
-    warehouse=warehouse,
-    database=database,
-    schema=schema
+    account="VMRXVKW-EM09200",
+    user="team2",
+    password="Team2ado",
+    warehouse="NWTWH",
+    database="NWTDATA",
+    schema="NWT"
 )
 # Define your SQL query
 
@@ -82,7 +81,7 @@ df = pd.read_sql(sql_query, conn)
 conn.close()
 
 # Export DataFrame to Excel
-excel_file_path = excel_file_path = './output.xlsx'
-df.to_excel(excel_file_path, index=False)
+text_file_path = text_file_path = './testing_category_output.txt'
+df.to_csv(text_file_path, index=False)
 
-print(f'Data exported to {excel_file_path}')
+print(f'Data exported to {text_file_path}')
