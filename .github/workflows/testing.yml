@@ -32,4 +32,4 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
 
         run: |
-          python testing_category_file.py
+          python testing.py
