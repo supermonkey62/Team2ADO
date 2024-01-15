@@ -2,9 +2,18 @@ import os
 import snowflake.connector
 import csv
 from io import StringIO
-# Define the path for the text file
-text_file_path = './testing_category_output.txt'
 
+# # Define the path for the text file
+# text_file_path = './testing_category_output.txt'
+
+# Define the path for the text file
+text_file_path = 'testing1.txt'
+
+# Check if the file exists, and create it if not
+if not os.path.exists(text_file_path):
+    with open(text_file_path, 'w'):
+        pass  # This creates an empty file
+    
 # Replace with your Snowflake credentials
 account = os.getenv('DBT_ACCOUNT')
 user = os.getenv('DBT_USER')
@@ -74,21 +83,23 @@ for table_name in tables:
             print(f"Null count in {column_name} of {table_name}: {null_count}")
             text_file.write(f"Null count in {column_name} of {table_name}: {null_count}\n")
 
-            # Check for "NULL" string
-            if any(col[0] == column_name and col[1] in ('STRING') for col in columns):
+            # Check for "NULL" string in columns with data type 'STRING'
+            if any(col[0] == column_name and col[1] == 'STRING' for col in columns):
                 check_null_string_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} = 'NULL';"
                 cs.execute(check_null_string_query)
                 null_string_count = cs.fetchone()[0]
                 print(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}")
-                text_file.write(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
+                text_file.write(f"'String NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
+            # Check for negative values (assuming the data type is string)
 
+ 
             # Check for negative values (assuming the data type is numeric)
             if any(col[0] == column_name and col[1] in ('NUMBER', 'INTEGER', 'FLOAT', 'DOUBLE') for col in columns):
                 check_negative_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} < 0;"
                 cs.execute(check_negative_query)
                 negative_count = cs.fetchone()[0]
                 print(f"Negative count in {column_name} of {table_name}: {negative_count}")
-                text_file.write(f"Negative count in {column_name} of {table_name}: {negative_count}\n")
+                text_file.write(f"Negative values count in {column_name} of {table_name}: {negative_count}\n")
 
 
 cs.close()
