@@ -1,4 +1,4 @@
- {{ config(materialized='incremental', unique_key='ORDERID') }}
+ {{ config(materialized='incremental', unique_key='orderID') }}
 
  SELECT *
 FROM {{ ref ('raw_order_fresh') }}
