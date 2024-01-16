@@ -1,10 +1,10 @@
 -- Update UnitCost in Product table based on values from Product_Fresh table
 USE SCHEMA NWT;
 
-UPDATE Product p
+UPDATE RAW_PRODUCT p
 SET UnitCost = (
-  SELECT pf.UnitCost
-  FROM Product_Fresh pf
+  SELECT RAW_PRODUCT_FRESH.UnitCost
+  FROM RAW_PRODUCT_FRESH pf
   WHERE p.ProductID = pf.ProductID
 )
 WHERE EXISTS (
