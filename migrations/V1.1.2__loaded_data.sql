@@ -9,6 +9,6 @@ SET UnitCost = (
 )
 WHERE EXISTS (
   SELECT 1
-  FROM Product_Fresh pf
+  FROM RAW_PRODUCT_FRESH pf
   WHERE p.ProductID = pf.ProductID
 );
