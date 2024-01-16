@@ -25,11 +25,7 @@ jobs:
         uses: actions/setup-python@v2.2.1
         with:
           python-version: 3.8.x  
-          
-      - name: Debugging
-        run: |
-          echo "Contents of migrations directory:"
-          ls -R $GITHUB_WORKSPACE/migrations
+
   
 
       - name: Run schemachange
@@ -37,18 +33,17 @@ jobs:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.DBT_USER }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
-          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_WAREHOUSE: NWTWH
           SNOWFLAKE_DATABASE: NWTDATA
-          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+          SNOWFLAKE_SCHEMA: NWT
           SNOWFLAKE_PASSWORD: ${{ secrets.DBT_PASSWORD }}
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
-     
-
           python --version
           echo "Step 1: Installing schemachange"
           pip install schemachange
-          
+        
+          echo "Step 2: Running schemachange"
           echo "Step 2: Running schemachange"
           schemachange -f $GITHUB_WORKSPACE/migrations -a $SNOWFLAKE_ACCOUNT -u $SNOWFLAKE_USER -r $SNOWFLAKE_ROLE -w $SNOWFLAKE_WAREHOUSE -d $SNOWFLAKE_DATABASE -s $SNOWFLAKE_SCHEMA -c $SNOWFLAKE_DATABASE.SCHEMACHANGE.CHANGE_HISTORY --create-change-history-table
 
