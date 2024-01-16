@@ -73,6 +73,30 @@ for file in files:
 
     print(f"Successfully copied {file_name} into TEMP_{table_name}")
 
+    # Get the number of rows and columns for the temporary table
+    cs.execute(f"SELECT COUNT(*) FROM TEMP_{table_name}")
+    temp_row_count = cs.fetchone()[0]
+
+    cs.execute(f"SHOW COLUMNS IN TEMP_{table_name}")
+    temp_columns = cs.fetchall()
+    num_temp_columns = len(temp_columns)
+
+    # Get the number of rows and columns for the actual table
+    cs.execute(f"SELECT COUNT(*) FROM RAW_{table_name}")
+    raw_row_count = cs.fetchone()[0]
+
+    cs.execute(f"SHOW COLUMNS IN RAW_{table_name}")
+    raw_columns = cs.fetchall()
+    num_raw_columns = len(raw_columns)
+
+    # Compare the number of rows and columns
+    if temp_row_count == raw_row_count and num_temp_columns == num_raw_columns:
+        print(f"Table comparison successful for TEMP_{table_name} ({temp_row_count},{num_temp_columns}) and RAW_{table_name} ({raw_row_count},{num_raw_columns})")
+    else:
+        raise ValueError(f"Table comparison failed for TEMP_{table_name} and RAW_{table_name}. "
+                         f"Rows or columns do not match.")
+    
+
 cs.close()
 ctx.close()
 
