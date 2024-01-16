@@ -32,4 +32,4 @@ jobs:
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
         run: |
-          python load_data_into_table.py
+          python load_data_into_tables.py
