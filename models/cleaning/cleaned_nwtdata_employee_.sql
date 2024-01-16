@@ -1,4 +1,4 @@
-{{ config(materialized='view')}}
+-- {{ config(materialized='view')}}
 
 -- SELECT
 --   'employeeID' AS column_name,

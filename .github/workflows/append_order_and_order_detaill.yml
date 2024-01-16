@@ -27,11 +27,14 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-        run: dbt run --profiles-dir profiles
+        run: dbt run --profiles-dir profiles --exclude models/cleaning/*
+
 
       - name: Append fresh orders 
-        run: dbt run -s raw_order
+        run: dbt run --profiles-dir profiles -s raw_order
+
 
       - name: Append fresh orders details
-        run: dbt run -s raw_order_detail
+        run: dbt run --profiles-dir profiles -s raw_order_detail
+
           

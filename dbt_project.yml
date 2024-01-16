@@ -36,16 +36,14 @@ models:
     raw:
       +materialized: table
     reporting:
-      +materialized: table
+      +materialized: view
     staging:
-      +materialized: table
+      +materialized: view
     cleaning:
-      +materialized: table
+      +materialized: view
     RAW_ORDER_FRESH:
       +materialized: table
       unique_key: orderID
     RAW_ORDER_DETAIL_FRESH:
-      +materialised: table
+      +materialized: table
       unique_key: orderID
-    
-  
