@@ -19,14 +19,24 @@ with open(text_file_path, 'w') as text_file:
     schema = os.getenv('SNOWFLAKE_SCHEMA')
     database = 'NWTDATA'
 
+    # Connect to Snowflake
     conn = snowflake.connector.connect(
-        account="VMRXVKW-EM09200",
-        user="team2",
-        password="Team2ado",
-        warehouse="NWTWH",
-        database="NWTDATA",
-        schema="NWTDATA.INFORMATION_SCHEMA"
+    account=account,
+    user=user,
+    password=password,
+    warehouse=warehouse,
+    database=database,
+    schema=schema
     )
+    
+    # conn = snowflake.connector.connect(
+    #     account="VMRXVKW-EM09200",
+    #     user="team2",
+    #     password="Team2ado",
+    #     warehouse="NWTWH",
+    #     database="NWTDATA",
+    #     schema="NWTDATA.INFORMATION_SCHEMA"
+    # )
 
     cs = conn.cursor()
 
