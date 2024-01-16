@@ -3,7 +3,7 @@ name: Create Tables from csv files from NWT_STAGING
 on:
   push:
     paths:
-      - 'createtabletext.txt'
+      - 'load_data_into_tables.txt'
 
 jobs:
   load-data:
@@ -32,4 +32,4 @@ jobs:
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
         run: |
-          python create_table_from_csv.py
+          python load_data_into_tables.py
