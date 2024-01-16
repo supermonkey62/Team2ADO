@@ -2,9 +2,8 @@ USE SCHEMA NWT;
 ALTER TABLE RAW_PRODUCT ADD COLUMN Unitcost DECIMAL(5,2);
 
 
-UPDATE RAW_PRODUCT p
-SET p.UnitCost = (
-  SELECT pf.UnitCost
-  FROM RAW_PRODUCT_FRESH pf
-  WHERE p.productID = pf.productid
-);
+UPDATE RAW_PRODUCT AS p
+SET p.UnitCost = pf.UnitCost
+FROM RAW_PRODUCT AS p
+INNER JOIN RAW_PRODUCT_FRESH AS pf
+ON p.productID = pf.productID;
