@@ -43,16 +43,17 @@ for file in files:
     table_count = cs.fetchone()[0]
 
     if table_count > 0:
-        # Table is not empty, load data into the table
+        print("Table is not empty, load data into the table")
 
+        
+    else:
         # Load data into the table
         load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
         print(load_data_query)
         cs.execute(load_data_query)
 
         print(f"Successfully copied {file_name} into RAW_{table_name}")
-    else:
-        print(f"Table {table_name} is empty.")
+    
 
 cs.close()
 ctx.close()
