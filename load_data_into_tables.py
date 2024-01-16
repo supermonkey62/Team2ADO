@@ -1,5 +1,7 @@
 import os
 import snowflake.connector
+import csv
+from io import StringIO
 
 # Replace with your Snowflake credentials
 account = os.getenv('DBT_ACCOUNT')
@@ -10,7 +12,6 @@ schema = os.getenv('SNOWFLAKE_SCHEMA')
 database = 'NWTDATA'
 stage_name = 'NWT_STAGING'
 load_format_name = 'load_csv_format'
-
 # Connect to Snowflake
 ctx = snowflake.connector.connect(
     account=account,
@@ -40,23 +41,29 @@ for file in files:
     # Check if the table already exists
     check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name.upper()}' AND TABLE_SCHEMA = 'NWT';"
     cs.execute(check_table_query)
-    table_count = cs.fetchone()[0]
+    table_exists = cs.fetchone()[0] > 0
 
-    if table_count > 0:
-        print("Table is not empty, load data into the table")
+    if  table_exists:
+        check_table_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.RAW_{table_name};"
+        cs.execute(check_table_query)
+        table_empty = cs.fetchone()[0] == 0
 
-        
+        if table_empty:
+            # Load data into the table
+            load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+            print(load_data_query)
+            cs.execute(load_data_query)
+
+            print(f"Successfully copied {file_name} into RAW_{table_name}")
+        else:
+            print("Table contains data, do not load more data in.")
+
     else:
-        # Load data into the table
-        load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
-        print(load_data_query)
-        cs.execute(load_data_query)
-
-        print(f"Successfully copied {file_name} into RAW_{table_name}")
-    
+        print(f"Table {table_name} does not exist.")
 
 cs.close()
 ctx.close()
+
 
 
 
