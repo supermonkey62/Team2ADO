@@ -22,17 +22,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install dbt_snowflake
 
-      - name: Append fresh orders 
+      - name: Run dbt
         env:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles
+
+      - name: Append fresh orders 
         run: dbt run -s raw_order
 
       - name: Append fresh orders details
-        env:
-          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
-          DBT_USER: ${{ secrets.DBT_USER }}
-          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
         run: dbt run -s raw_order_detail
           
