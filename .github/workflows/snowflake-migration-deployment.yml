@@ -24,7 +24,12 @@ jobs:
       - name: Use Python 3.8.x
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.8.x
+          python-version: 3.8.x  
+          
+      - name: Debugging
+        run: |
+          echo "Contents of migrations directory:"
+          ls -R $GITHUB_WORKSPACE/migrations
   
 
       - name: Run schemachange
