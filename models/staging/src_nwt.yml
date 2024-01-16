@@ -19,7 +19,7 @@ sources:
       - name: RAW_EMPLOYEE_TERRITORY 
       - name: RAW_EMPLOYEE 
       - name: RAW_ORDER_DETAIL
-      - name: RAW_ORDER
+      - name: RAW_ORDER_UPDATED
       - name: RAW_PRODUCT 
       - name: RAW_REGION
       - name: RAW_SHIPPER 
@@ -28,11 +28,11 @@ sources:
       - name: RAW_ORDER_FRESH
         description: fresh orders to be appended into ORDERS table
         columns:
-          - name: ORDERID
+          - name: orderID
             description: primary key for RAW_ORDER_FRESH
       - name: RAW_ORDER_DETAIL_FRESH
         description: fresh orders_detail to be appended into ORDER_DETAIL table
         columns:
-          - name: ORDERID
+          - name: orderID
             description: primary key for RAW_ORDER_DETAIL_FRESH
 

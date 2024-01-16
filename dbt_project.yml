@@ -43,9 +43,9 @@ models:
       +materialized: table
     RAW_ORDER_FRESH:
       +materialized: table
-      unique_key: ORDERID
+      unique_key: orderID
     RAW_ORDER_DETAIL_FRESH:
       +materialised: table
-      unique_key: ORDERID
+      unique_key: orderID
     
   
