@@ -30,13 +30,13 @@ jobs:
 
       - name: Run schemachange
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          SNOWFLAKE_USER: ${{ secrets.DBT_USER }}
-          SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+          SNOWFLAKE_ACCOUNT: ui26303.ap-southeast-1
+          SNOWFLAKE_USER: team2
+          SNOWFLAKE_ROLE: ACCOUNTADMIN
           SNOWFLAKE_WAREHOUSE: NWTWH
           SNOWFLAKE_DATABASE: NWTDATA
           SNOWFLAKE_SCHEMA: NWT
-          SNOWFLAKE_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+          SNOWFLAKE_PASSWORD: Team2ado
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
           python --version
