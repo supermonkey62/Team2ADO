@@ -25,7 +25,7 @@ ctx = snowflake.connector.connect(
 cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 ON_ERROR = 'CONTINUE'")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -70,7 +70,7 @@ for file in files:
         # print(f"Successfully created RAW_{table_name}")
 
         # Load data into the table
-        load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+        load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}' ON_ERROR = 'CONTINUE';;"
         print(load_data_query)
         cs.execute(load_data_query)
 
