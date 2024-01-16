@@ -70,7 +70,7 @@ for file in files:
         # print(f"Successfully created RAW_{table_name}")
 
         # Load data into the table
-        load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+        load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}' NULL_IF = ('NULL');"
         print(load_data_query)
         cs.execute(load_data_query)
 
