@@ -57,7 +57,7 @@ for file in files:
         print("Column Names:", column_names)
 
         # Construct the column definitions
-        column_definitions = [f'{col[0]} {col[1]}' for col in columns]
+        column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
 
         # Join the column definitions into a string
         columns_string = ',\n\t'.join(column_definitions)
