@@ -63,7 +63,7 @@ with open(text_file_path, 'w') as text_file:
             check_null_string_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.{table_name} WHERE {column_name} LIKE '%NULL%';"
             cs.execute(check_null_string_query)
             null_string_count = cs.fetchone()[0]
-            print(f"'NULL' string count in {column_name} of {table_name}: {null_string_count}")
+            print(f"'NULL' String count in {column_name} of {table_name}: {null_string_count}")
             text_file.write(f"'String NULL' string count in {column_name} of {table_name}: {null_string_count}\n")
 
             # Check for negative values (assuming the data type is numeric)
