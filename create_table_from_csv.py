@@ -48,7 +48,7 @@ for file in files:
     if not table_exists:
         # Use INFER_SCHEMA to get column definitions
         infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
-        # print(infer_schema_query)
+        print(infer_schema_query)
         cs.execute(infer_schema_query)
         columns = cs.fetchall()
 
