@@ -26,8 +26,8 @@ ctx = snowflake.connector.connect(
 cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_DELIMITER = ',' SKIP_HEADER = 1")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
@@ -48,21 +48,21 @@ for file in files:
     if not table_exists:
         # Use INFER_SCHEMA to get column definitions
         infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
-        # print(infer_schema_query)
+        print(infer_schema_query)
         cs.execute(infer_schema_query)
         columns = cs.fetchall()
 
         # Access the column names
         column_names = [col[0] for col in columns]
-        # print("Column Names:", column_names)
+        print("Column Names:", column_names)
 
         # Construct the column definitions
-        column_definitions = [f'{col[0]} {col[1]}' for col in columns]
+        column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
 
         # Join the column definitions into a string
         columns_string = ',\n\t'.join(column_definitions)
 
-        #print(columns_string)
+        print(columns_string)
 
         # Create the table using specified column definitions
         create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"

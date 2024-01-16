@@ -1,0 +1,37 @@
+name: Append fresh orders and fresh order details into existing tables
+
+on:
+  push:
+    paths:
+      - 'append.txt'
+
+jobs:
+  append-fresh-orders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: Run dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles
+
+      - name: Append fresh orders 
+        run: dbt run -s raw_order
+
+      - name: Append fresh orders details
+        run: dbt run -s raw_order_detail
+          
