@@ -42,24 +42,36 @@ for file in files:
     file_name = file.split('/')[-1]
 
     # Use INFER_SCHEMA to get column definitions
-    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@{stage_name}/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+    infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+    # print(infer_schema_query)
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-    # Access the column names and types
-    column_names = [f'"{col[0].upper()}"' for col in columns]
+    # Access the column names
+    column_names = [col[0] for col in columns]
+    # print("Column Names:", column_names)
 
-    # Construct the column names into a string
-    column_names_string = ', '.join(column_names)
+    # Construct the column definitions
+    column_definitions = [f'{col[0]} {col[1]}' for col in columns]
 
-    # Create temporary table using specified column definitions
-    create_temp_table_query = f'CREATE TEMPORARY TABLE TEST_{table_name} AS SELECT {column_names_string} FROM @{stage_name}/{file_name}(FILE_FORMAT => \'{file_format_name}\');'
-    print(create_temp_table_query)
-    cs.execute(create_temp_table_query)
+    # Join the column definitions into a string
+    columns_string = ',\n\t'.join(column_definitions)
 
-    print(f"Successfully created temporary table TEST_{table_name}")
+    #print(columns_string)
 
+    # Create the table using specified column definitions
+    create_table_query = f"CREATE TEMPORARY TABLE TEMP_{table_name} ({columns_string});"
+    print(create_table_query)
+    cs.execute(create_table_query)
 
+    print(f"Successfully created TEMP_{table_name}")
+
+    # Load data into the table
+    load_data_query = f"COPY INTO TEMP_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+    print(load_data_query)
+    cs.execute(load_data_query)
+
+    print(f"Successfully copied {file_name} into TEMP_{table_name}")
 
 cs.close()
 ctx.close()
