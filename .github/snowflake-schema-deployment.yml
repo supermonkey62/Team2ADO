@@ -1,5 +1,5 @@
 
-name: snowflake-helloworld-demo
+name: snowflake-schema-deployment
 
 # Controls when the action will run. 
 on:
