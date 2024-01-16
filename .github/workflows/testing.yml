@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install snowflake-connector-python requests
 
-      - name: Run dbt
+      - name: Run python file
         env:
           DBT_USER: ${{ secrets.SNOWFLAKE_USER }}
           DBT_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
