@@ -37,6 +37,11 @@ jobs:
           SNOWFLAKE_PASSWORD: ${{ secrets.DBT_PASSWORD }}
         run: |
           echo "GITHUB_WORKSPACE: $GITHUB_WORKSPACE"
+      - name: Debugging Output
+        run: |
+          ls -R $GITHUB_WORKSPACE
+          ls -R $GITHUB_WORKSPACE/migrations
+
           python --version
           echo "Step 1: Installing schemachange"
           pip install schemachange
