@@ -54,7 +54,7 @@ for file in files:
 
         # Access the column names
         column_names = [col[0] for col in columns]
-        # print("Column Names:", column_names)
+        print("Column Names:", column_names)
 
         # Construct the column definitions
         column_definitions = [f'{col[0]} {col[1]}' for col in columns]
@@ -62,7 +62,7 @@ for file in files:
         # Join the column definitions into a string
         columns_string = ',\n\t'.join(column_definitions)
 
-        #print(columns_string)
+        print(columns_string)
 
         # Create the table using specified column definitions
         create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
