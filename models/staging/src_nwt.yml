@@ -8,6 +8,14 @@ sources:
     tables: 
       - name: RAW_CATEGORY
       - name: RAW_CUSTOMER
+        description: raw customer table
+        columns:
+          - name: customerid
+            description: primary key for customer
+            tests:
+              - unique
+              - not_null
+
       - name: RAW_EMPLOYEE_TERRITORY 
       - name: RAW_EMPLOYEE 
       - name: RAW_ORDER_DETAIL

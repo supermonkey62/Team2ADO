@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_nwtdata_customerdemographics
+    description: one unique customer per row
+    columns:
+      - name: customerid
+        description: the primary key for stg_nwtdata_customerdemographics
+      - name: region
+        description: '{{ doc("region")}}'
