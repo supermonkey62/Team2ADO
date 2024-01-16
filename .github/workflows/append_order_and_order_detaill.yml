@@ -27,7 +27,7 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
-        run: dbt run --profiles-dir profiles --full-refresh
+        run: dbt run --profiles-dir profiles
 
       - name: Append fresh orders 
         run: dbt run -s raw_order
