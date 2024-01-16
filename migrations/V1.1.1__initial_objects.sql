@@ -1,2 +1,10 @@
 USE SCHEMA NWT;
 ALTER TABLE RAW_PRODUCT ADD COLUMN Unitcost DECIMAL(5,2);
+
+
+UPDATE RAW_PRODUCT p
+SET p.UnitCost = (
+  SELECT pf.UnitCost
+  FROM RAW_PRODUCT_FRESH pf
+  WHERE p.productID = pf.productid
+);
