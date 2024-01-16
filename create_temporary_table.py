@@ -33,7 +33,7 @@ cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_D
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
 files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
-print(f"Files in the stage: {files}")
+
 
 # Process each CSV file
 for file in files:
@@ -61,14 +61,12 @@ for file in files:
 
     # Create the table using specified column definitions
     create_table_query = f"CREATE TEMPORARY TABLE TEMP_{table_name} ({columns_string});"
-    print(create_table_query)
     cs.execute(create_table_query)
 
     print(f"Successfully created TEMP_{table_name}")
 
     # Load data into the table
     load_data_query = f"COPY INTO TEMP_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
-    print(load_data_query)
     cs.execute(load_data_query)
 
     print(f"Successfully copied {file_name} into TEMP_{table_name}")
