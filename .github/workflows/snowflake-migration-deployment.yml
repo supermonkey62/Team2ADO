@@ -24,15 +24,13 @@ jobs:
       - name: Use Python 3.8.x
         uses: actions/setup-python@v2.2.1
         with:
-          python-version: 3.8.x
-      - name: Debug Environment Variables
+          python-version: 3.8.x  
+          
+      - name: Debugging
         run: |
-          echo "SNOWFLAKE_ACCOUNT: $SNOWFLAKE_ACCOUNT"
-          echo "SNOWFLAKE_USER: $SNOWFLAKE_USER"
-          echo "SNOWFLAKE_ROLE: $SNOWFLAKE_ROLE"
-          echo "SNOWFLAKE_WAREHOUSE: $SNOWFLAKE_WAREHOUSE"
-          echo "SNOWFLAKE_DATABASE: $SNOWFLAKE_DATABASE"
-          echo "SNOWFLAKE_SCHEMA: $SNOWFLAKE_SCHEMA"
+          echo "Contents of migrations directory:"
+          ls -R $GITHUB_WORKSPACE/migrations
+  
 
       - name: Run schemachange
         env:
