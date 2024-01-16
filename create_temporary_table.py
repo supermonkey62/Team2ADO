@@ -46,18 +46,19 @@ for file in files:
     cs.execute(infer_schema_query)
     columns = cs.fetchall()
 
-    # Access the column names
-    column_names = [col[0] for col in columns]
+    # Access the column names and types
+    column_names = [f'"{col[0].upper()}"' for col in columns]
 
     # Construct the column names into a string
     column_names_string = ', '.join(column_names)
 
     # Create temporary table using specified column definitions
-    create_temp_table_query = f"CREATE TEMPORARY TABLE TEST_{table_name} AS SELECT {column_names_string} FROM @{stage_name}/{file_name}(FILE_FORMAT => '{file_format_name}');"
+    create_temp_table_query = f'CREATE TEMPORARY TABLE TEST_{table_name} AS SELECT {column_names_string} FROM @{stage_name}/{file_name}(FILE_FORMAT => \'{file_format_name}\');'
     print(create_temp_table_query)
     cs.execute(create_temp_table_query)
 
     print(f"Successfully created temporary table TEST_{table_name}")
+
 
 
 cs.close()
