@@ -25,7 +25,7 @@ ctx = snowflake.connector.connect(
 cs = ctx.cursor()
 
 # Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF = ()")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 ON_ERROR = 'CONTINUE'")
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
