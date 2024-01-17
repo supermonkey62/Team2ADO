@@ -9,6 +9,8 @@ SELECT
   QuantityPerUnit,
   reorderlevel,
   discontinued,
-  Sales
+  Sales,
+  Profit,
+  ProfitMargin
 
 from {{ ref('stg_nwtdata_productsales') }}

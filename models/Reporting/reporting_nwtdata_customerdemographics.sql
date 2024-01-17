@@ -5,6 +5,11 @@ SELECT
     CustomerContactTitle,
     CustomerCity,
     CustomerRegion,
-    CustomerTerritory
+    CustomerTerritory,
+    NumberOfOrders,
+    TotalSales,
+    TotalProfit
+
+
 
 from {{ ref('stg_nwtdata_customerdemographics') }}
