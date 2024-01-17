@@ -1,8 +1,0 @@
-
-USE SCHEMA NWT;
-MERGE INTO RAW_PRODUCT AS p
-USING RAW_PRODUCT_FRESH AS pf
-ON p.productID = pf.productID
-WHEN MATCHED THEN 
-    UPDATE SET p.UnitCost = pf.Unitcost
-    
