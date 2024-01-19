@@ -8,7 +8,7 @@ SELECT
   Quantity,
   CategoryName,
   ProductName,
-  SUM((od.unitprice * (1 - discount)) * Quantity) AS ProductSales
+  ((od.unitprice * (1 - discount)) * Quantity) AS ProductSales
 
 FROM {{ ref('raw_order') }} AS o
 JOIN {{ ref('raw_order_detail') }} AS od ON o.OrderId = od.OrderId

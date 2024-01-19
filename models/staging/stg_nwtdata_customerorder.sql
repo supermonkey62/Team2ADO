@@ -5,6 +5,10 @@ SELECT
     O.OrderDate,
     O.RequiredDate,
     O.ShippedDate,
+    ShipCity,
+    ShipRegion,
+    ShipCountry,
+    ShipName,
     CASE
         WHEN O.ShippedDate IS NULL THEN 'Pending'
         WHEN O.ShippedDate <= O.RequiredDate THEN 'On Time'
