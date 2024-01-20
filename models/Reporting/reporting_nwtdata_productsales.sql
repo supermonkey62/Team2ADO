@@ -14,8 +14,7 @@ SELECT
   OrderDate,
   OrderMonth,
   OrderYear,
-  Sales,
-  Profit,
-  ProfitMargin
+  SalesRevenue,
+  Profit
 
 from {{ ref('stg_nwtdata_productsales') }}
