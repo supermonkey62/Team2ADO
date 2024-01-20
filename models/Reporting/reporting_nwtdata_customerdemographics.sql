@@ -10,6 +10,4 @@ SELECT
     TotalSales,
     TotalProfit
 
-
-
 from {{ ref('stg_nwtdata_customerdemographics') }}

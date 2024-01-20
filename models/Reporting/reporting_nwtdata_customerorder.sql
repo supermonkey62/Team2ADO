@@ -5,6 +5,10 @@ SELECT
     ShippedDate,
     OrderStatus,
     CustomerID,
-    CompanyName
+    CompanyName,
+    ShipCity,
+    ShipRegion,
+    ShipCountry,
+    ShipName
 
 from {{ ref('stg_nwtdata_customerorder') }}
