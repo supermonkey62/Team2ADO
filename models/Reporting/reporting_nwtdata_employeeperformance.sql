@@ -1,8 +1,9 @@
 SELECT
     EmployeeID,
     EmployeeName,
-    TotalOrders,
     TotalSales,
-    AvgOrderValue
+    AvgOrderValue,
+    NumberOfOrders,
+    TotalProfit
 
 from {{ ref('stg_nwtdata_employeeperformance') }}
