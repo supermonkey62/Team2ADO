@@ -1,6 +1,6 @@
 SELECT
   orderid,
-  od.unitprice,
+  unitprice,
   quantity,
   discount,
   productname,
