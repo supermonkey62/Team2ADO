@@ -1,6 +1,6 @@
 {{ config(materialized='view') }}
 SELECT
-    C.CustomerID,
+    O.CustomerID,
     MAX(C.ContactName) AS CustomerContactName,
     MAX(C.CompanyName) AS CustomerCompanyName,
     MAX(C.ContactTitle) AS CustomerContactTitle,
