@@ -1,8 +1,8 @@
 SELECT
+    OrderID,
     CustomerID,
     CompanyName,
     ContactName,
-    OrderID,
     OrderDate,
     RequiredDate,
     ShippedDate,
