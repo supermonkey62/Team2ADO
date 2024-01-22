@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 SELECT
-  c.CustomerId,
+  c.CustomerID,
   ContactName,
   CompanyName,
   ContactTitle,
@@ -11,16 +11,16 @@ SELECT
   Address,
   ShipCountry,
   ShipCity,
-  od.OrderId,
+  od.OrderID,
   od.Unitprice,
   Quantity,
   Discount
   
 FROM {{ ref('raw_customer') }} AS c
-JOIN {{ ref('raw_order') }} AS o ON c.CustomerId = o.CustomerId
-JOIN {{ ref('raw_order_detail') }} AS od ON od.OrderId = o.OrderID
-JOIN {{ ref('raw_product') }} AS p ON p.ProductId = od.ProductId
+JOIN {{ ref('raw_order') }} AS o ON c.CustomerID = o.CustomerID
+JOIN {{ ref('raw_order_detail') }} AS od ON od.OrderID = o.OrderID
+JOIN {{ ref('raw_product') }} AS p ON p.ProductID = od.ProductID
 
-GROUP BY c.CustomerId, ContactName, CompanyName, ContactTitle, CustomerSales, City, Country, Address, ShipCountry, ShipCity, od.OrderId, od.UnitPrice, Quantity, Discount
+GROUP BY c.CustomerID, ContactName, CompanyName, ContactTitle, CustomerSales, City, Country, Address, ShipCountry, ShipCity, od.OrderId, od.UnitPrice, Quantity, Discount
 ORDER BY
   CustomerSales DESC
