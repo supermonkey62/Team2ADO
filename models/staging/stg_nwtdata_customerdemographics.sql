@@ -1,6 +1,5 @@
-{{ config(materialized='view') }}
 SELECT
-    DISTINCT(O.CustomerID) AS CustomerID,
+    O.CustomerID,
     MAX(C.ContactName) AS CustomerContactName,
     MAX(C.CompanyName) AS CustomerCompanyName,
     MAX(C.ContactTitle) AS CustomerContactTitle,
@@ -10,10 +9,10 @@ SELECT
     COUNT(DISTINCT OD.OrderID) AS NumberOfOrders,
     SUM(OD.UnitPrice * OD.Quantity * (1 - OD.Discount)) AS TotalSales,
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,
-    OD.Discount,
-    Quantity,
-    ProductName,
-    CategoryName
+    MAX(OD.Discount) AS Discount,
+    MAX(Quantity) AS Quantity,
+    MAX(ProductName) AS ProductName,
+    MAX(CategoryName) AS CategoryName
 
 FROM {{ ref('raw_customer') }} AS C
 JOIN {{ ref('raw_order') }} AS O ON C.CustomerID = O.CustomerID
@@ -22,7 +21,8 @@ JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
 JOIN {{ ref('raw_employee') }} AS E ON O.EmployeeID = E.EmployeeID
 JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
 JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
-JOIN {{ ref('raw_category') }} AS Ca ON p.CategoryId = Ca.CategoryId
+JOIN {{ ref('raw_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
 
-GROUP BY O.CustomerID, OD.Discount,Quantity,ProductName,CategoryName
+GROUP BY O.CustomerID
 ORDER BY TotalSales DESC -- To get top customers by net sales
+
