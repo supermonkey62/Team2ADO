@@ -24,5 +24,5 @@ JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
 JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
 JOIN {{ ref('raw_category') }} AS Ca ON p.CategoryId = Ca.CategoryId
 
-GROUP BY CustomerID, OD.Discount,Quantity,ProductName,CategoryName
+GROUP BY OD.Discount,Quantity,ProductName,CategoryName
 ORDER BY TotalSales DESC -- To get top customers by net sales
