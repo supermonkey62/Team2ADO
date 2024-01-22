@@ -1,10 +1,10 @@
 {{ config(materialized='view') }}
 
 SELECT
+    O.OrderID,
     C.CustomerID,
     C.CompanyName,
     C.ContactName,
-    O.OrderID,
     O.OrderDate,
     O.RequiredDate,
     O.ShippedDate,
@@ -29,22 +29,3 @@ JOIN {{ ref('raw_customer') }} AS C ON O.CustomerID = C.CustomerID
 JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
 JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
 JOIN {{ ref('raw_category') }} AS Ca ON p.CategoryId = Ca.CategoryId
-
-GROUP BY
-    O.OrderID, 
-    C.CustomerID,
-    C.CompanyName,
-    C.ContactName,
-    O.OrderDate,
-    O.RequiredDate,
-    O.ShippedDate,
-    ShipCity,
-    ShipRegion,
-    ShipCountry,
-    ShipName,
-    productName,
-    CategoryName,
-    ReorderLevel,
-    UnitsInStock,
-    UnitsOnOrder,
-    Description
