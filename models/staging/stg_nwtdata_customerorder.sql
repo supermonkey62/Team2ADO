@@ -2,7 +2,7 @@
 
 SELECT
     DISTINCT(O.OrderID) AS OrderID,
-    C.CustomerID,
+    DISTINCT(C.CustomerID) AS CustomerID,
     C.CompanyName,
     C.ContactName,
     O.OrderDate,
