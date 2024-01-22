@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 SELECT
-    O.OrderID,
+    MAX(O.OrderID) AS OrderID,
     C.CustomerID,
     C.CompanyName,
     C.ContactName,
