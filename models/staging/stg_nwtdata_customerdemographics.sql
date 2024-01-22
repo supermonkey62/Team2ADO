@@ -1,13 +1,13 @@
 {{ config(materialized='view') }}
 SELECT
-    C.CustomerID,
+    O.CustomerID,
     MAX(C.ContactName) AS CustomerContactName,
     MAX(C.CompanyName) AS CustomerCompanyName,
     MAX(C.ContactTitle) AS CustomerContactTitle,
     MAX(C.City) AS CustomerCity,
     MAX(C.Region) AS CustomerRegion,
     MAX(T.TerritoryDescription) AS CustomerTerritory,
-    COUNT(DISTINCT O.OrderID) AS NumberOfOrders,
+    COUNT(DISTINCT OD.OrderID) AS NumberOfOrders,
     SUM(OD.UnitPrice * OD.Quantity * (1 - OD.Discount)) AS TotalSales,
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,
     OD.Discount,
@@ -24,5 +24,5 @@ JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
 JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
 JOIN {{ ref('raw_category') }} AS Ca ON p.CategoryId = Ca.CategoryId
 
-GROUP BY C.CustomerID,OD.Discount,Quantity,ProductName,CategoryName
+GROUP BY O.CustomerID,OD.Discount,Quantity,ProductName,CategoryName
 ORDER BY TotalSales DESC -- To get top customers by net sales
