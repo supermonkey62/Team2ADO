@@ -30,4 +30,4 @@ JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
 JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
 JOIN {{ ref('raw_category') }} AS Ca ON p.CategoryId = Ca.CategoryId
 
-GROUP BY O.OrderID, C.CustomerID, C.CompanyName, C.ContactName, O.OrderDate, O.RequiredDate, O.ShippedDate, ShipCity, ShipRegion, ShipCountry, ShipName, productName, CategoryName, ReorderLevel, UnitsInStock, UnitsOnOrder, Description,
+GROUP BY O.OrderID, C.CustomerID, C.CompanyName, C.ContactName, O.OrderDate, O.RequiredDate, O.ShippedDate, ShipCity, ShipRegion, ShipCountry, ShipName, productName, CategoryName, ReorderLevel, UnitsInStock, UnitsOnOrder, Description
