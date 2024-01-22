@@ -1,7 +1,7 @@
 {{ config(materialized='view') }}
 
 SELECT
-    OD.OrderID,
+    O.OrderID,
     C.CustomerID,
     C.CompanyName,
     C.ContactName,
