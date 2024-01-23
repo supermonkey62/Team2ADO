@@ -1,8 +1,9 @@
 SELECT
     OrderID,
     CustomerID,
-    CompanyName,
-    ContactName,
+    CustomerCompanyName,
+    CustomerContactName,
+    CustomerContactTitle,
     OrderDate,
     RequiredDate,
     ShippedDate,
