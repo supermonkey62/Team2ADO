@@ -11,10 +11,8 @@ SELECT
   ((od.unitprice * (1 - discount)) * Quantity) AS TotalRevenue,
   ((p.unitcost * od.Quantity)) AS CostOfSales,
   (SUM(TotalRevenue) - SUM(CostOfSales)) AS GrossProfit,
-  ((GrossProfit/ SUM(TotalRevenue))* 100) AS GrossProfitMargin
-  --((SUM((od.unitprice * (1 - discount)) * Quantity)) - SUM(p.unitcost * od.Quantity)) AS GrossProfit
-  --((((SUM((od.unitprice * (1 - discount)) * Quantity)) - SUM(p.unitcost * od.Quantity))/(SUM((od.unitprice * (1 - discount)) * Quantity))) * 100) AS GrossProfitMargin
-
+  ((GrossProfit/ SUM(TotalRevenue))) AS GrossProfitMargin
+  
 FROM {{ ref('raw_order') }} AS o
 JOIN {{ ref('raw_order_detail') }} AS od ON o.OrderId = od.OrderId
 JOIN {{ ref('raw_product') }} AS p ON od.ProductId = p.ProductId

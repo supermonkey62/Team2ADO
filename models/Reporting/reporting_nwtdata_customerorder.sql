@@ -1,14 +1,23 @@
 SELECT
     OrderID,
+    CustomerID,
+    CustomerCompanyName,
+    CustomerContactName,
+    CustomerContactTitle,
     OrderDate,
     RequiredDate,
     ShippedDate,
-    OrderStatus,
-    CustomerID,
-    CompanyName,
     ShipCity,
     ShipRegion,
     ShipCountry,
-    ShipName
+    ShipName,
+    productName,
+    CategoryName,
+    ReorderLevel,
+    UnitsInStock,
+    UnitsOnOrder,
+    Description,
+    OrderStatus
+
 
 from {{ ref('stg_nwtdata_customerorder') }}
