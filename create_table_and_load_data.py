@@ -36,7 +36,7 @@ for file in files:
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
 
-    if  file_name == 'order_fresh.csv' | 'order_detail_fresh.csv':
+    if file_name == 'order_fresh.csv' or file_name == 'order_detail_fresh.csv':
         # Use INFER_SCHEMA to get column definitions
         infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
         print(infer_schema_query)
