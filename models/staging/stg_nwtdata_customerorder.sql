@@ -1,8 +1,9 @@
 SELECT
     MAX(O.OrderID) AS OrderID,
     MAX(C.CustomerID) AS CustomerID,
-    MAX(C.CompanyName) AS CompanyName,
-    MAX(C.ContactName) AS ContactName,
+    MAX(C.CompanyName) AS CustomerCompanyName,
+    MAX(C.ContactName) AS CustomerContactName,
+    MAX(C.ContactTitle) AS CustomerContactTitle,
     MAX(O.OrderDate) AS OrderDate,
     MAX(O.RequiredDate) AS RequiredDate,
     MAX(O.ShippedDate) AS ShippedDate,
