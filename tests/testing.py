@@ -58,7 +58,7 @@ with open(text_file_path, 'w') as text_file:
         # Construct the column definitions
         column_definitions = [f'{col[0]} {col[1]}' for col in columns]
 
-        text_file.write(f"Table: {table_name}\n")
+        text_file.write(f"\nTable: {table_name}\n")
         
         # Check for null values, "NULL" string, and negative values
         for column_name in column_names:
