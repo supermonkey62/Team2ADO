@@ -2,7 +2,7 @@ import os
 import snowflake.connector
 
 # Define the path for the text file
-text_file_path = 'testing1.txt'
+text_file_path = 'testing.txt'
 
 # Check if the file exists, and create it if not
 if not os.path.exists(text_file_path):
