@@ -1,9 +1,11 @@
 {{ config(materialized='view') }}
 
+-- This staging file calculates the total revenue of all orders per region.
+
 SELECT
   r.RegionId,
   RegionDescription,
-  SUM((od.unitprice * (1 - discount)) * Quantity) AS RegionSales
+  SUM((od.unitprice * (1 - discount)) * Quantity) AS RevenuePerRegion
 
 FROM {{ ref('raw_region') }} AS r
 JOIN {{ ref('raw_territory') }} AS t ON r.RegionId = t.RegionId
@@ -14,4 +16,4 @@ JOIN {{ ref('raw_order_detail') }} AS od ON o.OrderId = od.OrderId
 JOIN {{ ref('raw_product') }} AS p ON od.ProductId = p.ProductId
 
 GROUP BY r.RegionId, RegionDescription
-ORDER BY RegionSales DESC
+ORDER BY RevenuePerRegion DESC
