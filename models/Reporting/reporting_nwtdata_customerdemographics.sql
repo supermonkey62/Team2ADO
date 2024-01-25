@@ -7,7 +7,7 @@ SELECT
     CustomerRegion,
     CustomerTerritory,
     NumberOfOrders,
-    TotalSales,
+    Revenue,
     TotalProfit,
     Discount,
     Quantity,

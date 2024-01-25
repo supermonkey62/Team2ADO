@@ -6,7 +6,7 @@ SELECT
   Quantity,
   CategoryName,
   ProductName,
-  TotalRevenue,
+  Revenue,
   CostOfSales,
   GrossProfit,
   GrossProfitMargin

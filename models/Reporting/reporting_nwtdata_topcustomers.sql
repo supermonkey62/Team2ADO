@@ -3,7 +3,7 @@ SELECT
   ContactName,
   CompanyName,
   ContactTitle,
-  CustomerSales,
+  Revenue,
   City,
   Country,
   Address,

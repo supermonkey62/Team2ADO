@@ -1,7 +1,7 @@
 SELECT
   CategoryId,
   CategoryName,
-  CategorySales
+  Revenue
 
 
 from {{ ref('stg_nwtdata_categorysales') }}

@@ -1,7 +1,7 @@
 SELECT
     EmployeeID,
     EmployeeName,
-    TotalSales,
+    Revenue,
     AvgOrderValue,
     NumberOfOrders,
     TotalProfit
