@@ -16,4 +16,4 @@ JOIN {{ ref('raw_order_detail') }} AS od ON o.OrderId = od.OrderId
 JOIN {{ ref('raw_product') }} AS p ON od.ProductId = p.ProductId
 
 GROUP BY r.RegionId, RegionDescription
-ORDER BY RevenuePerRegion DESC
+ORDER BY Revenue DESC
