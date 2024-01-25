@@ -7,7 +7,7 @@ SELECT
     MAX(C.Region) AS CustomerRegion,
     MAX(T.TerritoryDescription) AS CustomerTerritory,
     COUNT(DISTINCT OD.OrderID) AS NumberOfOrders,
-    SUM(OD.UnitPrice * OD.Quantity * (1 - OD.Discount)) AS TotalSales,
+    SUM((od.unitprice * (1 - discount)) * Quantity) AS Revenue
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,
     MAX(OD.Discount) AS Discount,
     MAX(Quantity) AS Quantity,
