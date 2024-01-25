@@ -7,7 +7,7 @@ SELECT
     MAX(C.Region) AS CustomerRegion,
     MAX(T.TerritoryDescription) AS CustomerTerritory,
     COUNT(DISTINCT OD.OrderID) AS NumberOfOrders,
-    SUM((od.unitprice * (1 - discount)) * Quantity) AS Revenue
+    SUM((od.unitprice * (1 - discount)) * Quantity) AS Revenue,
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,
     MAX(OD.Discount) AS Discount,
     MAX(Quantity) AS Quantity,
@@ -24,5 +24,5 @@ JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
 JOIN {{ ref('raw_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
 
 GROUP BY O.CustomerID
-ORDER BY TotalSales DESC -- To get top customers by net sales
+ORDER BY Revenue DESC -- To get top customers by net sales
 
