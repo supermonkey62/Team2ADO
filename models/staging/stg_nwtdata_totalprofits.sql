@@ -1,18 +1,30 @@
 {{ config(materialized='view') }}
 
 SELECT
-    OrderId,
-    ProductName,
-    CategoryName,
-    QuantityPerUnit,
+    od.OrderId,
+    p.ProductName,
+    p.ProductId,
+    c.CategoryName,
+    p.QuantityPerUnit,
     od.UnitPrice,
-    UnitCost,
-    Quantity,
-    Discount,
-    ((od.unitprice * (1 - discount)) - unitcost) * Quantity AS TotalProfits
+    UnitCost,  -- Assuming UnitCost comes from one of the joined tables
+    od.Quantity,
+    od.Discount,
+    (od.UnitPrice * (1 - od.Discount)) * od.Quantity AS RevenuePerOrderDetail,
+    UnitCost * od.Quantity AS UnitCostPerOrderDetail,
+    ((od.UnitPrice * (1 - od.Discount)) * od.Quantity) - (UnitCost * od.Quantity) AS ProfitPerOrderDetail
 
 FROM {{ ref('raw_product') }} AS p
 JOIN {{ ref('raw_order_detail') }} AS od ON p.ProductId = od.ProductId
 JOIN {{ ref('raw_category') }} AS c ON p.CategoryId = c.CategoryId
 
-GROUP BY OrderId,ProductName, CategoryName, QuantityPerUnit, od.UnitPrice, UnitCost, Quantity, Discount, TotalProfits
+GROUP BY 
+    od.OrderId,
+    p.ProductName,
+    p.ProductId,
+    c.CategoryName,
+    p.QuantityPerUnit,
+    od.UnitPrice,
+    UnitCost,  -- Assuming UnitCost comes from one of the joined tables
+    od.Quantity,
+    od.Discount
