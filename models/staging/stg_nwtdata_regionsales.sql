@@ -5,7 +5,7 @@
 SELECT
   r.RegionId,
   RegionDescription,
-  SUM((od.unitprice * (1 - discount)) * Quantity) AS RevenuePerRegion
+  SUM((od.unitprice * (1 - discount)) * Quantity) AS Revenue
 
 FROM {{ ref('raw_region') }} AS r
 JOIN {{ ref('raw_territory') }} AS t ON r.RegionId = t.RegionId
