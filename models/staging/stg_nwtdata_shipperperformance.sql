@@ -6,7 +6,8 @@ WITH ShipperMetrics AS (
         COUNT(DISTINCT O.OrderID) AS TotalOrdersShipped,
         COUNT(DISTINCT O.CustomerID) AS UniqueCustomersServed,
         SUM(OD.Quantity) AS TotalProductsShipped,
-        ROUND(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount) - O.Freight), 2) AS TotalRevenueGenerated,
+        ROUND(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount)), 2) AS TotalRevenueGeneratedByShipper,
+        ROUND(SUM((OD.UnitPrice * OD.Quantity) * (1 - OD.Discount) - O.Freight), 2) AS TotalProfitGeneratedByShipper,
         ROUND(AVG(O.Freight), 2) AS AverageFreightCost,
         ROUND(SUM(O.Freight), 2) As TotalFreightCost,
         COUNT(RequiredDate > ShippedDate OR ShippedDate NOT LIKE 'null') AS OnTimeShipments,
@@ -22,7 +23,8 @@ SELECT
     SM.TotalOrdersShipped,
     SM.UniqueCustomersServed,
     SM.TotalProductsShipped,
-    SM.TotalRevenueGenerated,
+    SM.TotalRevenueGeneratedByShipper,
+    SM.TotalProfitGeneratedByShipper,
     SM.AverageFreightCost,
     SM.TotalFreightCost,
     SM.OnTimeShipments,
@@ -31,4 +33,5 @@ SELECT
 FROM {{ ref('raw_shipper') }} AS S
 LEFT JOIN ShipperMetrics AS SM ON S.ShipperID = SM.ShipperID
 ORDER BY S.ShipperID
+
 
