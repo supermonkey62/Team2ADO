@@ -7,6 +7,6 @@ SELECT
     UnitCost,
     Quantity,
     Discount,
-    TotalProfits
+    TotalProfit
 
 from {{ ref('stg_nwtdata_totalprofits') }}
