@@ -17,7 +17,9 @@ SELECT
   EXTRACT(MONTH FROM OrderDate) AS OrderMonth,
   EXTRACT(YEAR FROM OrderDate) AS OrderYear,
   (od.unitprice * (1 - discount)) * Quantity AS SalesRevenue,
-  ((od.unitprice * (1 - discount)) - unitcost) AS Profit
+  (od.unitprice * (1 - discount)) - unitcost AS Profit
+  ((od.unitprice - unitcost) / od.unitprice) AS ProfitMargin
+  ((od.unitprice * (1 - discount)) - unitcost) * quantity AS TotalProfit
 
 FROM {{ ref('raw_order') }} AS o
 JOIN {{ ref('raw_order_detail') }} AS od ON o.OrderId = od.OrderId
