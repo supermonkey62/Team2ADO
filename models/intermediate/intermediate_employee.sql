@@ -19,7 +19,9 @@ SELECT
   CASE WHEN notes IS NULL THEN 'None' ELSE notes END AS notes,
   CASE WHEN reportsTo IS NULL THEN 0 ELSE reportsTo END AS reportsTo,
   CASE WHEN photoPath IS NULL THEN 'None' ELSE photoPath END AS photoPath,
+FROM {{ source('NWT', 'RAW_EMPLOYEE') }}
 
+SELECT 
   --CASE WHEN employeeID = 'NULL' THEN 0 ELSE employeeID END AS employeeID,
   CASE WHEN lastName = 'NULL' THEN 'None' ELSE lastName END AS lastName,
   CASE WHEN firstName = 'NULL' THEN 'None' ELSE firstName END AS firstName,

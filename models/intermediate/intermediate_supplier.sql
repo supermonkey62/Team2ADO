@@ -14,6 +14,9 @@ SELECT
   CASE WHEN fax IS NULL THEN 'None' ELSE fax END AS fax,
   CASE WHEN homePage IS NULL THEN 'None' ELSE homePage END AS homePage
 
+FROM {{ source('NWT', 'RAW_SUPPLIER') }}
+
+SELECT
   CASE WHEN supplierID = 'NULL' THEN 'None' ELSE supplierID END AS supplierID,
   CASE WHEN companyName = 'NULL' THEN 'None' ELSE companyName END AS companyName,
   CASE WHEN contactName = 'NULL' THEN 'None' ELSE contactName END AS contactName,

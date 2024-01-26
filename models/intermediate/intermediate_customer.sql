@@ -13,6 +13,9 @@ SELECT
   CASE WHEN phone IS NULL THEN 'None' ELSE phone END AS phone,
   CASE WHEN fax IS NULL THEN 'None' ELSE fax END AS fax,
 
+FROM {{ source('NWT', 'RAW_CUSTOMER') }}
+
+SELECT
   CASE WHEN customerID = 'NULL' THEN 'None' ELSE customerID END AS customerID,
   CASE WHEN companyName = 'NULL' THEN 'None' ELSE companyName END AS companyName,
   CASE WHEN contactName = 'NULL' THEN 'None' ELSE contactName END AS contactName,

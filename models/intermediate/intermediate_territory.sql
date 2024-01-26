@@ -5,6 +5,9 @@ SELECT
   CASE WHEN territoryDescription IS NULL THEN 'None' ELSE territoryDescription END AS territoryDescription,
   CASE WHEN regionID IS NULL THEN 0 ELSE regionID END AS regionID
 
+FROM {{ source('NWT', 'RAW_TERRITORY') }}
+
+SELECT 
   CASE WHEN territoryID = 'NULL' THEN 'None' ELSE territoryID END AS territoryID,
   CASE WHEN territoryDescription = 'NULL' THEN 'None' ELSE territoryDescription END AS territoryDescription,
 --  CASE WHEN regionID = 'NULL' THEN 0 ELSE regionID END AS regionID

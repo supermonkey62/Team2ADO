@@ -13,6 +13,9 @@ SELECT
   CASE WHEN discontinued IS NULL THEN 0 ELSE discontinued END AS discontinued,
   CASE WHEN unitCost IS NULL THEN 0 ELSE unitCost END AS unitCost,
 
+FROM {{ source('NWT', 'RAW_PRODUCT') }}
+
+SELECT
 --   CASE WHEN productID = 'NULL' THEN 0 ELSE productID END AS productID,
   CASE WHEN productName = 'NULL' THEN 'None' ELSE productName END AS productName,
 --   CASE WHEN supplierID = 'NULL' THEN 0 ELSE supplierID END AS supplierID,
