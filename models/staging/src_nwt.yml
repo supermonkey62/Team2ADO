@@ -35,4 +35,13 @@ sources:
         columns:
           - name: orderID
             description: primary key for RAW_ORDER_DETAIL_FRESH
+      - name: RAW_CATEGORY_FRESH
+      - name: RAW_PRODUCT_FRESH
+      - name: RAW_CUSTOMER_FRESH
+      - name: RAW_EMPLOYEE_FRESH
+      - name: RAW_TERRITORY_FRESH
+      - name: RAW_SUPPLIER_FRESH
+      - name: RAW_SHIPPER_FRESH
+      - name: RAW_REGION_FRESH
+      - name: RAW_EMPLOYEE_TERRITORY_FRESH
 

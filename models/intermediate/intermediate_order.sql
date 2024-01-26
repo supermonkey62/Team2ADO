@@ -15,7 +15,7 @@ SELECT
   CASE WHEN shipRegion IS NULL THEN 'None' ELSE shipRegion END AS shipRegion,
   CASE WHEN shipPostalCode IS NULL THEN 'None' ELSE shipPostalCode END AS shipPostalCode,
   CASE WHEN shipCountry IS NULL THEN 'None' ELSE shipCountry END AS shipCountry
-FROM {{ source('NWT', 'RAW_ORDER') }}
+FROM {{ source('NWT', 'RAW_ORDER_UPDATED') }}
 
 UNION ALL
 
@@ -34,4 +34,4 @@ SELECT
   CASE WHEN shipRegion = 'NULL' THEN 'None' ELSE shipRegion END AS shipRegion,
   CASE WHEN shipPostalCode = 'NULL' THEN 'None' ELSE shipPostalCode END AS shipPostalCode,
   CASE WHEN shipCountry = 'NULL' THEN 'None' ELSE shipCountry END AS shipCountry
-FROM {{ source('NWT', 'RAW_ORDER') }}
+FROM {{ source('NWT', 'RAW_ORDER_UPDATED') }}
