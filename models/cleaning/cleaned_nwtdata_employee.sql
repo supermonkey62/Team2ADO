@@ -112,24 +112,24 @@
 
 WITH cleaned_data AS (
   SELECT
-    coalesce(employeeID, '') AS employeeID,
-    coalesce(lastName, '') AS lastName,
-    coalesce(firstName, '') AS firstName,
-    coalesce(title, '') AS title,
-    coalesce(titleOfCourtesy, '') AS titleOfCourtesy,
-    coalesce(birthDate, '') AS birthDate,
-    coalesce(hireDate, '') AS hireDate,
-    coalesce(address, '') AS address,
-    coalesce(city, '') AS city,
-    coalesce(region, '') AS region,
-    coalesce(postalCode, '') AS postalCode,
-    coalesce(country, '') AS country,
-    coalesce(homePhone, '') AS homePhone,
-    coalesce(extension, '') AS extension,
-    coalesce(photo, '') AS photo,
-    coalesce(notes, '') AS notes,
-    coalesce(reportsTo, '') AS reportsTo,
-    coalesce(photoPath, '') AS photoPath
+    coalesce(employeeID, 'None') AS employeeID,
+    coalesce(lastName, 'None') AS lastName,
+    coalesce(firstName, 'None') AS firstName,
+    coalesce(title, 'None') AS title,
+    coalesce(titleOfCourtesy, 'None') AS titleOfCourtesy,
+    coalesce(birthDate, 'None') AS birthDate,
+    coalesce(hireDate, 'None') AS hireDate,
+    coalesce(address, 'None') AS address,
+    coalesce(city, 'None') AS city,
+    coalesce(region, 'None') AS region,
+    coalesce(postalCode, 'None') AS postalCode,
+    coalesce(country, 'None') AS country,
+    coalesce(homePhone, 'None') AS homePhone,
+    coalesce(extension, 'None') AS extension,
+    coalesce(photo, 'None') AS photo,
+    coalesce(notes, 'None') AS notes,
+    coalesce(reportsTo, 'None') AS reportsTo,
+    coalesce(photoPath, 'None') AS photoPath
   FROM {{ ref('intermediate_employee') }}
 )
 
