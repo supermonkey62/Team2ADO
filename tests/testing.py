@@ -32,7 +32,7 @@ with open(text_file_path, 'w') as text_file:
     cs = conn.cursor()
 
     # Fetch tables from INFORMATION_SCHEMA.TABLES
-    cs.execute(f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME LIKE 'RAW_%' AND TABLE_SCHEMA = 'NWT'")
+    cs.execute(f"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME LIKE 'INTERMEDIATE_%' AND TABLE_SCHEMA = 'NWT'")
     tables = [row[0] for row in cs.fetchall()]
     print(f"Tables in the schema: {tables}")
 
