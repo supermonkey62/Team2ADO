@@ -2,11 +2,11 @@
 
 SELECT 
   CASE WHEN orderID IS NULL THEN 0 ELSE orderID END AS orderID,
-  CASE WHEN customerID IS NULL THEN 0 ELSE customerID END AS customerID,
+  CASE WHEN customerID IS NULL THEN 'None' ELSE customerID END AS customerID,
   CASE WHEN employeeID IS NULL THEN 0 ELSE employeeID END AS employeeID,
-  CASE WHEN orderDate IS NULL THEN 'None' ELSE orderDate END AS orderDate,
-  CASE WHEN requiredDate IS NULL THEN 'None' ELSE requiredDate END AS requiredDate,
-  CASE WHEN shippedDate IS NULL THEN 'None' ELSE shippedDate END AS shippedDate,
+  CASE WHEN orderDate IS NULL THEN TO_DATE('09-09-9999', 'MM-DD-YYYY') ELSE orderDate END AS orderDate,
+  CASE WHEN requiredDate IS NULL THEN TO_DATE('09-09-9999', 'MM-DD-YYYY') ELSE requiredDate END AS requiredDate,
+  CASE WHEN shippedDate IS NULL THEN TO_DATE('09-09-9999', 'MM-DD-YYYY') ELSE shippedDate END AS shippedDate,
   CASE WHEN shipVia IS NULL THEN 0 ELSE shipVia END AS shipVia,
   CASE WHEN freight IS NULL THEN 0 ELSE freight END AS freight,
   CASE WHEN shipName IS NULL THEN 'None' ELSE shipName END AS shipName,
