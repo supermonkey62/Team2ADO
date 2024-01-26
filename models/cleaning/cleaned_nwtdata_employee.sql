@@ -126,7 +126,7 @@ WITH cleaned_data AS (
     coalesce(country, 'None') AS country,
     coalesce(homePhone, 'None') AS homePhone,
     coalesce(extension, 'None') AS extension,
-    coalesce(photo, 'None') AS photo,
+    coalesce(photo, 'None') AS photo,dbt
     coalesce(notes, 'None') AS notes,
     coalesce(reportsTo, 'None') AS reportsTo,
     coalesce(photoPath, 'None') AS photoPath
@@ -135,7 +135,6 @@ WITH cleaned_data AS (
 
 SELECT * FROM cleaned_data
 
--- Use the cleaned_data CTE to update the intermediate_employee table
 UPDATE {{ ref('intermediate_employee') }}
 SET
   employeeID = cleaned_data.employeeID,
@@ -157,3 +156,4 @@ SET
   reportsTo = cleaned_data.reportsTo,
   photoPath = cleaned_data.photoPath
 FROM cleaned_data;
+
