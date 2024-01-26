@@ -1,6 +1,8 @@
 name: Replace Fresh Tables
 
 on:
+  schedule:
+    - cron: '5 16 * * *'  # Runs at 12:05 AM Singapore time (4:05 PM UTC)
   push:
     paths:
       - 'replace_fresh_tables.txt'
@@ -34,3 +36,4 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+
