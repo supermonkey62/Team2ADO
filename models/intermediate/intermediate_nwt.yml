@@ -57,7 +57,7 @@ models:
           - unique
           - not_null
 
-  - name:intermediate_shipper
+  - name: intermediate_shipper
     columns:
       - name: shipperid
         tests:
@@ -90,7 +90,4 @@ models:
       - name: orderID
         tests:
           - unique
-          - not_null                 
-
-
-
+          - not_null     
