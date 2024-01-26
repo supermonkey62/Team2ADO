@@ -6,7 +6,7 @@ on:
       - 'replace_fresh_tables.txt'
 
 jobs:
-  upload_to_s3:
+  replace_fresh_tables:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests boto3
 
-      - name: Upload to S3
+      - name: Replace Fresh Files (If Necessary)
         run: |
           python replace_fresh_tables.py
         env:
