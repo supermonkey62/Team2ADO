@@ -15,4 +15,4 @@ SELECT
   CASE WHEN shipRegion IS NULL THEN 'None' ELSE shipRegion END AS shipRegion,
   CASE WHEN shipPostalCode IS NULL THEN 'None' ELSE shipPostalCode END AS shipPostalCode,
   CASE WHEN shipCountry IS NULL THEN 'None' ELSE shipCountry END AS shipCountry
-FROM {{ source('NWT', 'RAW_ORDER_FRESH') }};
+FROM {{ source('NWT', 'RAW_ORDER_FRESH') }}

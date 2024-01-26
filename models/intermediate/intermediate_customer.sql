@@ -12,4 +12,4 @@ SELECT
   CASE WHEN country IS NULL THEN 'None' ELSE country END AS country,
   CASE WHEN phone IS NULL THEN 0 ELSE phone END AS phone,
   CASE WHEN fax IS NULL THEN 0 ELSE fax END AS fax
-FROM {{ source('NWT', 'RAW_CUSTOMER') }};
+FROM {{ source('NWT', 'RAW_CUSTOMER') }}
