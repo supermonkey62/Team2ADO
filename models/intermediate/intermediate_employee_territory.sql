@@ -1,4 +1,7 @@
 {{ config (materialized='table')}}
 
-Select *
+SELECT 
+  CASE WHEN employeeID IS NULL THEN 0 ELSE employeeID END AS employeeID,
+  CASE WHEN territoryID IS NULL THEN 0 ELSE territoryID END AS territoryID
 from {{ source('NWT', 'RAW_EMPLOYEE_TERRITORY') }}
+
