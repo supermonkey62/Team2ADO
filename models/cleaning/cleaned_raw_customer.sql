@@ -1,5 +1,3 @@
--- {{ config(materialized='view') }}
-
 -- UPDATE {{ ref('raw_order_fresh') }}
 -- SET region = CASE 
 --                WHEN region LIKE '%NULL%' THEN country

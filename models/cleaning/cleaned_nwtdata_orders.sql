@@ -33,3 +33,4 @@
 --             ELSE shipPostalCode
 --           END
 -- WHERE shipPostalCode LIKE '%NULL%'
+
