@@ -1,6 +1,6 @@
-{{ config(materialized='table')}}
+{{ config(materialized='table') }}
 
-SELECT 
+SELECT DISTINCT
   CASE 
     WHEN supplierID < 0 THEN 0 
     ELSE supplierID 
