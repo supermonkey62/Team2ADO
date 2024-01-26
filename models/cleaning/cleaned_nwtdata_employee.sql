@@ -134,3 +134,26 @@ WITH cleaned_data AS (
 )
 
 SELECT * FROM cleaned_data
+
+-- Use the cleaned_data CTE to update the intermediate_employee table
+UPDATE {{ ref('intermediate_employee') }}
+SET
+  employeeID = cleaned_data.employeeID,
+  lastName = cleaned_data.lastName,
+  firstName = cleaned_data.firstName,
+  title = cleaned_data.title,
+  titleOfCourtesy = cleaned_data.titleOfCourtesy,
+  birthDate = cleaned_data.birthDate,
+  hireDate = cleaned_data.hireDate,
+  address = cleaned_data.address,
+  city = cleaned_data.city,
+  region = cleaned_data.region,
+  postalCode = cleaned_data.postalCode,
+  country = cleaned_data.country,
+  homePhone = cleaned_data.homePhone,
+  extension = cleaned_data.extension,
+  photo = cleaned_data.photo,
+  notes = cleaned_data.notes,
+  reportsTo = cleaned_data.reportsTo,
+  photoPath = cleaned_data.photoPath
+FROM cleaned_data;
