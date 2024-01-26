@@ -7,5 +7,5 @@ SELECT
   CASE WHEN quantity IS NULL THEN 0 ELSE quantity END AS quantity,
   CASE WHEN discount IS NULL THEN 0 ELSE discount END AS 
   
-FROM {{ source('NWT', 'RAW_ORDER_DETAILS') }};
+FROM {{ source('NWT', 'RAW_ORDER_DETAIL') }};
 

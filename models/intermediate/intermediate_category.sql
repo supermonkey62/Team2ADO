@@ -5,5 +5,5 @@ SELECT
   CASE WHEN categoryName IS NULL THEN 'None' ELSE categoryName END AS categoryName,
   CASE WHEN description IS NULL THEN 'None' ELSE description END AS description,
   CASE WHEN picture IS NULL THEN 'None' ELSE picture END AS picture
-FROM {{ source('NWT', 'RAW_CATEGORIES') }};
+FROM {{ source('NWT', 'RAW_CATEGORY') }};
 
