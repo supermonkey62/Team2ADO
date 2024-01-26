@@ -11,7 +11,7 @@ UNION ALL
 
 SELECT 
   CASE WHEN territoryID = 'NULL' THEN 'None' ELSE territoryID END AS territoryID,
-  CASE WHEN territoryDescription = 'NULL' THEN 'None' ELSE territoryDescription END AS territoryDescription
---  CASE WHEN regionID = 'NULL' THEN 0 ELSE regionID END AS regionID
+  CASE WHEN territoryDescription = 'NULL' THEN 'None' ELSE territoryDescription END AS territoryDescription,
+  CASE WHEN regionID IS NULL THEN 0 ELSE regionID END AS regionID
 
 FROM {{ source('NWT', 'RAW_TERRITORY') }}

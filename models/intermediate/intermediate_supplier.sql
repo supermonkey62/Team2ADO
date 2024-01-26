@@ -1,7 +1,7 @@
 {{ config (materialized='table')}}
 
 SELECT 
-  CASE WHEN supplierID IS NULL THEN 'None' ELSE supplierID END AS supplierID,
+  CASE WHEN supplierID IS NULL THEN 0 ELSE supplierID END AS supplierID,
   CASE WHEN companyName IS NULL THEN 'None' ELSE companyName END AS companyName,
   CASE WHEN contactName IS NULL THEN 'None' ELSE contactName END AS contactName,
   CASE WHEN contactTitle IS NULL THEN 'None' ELSE contactTitle END AS contactTitle,
@@ -18,9 +18,8 @@ FROM {{ source('NWT', 'RAW_SUPPLIER') }}
 
 UNION ALL
 
-
 SELECT
-  CASE WHEN supplierID = 'NULL' THEN 'None' ELSE supplierID END AS supplierID,
+  CASE WHEN supplierID IS NULL THEN 0 ELSE supplierID END AS supplierID,
   CASE WHEN companyName = 'NULL' THEN 'None' ELSE companyName END AS companyName,
   CASE WHEN contactName = 'NULL' THEN 'None' ELSE contactName END AS contactName,
   CASE WHEN contactTitle = 'NULL' THEN 'None' ELSE contactTitle END AS contactTitle,
