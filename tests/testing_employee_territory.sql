@@ -2,23 +2,14 @@ SELECT
   'employeeID' AS column_name,
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.RAW_EMPLOYEE_TERRITORY
-WHERE employeeID LIKE '%NULL%'
+WHERE employeeID LIKE '%NULL%' OR employeeID IS NULL
+HAVING COUNT(*) > 0
+
 UNION ALL
+
 SELECT
   'territoryID' AS column_name,
   COUNT(*) AS null_count
 FROM NWTDATA.NWT.RAW_EMPLOYEE_TERRITORY
-WHERE territoryID LIKE '%NULL%';
-
-
-SELECT
-  'employeeID' AS column_name,
-  COUNT(*) AS null_count
-FROM NWTDATA.NWT.RAW_EMPLOYEE_TERRITORY
-WHERE employeeID IS NULL
-UNION ALL
-SELECT
-  'territoryID' AS column_name,
-  COUNT(*) AS null_count
-FROM NWTDATA.NWT.RAW_EMPLOYEE_TERRITORY
-WHERE territoryID IS NULL;
+WHERE territoryID LIKE '%NULL%' OR territoryID IS NULL
+HAVING COUNT(*) > 0
