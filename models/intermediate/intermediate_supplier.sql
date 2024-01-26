@@ -16,6 +16,9 @@ SELECT
 
 FROM {{ source('NWT', 'RAW_SUPPLIER') }}
 
+UNION ALL
+
+
 SELECT
   CASE WHEN supplierID = 'NULL' THEN 'None' ELSE supplierID END AS supplierID,
   CASE WHEN companyName = 'NULL' THEN 'None' ELSE companyName END AS companyName,
