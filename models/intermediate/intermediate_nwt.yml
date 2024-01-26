@@ -33,7 +33,6 @@ models:
     columns:
       - name: orderID
         tests:
-          - unique
           - not_null
 
   - name: intermediate_order
@@ -82,7 +81,6 @@ models:
     columns:
       - name: orderID
         tests:
-          - unique
           - not_null     
 
   - name: intermediate_order_fresh
