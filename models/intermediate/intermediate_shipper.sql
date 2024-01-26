@@ -10,7 +10,7 @@ FROM {{ source('NWT', 'RAW_SHIPPER') }}
 UNION ALL
 
 SELECT 
---  CASE WHEN shipperID = 'NULL' THEN 0 ELSE shipperID END AS shipperID,
+  CASE WHEN shipperID IS NULL THEN 0 ELSE shipperID END AS shipperID,
   CASE WHEN companyName = 'NULL' THEN 'None' ELSE companyName END AS companyName,
   CASE WHEN phone = 'NULL' THEN 'None' ELSE phone END AS phone
 
