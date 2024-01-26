@@ -1,4 +1,7 @@
-{{ config (materialized='table')}}
+ {{ config(materialized='incremental', unique_key='TERRITORYID') }}
 
-Select *
-from {{ source('NWT', 'RAW_TERRITORY') }}
+ SELECT *
+FROM {{ ref ('raw_territory_fresh') }}
+ {% if is_incremental() %}
+WHERE CAST(TERRITORYID AS BIGINT) > (SELECT MAX(CAST(TERRITORYID AS BIGINT))  FROM {{this}})
+{% endif %}

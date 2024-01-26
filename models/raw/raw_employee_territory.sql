@@ -1,4 +1,8 @@
-{{ config (materialized='table')}}
+ {{ config(materialized='incremental', unique_key='EMPLOYEEID') }}
 
-Select *
-from {{ source('NWT', 'RAW_EMPLOYEE_TERRITORY') }}
+ SELECT *
+FROM {{ ref ('raw_employee_territory_fresh') }}
+ {% if is_incremental() %}
+WHERE CAST(EMPLOYEEID AS BIGINT) > (SELECT MAX(CAST(EMPLOYEEID AS BIGINT))  FROM {{this}})
+{% endif %}
+
