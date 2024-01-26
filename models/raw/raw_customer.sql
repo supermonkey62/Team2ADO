@@ -1,5 +1,8 @@
-{{ config (materialized='table')}}
+ {{ config(materialized='incremental', unique_key='CUSTOMERID') }}
 
-Select *
-from {{ source('NWT', 'RAW_CUSTOMER') }}
+ SELECT *
+FROM {{ ref ('raw_customer_fresh') }}
+ {% if is_incremental() %}
+WHERE CAST(CUSTOMERID AS BIGINT) > (SELECT MAX(CAST(CUSTOMERID AS BIGINT))  FROM {{this}})
+{% endif %}
 
