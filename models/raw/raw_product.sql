@@ -1,7 +1,4 @@
- {{ config(materialized='incremental', unique_key='PRODUCTID') }}
+{{ config (materialized='table')}}
 
- SELECT *
-FROM {{ ref ('raw_product_fresh') }}
- {% if is_incremental() %}
-WHERE CAST(PRODUCTID AS BIGINT) > (SELECT MAX(CAST(PRODUCTID AS BIGINT))  FROM {{this}})
-{% endif %}
+SELECT *
+from {{ source('NWT', 'RAW_PRODUCT') }}
