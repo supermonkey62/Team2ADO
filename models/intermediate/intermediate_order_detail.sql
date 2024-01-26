@@ -1,4 +1,4 @@
- {{ config(materialized='incremental', unique_key='ORDERID') }}
+ {{ config(materialized='table') }}
 
 SELECT 
   CASE WHEN orderID IS NULL THEN 0 ELSE orderID END AS orderID,

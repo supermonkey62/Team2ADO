@@ -77,6 +77,34 @@ models:
           - unique
           - not_null          
 
+  - name: raw_category_fresh
+    columns:
+      - name: categoryid
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_customer_fresh
+    columns:
+      - name: customerid
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_employee_territory_fresh
+    columns:
+      - name: territoryid
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_employee_fresh
+    columns:
+      - name: employeeid
+        tests:
+          - unique
+          - not_null
+
   - name: raw_order_detail_fresh
     columns:
       - name: orderID
@@ -88,7 +116,41 @@ models:
       - name: orderID
         tests:
           - unique
-          - not_null                 
+          - not_null   
 
+  - name: raw_product_fresh
+    columns:
+      - name: productid
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_region_fresh
+    columns:
+      - name: regionid
+        tests:
+          - unique
+          - not_null
+
+  - name: raw_shipper_fresh
+    columns:
+      - name: shipperid
+        tests:
+          - unique
+          - not_null    
+
+  - name: raw_supplier_fresh
+    columns:
+      - name: supplierid
+        tests:
+          - unique
+          - not_null
+          
+  - name: raw_territory_fresh
+    columns:
+      - name: territoryid
+        tests:
+          - unique
+          - not_null    
 
 

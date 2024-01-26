@@ -77,10 +77,4 @@ models:
           - unique
           - not_null          
 
-  - name: intermediate_order_detail_fresh
-    columns:
-      - name: orderID
-        tests:
-          - not_null     
-
  
