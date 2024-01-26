@@ -11,6 +11,7 @@ warehouse = os.getenv('SNOWFLAKE_WAREHOUSE')
 schema = os.getenv('SNOWFLAKE_SCHEMA')
 database = 'NWTDATA'
 stage_name = 'NWT_STAGING'
+file_format_name = 'my_csv_format'
 load_format_name = 'load_csv_format'
 # Connect to Snowflake
 ctx = snowflake.connector.connect(
@@ -24,9 +25,6 @@ ctx = snowflake.connector.connect(
 
 cs = ctx.cursor()
 
-# Create the file format (if it doesn't exist)
-cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF=('NULL')")
-
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
 files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
@@ -38,12 +36,7 @@ for file in files:
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
 
-    # Check if the table already exists
-    check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name.upper()}' AND TABLE_SCHEMA = 'NWT';"
-    cs.execute(check_table_query)
-    table_exists = cs.fetchone()[0] > 0
-
-    if  table_exists:
+    if file_name == 'order_fresh.csv' or file_name == 'order_detail_fresh.csv':
         # Use INFER_SCHEMA to get column definitions
         infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
         print(infer_schema_query)
@@ -65,27 +58,17 @@ for file in files:
         # Create the table using specified column definitions
         create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
         print(create_table_query)
-        cs.execute(create_table_query)
 
         print(f"Successfully created RAW_{table_name}")
 
         # Load data into the table
         load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
         print(load_data_query)
-        cs.execute(load_data_query)
 
         print(f"Successfully copied {file_name} into RAW_{table_name}")
 
     else:
-        print(f"Table {table_name} does not exist.")
+        print(f"Table {table_name} already exists.")
 
 cs.close()
 ctx.close()
-
-
-
-
-
-
-
-

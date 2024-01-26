@@ -1,6 +1,6 @@
 SELECT
   RegionId,
   RegionDescription,
-  RegionSales
+  Revenue
 
 from {{ ref('stg_nwtdata_regionsales') }}

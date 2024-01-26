@@ -6,6 +6,9 @@ SELECT
   Quantity,
   CategoryName,
   ProductName,
-  ProductSales
+  Revenue,
+  CostOfSales,
+  GrossProfit,
+  GrossProfitMargin
 
 from {{ ref('stg_nwtdata_monthlyandyearlysales') }}

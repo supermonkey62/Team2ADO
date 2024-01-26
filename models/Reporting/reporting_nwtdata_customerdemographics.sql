@@ -7,7 +7,12 @@ SELECT
     CustomerRegion,
     CustomerTerritory,
     NumberOfOrders,
-    TotalSales,
-    TotalProfit
+    Revenue,
+    TotalProfit,
+    Discount,
+    Quantity,
+    ProductName,
+    CategoryName
+
 
 from {{ ref('stg_nwtdata_customerdemographics') }}

@@ -3,7 +3,7 @@ SELECT
     E.EmployeeID,
     OrderDate,
     CONCAT(E.FirstName, ' ', E.LastName) AS EmployeeName,
-    SUM(OD.Quantity * OD.UnitPrice * (1 - OD.Discount)) AS TotalSales,
+    SUM((od.unitprice * (1 - discount)) * Quantity) AS Revenue,
     AVG(OD.Quantity * OD.UnitPrice * (1 - OD.Discount)) AS AvgOrderValue,
     COUNT(DISTINCT O.OrderID) AS NumberOfOrders,
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,

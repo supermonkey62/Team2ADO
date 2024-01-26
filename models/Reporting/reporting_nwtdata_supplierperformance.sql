@@ -1,8 +1,13 @@
 SELECT
     SupplierID,
     SupplierCompanyName,
+    SupplierCity,
+    SupplierCountry,
+    UniqueProductsSupplied,
     TotalProductsSupplied,
-    AverageProductPrice,
-    OnTimeDeliveryRate
+    InventoryValue,
+    TotalSalesBySupplier,
+    TotalProfitBySupplier
+    
 
 from {{ ref('stg_nwtdata_supplierperformance') }}

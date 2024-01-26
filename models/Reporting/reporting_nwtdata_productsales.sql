@@ -1,6 +1,6 @@
 SELECT
   orderid,
-  od.unitprice,
+  unitprice,
   quantity,
   discount,
   productname,
@@ -14,8 +14,7 @@ SELECT
   OrderDate,
   OrderMonth,
   OrderYear,
-  Sales,
-  Profit,
-  ProfitMargin
+  Revenue,
+  Profit
 
 from {{ ref('stg_nwtdata_productsales') }}
