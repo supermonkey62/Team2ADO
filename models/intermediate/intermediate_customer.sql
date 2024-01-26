@@ -11,9 +11,12 @@ SELECT
   CASE WHEN postalCode IS NULL THEN 'None' ELSE postalCode END AS postalCode,
   CASE WHEN country IS NULL THEN 'None' ELSE country END AS country,
   CASE WHEN phone IS NULL THEN 'None' ELSE phone END AS phone,
-  CASE WHEN fax IS NULL THEN 'None' ELSE fax END AS fax,
+  CASE WHEN fax IS NULL THEN 'None' ELSE fax END AS fax
 
 FROM {{ source('NWT', 'RAW_CUSTOMER') }}
+
+UNION ALL
+
 
 SELECT
   CASE WHEN customerID = 'NULL' THEN 'None' ELSE customerID END AS customerID,

@@ -18,8 +18,11 @@ SELECT
   CASE WHEN photo IS NULL THEN 'None' ELSE photo END AS photo,
   CASE WHEN notes IS NULL THEN 'None' ELSE notes END AS notes,
   CASE WHEN reportsTo IS NULL THEN 0 ELSE reportsTo END AS reportsTo,
-  CASE WHEN photoPath IS NULL THEN 'None' ELSE photoPath END AS photoPath,
+  CASE WHEN photoPath IS NULL THEN 'None' ELSE photoPath END AS photoPath
 FROM {{ source('NWT', 'RAW_EMPLOYEE') }}
+
+UNION ALL
+
 
 SELECT 
   --CASE WHEN employeeID = 'NULL' THEN 0 ELSE employeeID END AS employeeID,

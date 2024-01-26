@@ -14,9 +14,11 @@ SELECT
   CASE WHEN shipCity IS NULL THEN 'None' ELSE shipCity END AS shipCity,
   CASE WHEN shipRegion IS NULL THEN 'None' ELSE shipRegion END AS shipRegion,
   CASE WHEN shipPostalCode IS NULL THEN 'None' ELSE shipPostalCode END AS shipPostalCode,
-  CASE WHEN shipCountry IS NULL THEN 'None' ELSE shipCountry END AS shipCountry,
+  CASE WHEN shipCountry IS NULL THEN 'None' ELSE shipCountry END AS shipCountry
 
 FROM {{ source('NWT', 'RAW_ORDER_FRESH') }}
+
+UNION ALL
 
 SELECT
   --CASE WHEN orderID = 'NULL' THEN 0 ELSE orderID END AS orderID,

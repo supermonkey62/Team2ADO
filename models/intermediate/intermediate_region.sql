@@ -8,6 +8,8 @@ SELECT
   CASE WHEN regionDescription = 'NULL' THEN 'None' ELSE regionDescription END AS regionDescription
 FROM {{ source('NWT', 'RAW_REGION') }}
 
+UNION ALL
+
 SELECT 
 
 --  CASE WHEN regionID = 'NULL' THEN 0 ELSE regionID END AS regionID,
