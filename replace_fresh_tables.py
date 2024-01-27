@@ -64,7 +64,7 @@ response = requests.get(github_repo_url)
 files = response.json()
 
 for file_info in files:
-    if file_info['name'].endswith('.csv'):
+    if file_info['name'].endswith('_fresh.csv'):
         # Fetch last part of the file from S3
         s3_content = download_last_part_of_s3_file(s3, s3_bucket, file_info['name'])
         s3_last_key = get_last_row_primary_key(s3_content) if s3_content else None
@@ -78,11 +78,11 @@ for file_info in files:
             upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
 
             # Replace the corresponding table in Snowflake
-            table_name = file_info['name'].replace('.csv', '').upper()
-            cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}")
+            table_name = file_info['name'].replace('_fresh.csv', '').upper()
+            cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}_FRESH")
             cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF=('NULL')")
-            cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_info['name']} FILE_FORMAT = '{load_format_name}';")
-            print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
+            cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name}_FRESH FROM @NWT_STAGING/{file_info['name']} FILE_FORMAT = '{load_format_name}';")
+            print(f"Recreated table RAW_{table_name}_FRESH in Snowflake with latest data")
             
         else:
             print(f"No update required for {file_info['name']}")
