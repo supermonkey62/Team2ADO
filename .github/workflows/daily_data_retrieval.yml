@@ -50,12 +50,6 @@ jobs:
           pip install dbt_snowflake
           dbt run --profiles-dir profiles
 
-      - name: dbt-test
-        run: |
-          python -m pip install --upgrade pip
-          pip install dbt_snowflake
-          dbt test --profiles-dir profiles
-
   if_table_not_replaced:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
@@ -63,4 +57,53 @@ jobs:
     steps:
       - name: No fresh data
         run: echo "No new data from NWT Repository"
+
+  dbt-run:
+    needs: if_table_replaced
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: Run dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles
+
+  dbt-test:
+    needs: dbt-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: Test dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt test --profiles-dir profiles
+
 
