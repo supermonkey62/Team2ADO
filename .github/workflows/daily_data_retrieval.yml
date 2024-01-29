@@ -24,8 +24,9 @@ jobs:
       - name: Retrieve latest %_FRESH files and Replace %_Fresh Files (If Necessary)
         id: check_files
         run: |
-          python replace_fresh_tables.py
-
+          result=$(python replace_fresh_tables.py)
+          echo "some-output=$result" >> $GITHUB_ENV
+          echo "::set-output name=some-output::$result"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,6 +35,7 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+
 
     outputs:
       some-output: ${{ steps.check_files.outputs.some-output }}
