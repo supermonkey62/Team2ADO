@@ -17,7 +17,10 @@ warehouse = os.environ.get('SNOWFLAKE_WAREHOUSE')
 schema = os.environ.get('SNOWFLAKE_SCHEMA')
 database = 'NWTDATA'
 stage_name = 'NWT_STAGING'
+
+file_format_name = 'my_csv_format'
 load_format_name = 'load_csv_format'
+
 s3_bucket = 'team2adonwtbucket'
 github_repo_url = 'https://api.github.com/repos/just4jc/Northwind-Traders-Dataset/contents/'
 
@@ -59,6 +62,10 @@ ctx = snowflake.connector.connect(
 )
 cs = ctx.cursor()
 
+# Create the file formats (if it doesn't exist)
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {file_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' PARSE_HEADER = TRUE")
+cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF=('NULL')")
+
 # Process each file in the GitHub repository
 response = requests.get(github_repo_url)
 files = response.json()
@@ -78,14 +85,37 @@ for file_info in files:
             upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
 
             # Replace the corresponding table in Snowflake
-            table_name = file_info['name'].replace('_fresh.csv', '').upper()
-            cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}_FRESH")
-            cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_OPTIONALLY_ENCLOSED_BY = '\"' FIELD_DELIMITER = ',' SKIP_HEADER = 1 NULL_IF=('NULL')")
-            cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name}_FRESH FROM @NWT_STAGING/{file_info['name']} FILE_FORMAT = '{load_format_name}';")
-            print(f"Recreated table RAW_{table_name}_FRESH in Snowflake with latest data")
+            table_name = file_info['name'].replace('.csv', '').upper()
+            file_name = file_info.split('/')[-1]
+
+
+            infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+            cs.execute(infer_schema_query)
+            columns = cs.fetchall()
+
+            # Access the column names
+            column_names = [col[0] for col in columns]
+
+
+            # Construct the column definitions
+            column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
+
+            # Join the column definitions into a string
+            columns_string = ',\n\t'.join(column_definitions)
+
+            # Drop the existing RAW_%_FRESH TABLE
+            cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}")
+
+            # Create the table using specified column definitions
+            create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
+
+            # Copy the latest fresh csv file into the replaced table
+            cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';")
+
+            print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
             
         else:
-            print(f"No update required for {file_info['name']}")
+            print(f"No new data for {file_info['name']}")
 
 cs.close()
 ctx.close()
