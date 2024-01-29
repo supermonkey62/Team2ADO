@@ -1,5 +1,5 @@
 name: Load Data using SnowSQL
-
+# Pre-testing loading method - tried to run query directly in github actions and failed.
 on:
   push:
     paths:
