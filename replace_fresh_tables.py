@@ -41,6 +41,8 @@ def upload_to_s3(s3_client, bucket, key, content):
     s3_client.put_object(Bucket=bucket, Key=key, Body=content)
     print(f'Updated {key} in S3 bucket {bucket}')
 
+files_replaced = False
+
 # Initialize AWS S3 client
 s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key, region_name=region_name)
 
@@ -73,6 +75,8 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
     github_content = download_file_from_github(file_info['download_url'])
 
     if github_content != s3_content:
+
+        files_replaced = True
         # Update the file in S3
         upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
 
@@ -113,3 +117,8 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
 
 cs.close()
 ctx.close()
+
+if files_replaced:
+    print("echo 'FILES_REPLACED=true' >> $GITHUB_ENV")
+else:
+    print("echo 'FILES_REPLACED=false' >> $GITHUB_ENV")
