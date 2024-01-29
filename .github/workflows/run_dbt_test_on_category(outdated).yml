@@ -1,4 +1,6 @@
 name: Run DBT Test on the testing_category SQL query
+# First workflow created to run dbt test on category to find out what github actions does, and how it integrates 
+# with dbt and snowflake
 
 on:
   push:
