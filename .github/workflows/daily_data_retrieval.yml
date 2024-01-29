@@ -2,8 +2,9 @@ name: Retrieve Fresh Data from NWT Repository
 # Runs replace_fresh_tables.py every night at 2.30am, that checks the NWT repository for updates to fresh files. If there are changes, it will replace the fresh files in the s3 bucket
 # with the latest fresh file.
 on:
-  schedule:
-    -  cron: "30 2 * * *"
+  push:
+    paths:
+      - 'replace_fresh_tables.txt'
 
 jobs:
   replace_fresh_tables:
