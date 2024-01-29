@@ -29,12 +29,13 @@ def download_file_from_github(url):
     response.raise_for_status()
     return response.text
 
-def download_last_part_of_s3_file(s3_client, bucket, key):
+def download_full_s3_file(s3_client, bucket, key):
     try:
-        response = s3_client.get_object(Bucket=bucket, Key=key, Range='bytes=-1024')
+        response = s3_client.get_object(Bucket=bucket, Key=key)
         return response['Body'].read().decode('utf-8')
     except ClientError as e:
         return None
+
 
 def upload_to_s3(s3_client, bucket, key, content):
     s3_client.put_object(Bucket=bucket, Key=key, Body=content)
@@ -62,10 +63,11 @@ cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_O
 response = requests.get(github_repo_url)
 files = response.json()
 
+# Process each file in the GitHub repository
 for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]:
         
-    # Fetch last part of the file from S3
-    s3_content = download_last_part_of_s3_file(s3, s3_bucket, file_info['name'])
+    # Fetch the entire file from S3
+    s3_content = download_full_s3_file(s3, s3_bucket, file_info['name'])
 
     # Download file from GitHub
     github_content = download_file_from_github(file_info['download_url'])
@@ -73,6 +75,7 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
     if github_content != s3_content:
         # Update the file in S3
         upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
+
 
         # Replace the corresponding table in Snowflake
         table_name = file_info['name'].replace('.csv', '').upper()
