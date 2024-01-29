@@ -38,7 +38,7 @@ jobs:
   additional-job-if-true:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
-    if: jobs.status == 'success' && steps.check_files.outputs.some-output == 'true'
+    if: steps.check_files.outputs.some-output == 'true'
     steps:
       - name: Run additional job if true
         run: echo "additional job"
@@ -46,7 +46,7 @@ jobs:
   additional-job-if-false:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
-    if: jobs.status == 'success' && steps.check_files.outputs.some-output == 'false'
+    if: steps.check_files.outputs.some-output == 'false'
     steps:
       - name: Run additional job if false
         run: echo "no additional job"
