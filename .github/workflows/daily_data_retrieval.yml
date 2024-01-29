@@ -1,4 +1,4 @@
-name: Replace Fresh Tables
+name: Retrieve Fresh Data from NWT Repository
 # Runs replace_fresh_tables.py every night at 2.30am, that checks the NWT repository for updates to fresh files. If there are changes, it will replace the fresh files in the s3 bucket
 # with the latest fresh file.
 on:
@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests boto3 snowflake-connector-python
 
-      - name: Replace Fresh Files (If Necessary)
+      - name: Retrieve latest %_ FRESH files and Replace %_Fresh Files (If Necessary)
         run: |
           python replace_fresh_tables.py
         env:
