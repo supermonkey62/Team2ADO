@@ -118,7 +118,10 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
 cs.close()
 ctx.close()
 
+# At the end of your script
 if files_replaced:
-    print("echo 'FILES_REPLACED=true' >> $GITHUB_ENV")
+    print("Files were updated.")
+    sys.exit(0)  # Success code
 else:
-    print("echo 'FILES_REPLACED=false' >> $GITHUB_ENV")
+    print("No files were updated.")
+    sys.exit(1)  # Failure code
