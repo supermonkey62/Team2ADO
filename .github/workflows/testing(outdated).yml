@@ -1,5 +1,5 @@
 name: appending to text file testing results
-
+# Outdated file. Initially created to run a python script that generate null count for each column in RAW_ Tables
 on:
   push:
     paths:
