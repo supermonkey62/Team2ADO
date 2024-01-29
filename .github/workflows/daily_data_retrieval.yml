@@ -1,4 +1,5 @@
 name: Retrieve Fresh Data from NWT Repository
+
 on:
   push:
     paths:
@@ -24,10 +25,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests boto3 snowflake-connector-python
 
-      - name: Retrieve latest %_ FRESH files and Replace %_Fresh Files (If Necessary)
+      - name: Retrieve latest %_FRESH files and Replace %_Fresh Files (If Necessary)
         id: check_files
         run: |
-          echo "::set-output name=files_updated::$(python replace_fresh_tables.py)"
+          files_updated=$(python replace_fresh_tables.py)
+          echo "files_updated=$files_updated" >> $GITHUB_ENV
+          echo "::set-output name=files_updated::$files_updated"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -37,21 +40,21 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
-  additional_steps:
-    needs: [replace_fresh_tables]
-    runs-on: ubuntu-latest
+  job-on-true:
+    needs: replace_fresh_tables
     if: ${{ needs.replace_fresh_tables.outputs.files_updated == 'true' }}
-    steps:
-      - name: Additional Steps Taken
-        run: echo "Additional steps taken"
-
-  no_additional_steps:
-    needs: [replace_fresh_tables]
     runs-on: ubuntu-latest
-    if: ${{ needs.replace_fresh_tables.outputs.files_updated != 'true' }}
     steps:
-      - name: No Additional Steps
-        run: echo "No additional steps"
+      - name: Run if files were updated
+        run: echo "Running because files were updated"
+
+  job-on-false:
+    needs: replace_fresh_tables
+    if: ${{ needs.replace_fresh_tables.outputs.files_updated == 'false' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run if no files were updated
+        run: echo "Running because no files were updated"
 
 
 
