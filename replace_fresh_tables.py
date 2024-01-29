@@ -95,7 +95,7 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
 
 
         # Construct the column definitions
-        column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
+        column_definitions = [f'"{col[0].replace(" ", "").upper()}" {col[1]}' for col in columns]
 
         # Join the column definitions into a string
         columns_string = ',\n\t'.join(column_definitions)
@@ -113,7 +113,8 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
         # print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
             
     #else:
-        #print(f"No new data for {file_info['name']}")
+        #print(f"No new
+        #  data for {file_info['name']}")
 
 cs.close()
 ctx.close()
