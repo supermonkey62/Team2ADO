@@ -62,51 +62,51 @@ cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_O
 response = requests.get(github_repo_url)
 files = response.json()
 
-for file_info in files:
-    if file_info['name'].endswith('_fresh.csv'):
-        # Fetch last part of the file from S3
-        s3_content = download_last_part_of_s3_file(s3, s3_bucket, file_info['name'])
+for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]:
+        
+    # Fetch last part of the file from S3
+    s3_content = download_last_part_of_s3_file(s3, s3_bucket, file_info['name'])
 
-        # Download file from GitHub
-        github_content = download_file_from_github(file_info['download_url'])
+    # Download file from GitHub
+    github_content = download_file_from_github(file_info['download_url'])
 
-        if github_content != s3_content:
-            # Update the file in S3
-            upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
+    if github_content != s3_content:
+        # Update the file in S3
+        upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
 
-            # Replace the corresponding table in Snowflake
-            table_name = file_info['name'].replace('.csv', '').upper()
-            file_name = file_info["name"]
-
-
-            infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
-            cs.execute(infer_schema_query)
-            columns = cs.fetchall()
-
-            # Access the column names
-            column_names = [col[0] for col in columns]
+        # Replace the corresponding table in Snowflake
+        table_name = file_info['name'].replace('.csv', '').upper()
+        file_name = file_info["name"]
 
 
-            # Construct the column definitions
-            column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
+        infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
+        cs.execute(infer_schema_query)
+        columns = cs.fetchall()
 
-            # Join the column definitions into a string
-            columns_string = ',\n\t'.join(column_definitions)
+        # Access the column names
+        column_names = [col[0] for col in columns]
 
-            # Drop the existing RAW_%_FRESH TABLE
-            cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}")
 
-            # Create the table using specified column definitions
-            create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
-            cs.execute(create_table_query)
+        # Construct the column definitions
+        column_definitions = [f'"{col[0].replace(" ", "")}" {col[1]}' for col in columns]
+
+        # Join the column definitions into a string
+        columns_string = ',\n\t'.join(column_definitions)
+
+        # Drop the existing RAW_%_FRESH TABLE
+        cs.execute(f"DROP TABLE IF EXISTS NWTDATA.NWT.RAW_{table_name}")
+
+        # Create the table using specified column definitions
+        create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
+        cs.execute(create_table_query)
+
+        # Copy the latest fresh csv file into the replaced table
+        cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';")
+
+        print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
             
-            # Copy the latest fresh csv file into the replaced table
-            cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';")
-
-            print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
-            
-        else:
-            print(f"No new data for {file_info['name']}")
+    else:
+        print(f"No new data for {file_info['name']}")
 
 cs.close()
 ctx.close()
