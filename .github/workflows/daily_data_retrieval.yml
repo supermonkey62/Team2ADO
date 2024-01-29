@@ -1,6 +1,4 @@
 name: Retrieve Fresh Data from NWT Repository
-# Runs replace_fresh_tables.py every night at 2.30am, that checks the NWT repository for updates to fresh files. If there are changes, it will replace the fresh files in the s3 bucket
-# with the latest fresh file.
 on:
   push:
     paths:
@@ -9,6 +7,8 @@ on:
 jobs:
   replace_fresh_tables:
     runs-on: ubuntu-latest
+    outputs:
+      files_updated: ${{ steps.check_files.outputs.files_updated }}
 
     steps:
       - name: Checkout code
@@ -25,8 +25,10 @@ jobs:
           pip install requests boto3 snowflake-connector-python
 
       - name: Retrieve latest %_ FRESH files and Replace %_Fresh Files (If Necessary)
+        id: check_files
         run: |
           python replace_fresh_tables.py
+          echo "files_updated=${{ env.FILES_REPLACED }}" >> $GITHUB_ENV
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -35,4 +37,21 @@ jobs:
           DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+
+  additional_steps:
+    needs: [replace_fresh_tables]
+    runs-on: ubuntu-latest
+    if: ${{ needs.replace_fresh_tables.outputs.files_updated == 'true' }}
+    steps:
+      - name: Additional Steps Taken
+        run: echo "Additional steps taken"
+
+  no_additional_steps:
+    needs: [replace_fresh_tables]
+    runs-on: ubuntu-latest
+    if: ${{ needs.replace_fresh_tables.outputs.files_updated != 'true' }}
+    steps:
+      - name: No Additional Steps
+        run: echo "No additional steps"
+
 
