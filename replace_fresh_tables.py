@@ -98,7 +98,8 @@ for file_info in files:
 
             # Create the table using specified column definitions
             create_table_query = f"CREATE TABLE IF NOT EXISTS NWTDATA.NWT.RAW_{table_name} ({columns_string});"
-
+            cs.execute(create_table_query)
+            
             # Copy the latest fresh csv file into the replaced table
             cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';")
 
