@@ -8,8 +8,6 @@ on:
 jobs:
   replace_fresh_tables:
     runs-on: ubuntu-latest
-    outputs:
-      files_updated: ${{ steps.check_files.outputs.files_updated }}
 
     steps:
       - name: Checkout code
@@ -28,9 +26,8 @@ jobs:
       - name: Retrieve latest %_FRESH files and Replace %_Fresh Files (If Necessary)
         id: check_files
         run: |
-          files_updated=$(python replace_fresh_tables.py)
-          echo "files_updated=$files_updated" >> $GITHUB_ENV
-          echo "::set-output name=files_updated::$files_updated"
+          python replace_fresh_tables.py
+
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -40,21 +37,20 @@ jobs:
           SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
-  job-on-true:
+  additional-job-if-true:
     needs: replace_fresh_tables
-    if: ${{ needs.replace_fresh_tables.outputs.files_updated == 'true' }}
     runs-on: ubuntu-latest
+    if: ${{ job.status == 'success' && steps.check_files.outputs.some-output == 'true' }}
     steps:
-      - name: Run if files were updated
-        run: echo "Running because files were updated"
+      - name: Run additional job if true
+        run: echo "additional job"
 
-  job-on-false:
+  additional-job-if-false:
     needs: replace_fresh_tables
-    if: ${{ needs.replace_fresh_tables.outputs.files_updated == 'false' }}
     runs-on: ubuntu-latest
+    if: ${{ job.status == 'success' && steps.check_files.outputs.some-output == 'false' }}
     steps:
-      - name: Run if no files were updated
-        run: echo "Running because no files were updated"
-
+      - name: Run additional job if false
+        run: echo "no additional job"
 
 
