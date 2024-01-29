@@ -1,9 +1,7 @@
 name: Retrieve Fresh Data from NWT Repository
 
 on:
-  push:
-    paths:
-      - 'replace_fresh_tables.txt'
+  workflow_dispatch:
 
 jobs:
   replace_fresh_tables:
@@ -40,7 +38,7 @@ jobs:
   additional-job-if-true:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
-    if: ${{ job.status == 'success' && steps.check_files.outputs.some-output == 'true' }}
+    if: job.status == 'success' && steps.check_files.outputs.some-output == 'true'
     steps:
       - name: Run additional job if true
         run: echo "additional job"
@@ -48,7 +46,7 @@ jobs:
   additional-job-if-false:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
-    if: ${{ job.status == 'success' && steps.check_files.outputs.some-output == 'false' }}
+    if: job.status == 'success' && steps.check_files.outputs.some-output == 'false'
     steps:
       - name: Run additional job if false
         run: echo "no additional job"
