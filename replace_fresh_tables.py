@@ -39,7 +39,7 @@ def download_full_s3_file(s3_client, bucket, key):
 
 def upload_to_s3(s3_client, bucket, key, content):
     s3_client.put_object(Bucket=bucket, Key=key, Body=content)
-    print(f'Updated {key} in S3 bucket {bucket}')
+    # print(f'Updated {key} in S3 bucket {bucket}')
 
 files_replaced = False
 
@@ -110,18 +110,12 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
         # Copy the latest fresh csv file into the replaced table
         cs.execute(f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';")
 
-        print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
+        # print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
             
     else:
-        print(f"No new data for {file_info['name']}")
+        # print(f"No new data for {file_info['name']}")
 
 cs.close()
 ctx.close()
 
-# At the end of your script
-if files_replaced:
-    print("Files were updated.")
-    sys.exit(0)  # Success code
-else:
-    print("No files were updated.")
-    sys.exit(1)  # Failure code
+print('true' if files_replaced else 'false')
