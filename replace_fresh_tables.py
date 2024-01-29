@@ -112,8 +112,8 @@ for file_info in [file for file in files if file['name'].endswith('_fresh.csv')]
 
         # print(f"Recreated table RAW_{table_name} in Snowflake with latest data")
             
-    else:
-        # print(f"No new data for {file_info['name']}")
+    #else:
+        #print(f"No new data for {file_info['name']}")
 
 cs.close()
 ctx.close()
