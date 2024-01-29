@@ -1,5 +1,6 @@
 name: Load Data from repository to Snowflake Stage
-
+# 1st Method to Load data into Snowflake. Failed because PUT command can only be used on 
+# local files.
 on:
   push:
     paths:
