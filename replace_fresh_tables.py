@@ -24,14 +24,6 @@ load_format_name = 'load_csv_format'
 s3_bucket = 'team2adonwtbucket'
 github_repo_url = 'https://api.github.com/repos/just4jc/Northwind-Traders-Dataset/contents/'
 
-def get_last_row_primary_key(csv_content):
-    reader = csv.reader(StringIO(csv_content))
-    last_row = None
-    for row in reader:
-        if row:  # skip empty rows
-            last_row = row
-    return last_row[0] if last_row else None
-
 def download_file_from_github(url):
     response = requests.get(url)
     response.raise_for_status()
@@ -74,13 +66,11 @@ for file_info in files:
     if file_info['name'].endswith('_fresh.csv'):
         # Fetch last part of the file from S3
         s3_content = download_last_part_of_s3_file(s3, s3_bucket, file_info['name'])
-        s3_last_key = get_last_row_primary_key(s3_content) if s3_content else None
 
         # Download file from GitHub
         github_content = download_file_from_github(file_info['download_url'])
-        github_last_key = get_last_row_primary_key(github_content)
 
-        if github_last_key != s3_last_key:
+        if github_content != s3_content:
             # Update the file in S3
             upload_to_s3(s3, s3_bucket, file_info['name'], github_content)
 
