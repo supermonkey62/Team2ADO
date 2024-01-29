@@ -76,7 +76,7 @@ for file_info in files:
 
             # Replace the corresponding table in Snowflake
             table_name = file_info['name'].replace('.csv', '').upper()
-            file_name = file_info.split('/')[-1]
+            file_name = file_info["name"]
 
 
             infer_schema_query = f"SELECT * FROM TABLE(INFER_SCHEMA(LOCATION=>'@NWT_STAGING/{file_name}', FILE_FORMAT=>'{file_format_name}'))"
