@@ -24,8 +24,9 @@ jobs:
       - name: Retrieve latest %_FRESH files and Replace %_Fresh Files (If Necessary)
         id: check_files
         run: |
-          python replace_fresh_tables.py
-
+          result=$(python replace_fresh_tables.py)
+          echo "some-output=$result" >> $GITHUB_ENV
+          echo "::set-output name=some-output::$result"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -38,18 +39,68 @@ jobs:
     outputs:
       some-output: ${{ steps.check_files.outputs.some-output }}
 
-  additional-job-if-true:
+  if_table_replaced:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
     if: ${{ needs.replace_fresh_tables.outputs.some-output == 'true' }}
     steps:
-      - name: Run additional job if true
-        run: echo "additional job"
+      - name: Have fresh data
+        run: echo "new data from NWT Repository, commence sync using dbt run" 
 
-  additional-job-if-false:
+  if_table_not_replaced:
     needs: replace_fresh_tables
     runs-on: ubuntu-latest
     if: ${{ needs.replace_fresh_tables.outputs.some-output == 'false' }}
     steps:
-      - name: Run additional job if false
-        run: echo "no additional job"
+      - name: No fresh data
+        run: echo "No new data from NWT Repository"
+
+  dbt-run:
+    needs: if_table_replaced
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: Run dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles
+
+  dbt-test:
+    needs: dbt-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: Test dbt
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt test --profiles-dir profiles
+
+
