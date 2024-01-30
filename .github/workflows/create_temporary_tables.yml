@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  load-data:
+  Compare-Data-by-Rows-and-Columns:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install snowflake-connector-python
 
-      - name: Run python file
+      - name: Run comparison
         env:
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
