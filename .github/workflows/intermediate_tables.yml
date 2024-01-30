@@ -1,0 +1,38 @@
+name: Update Intermediate Tables
+
+on:
+  workflow_dispatch:
+
+jobs:
+  append-fresh-orders:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt_snowflake
+
+      - name: dbt run Intermediate Tables
+        env:
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+        run: dbt run --profiles-dir profiles -s intermediate_category
+             dbt run --profiles-dir profiles -s intermediate_customer
+             dbt run --profiles-dir profiles -s intermediate_employee_territory
+             dbt run --profiles-dir profiles -s intermediate_employee
+             dbt run --profiles-dir profiles -s intermediate_order_detail
+             dbt run --profiles-dir profiles -s intermediate_order
+             dbt run --profiles-dir profiles -s intermediate_product
+             dbt run --profiles-dir profiles -s intermediate_region
+             dbt run --profiles-dir profiles -s intermediate_shipper
+             dbt run --profiles-dir profiles -s intermediate_supplier
+             dbt run --profiles-dir profiles -s intermediate_territory
