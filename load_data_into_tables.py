@@ -33,32 +33,33 @@ files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv') and 'product
 
 # Process each CSV file
 for file in files :
-    # Extract the table name from the file path
+    # # Extract the table name from the file path
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
 
-    # Check if the table already exists
-    check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name.upper()}' AND TABLE_SCHEMA = 'NWT';"
-    cs.execute(check_table_query)
-    table_exists = cs.fetchone()[0] > 0
+    # # Check if the table already exists
+    # check_table_query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'RAW_{table_name.upper()}' AND TABLE_SCHEMA = 'NWT';"
+    # cs.execute(check_table_query)
+    # table_exists = cs.fetchone()[0] > 0
 
-    if  table_exists:
-        check_table_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.RAW_{table_name};"
-        cs.execute(check_table_query)
-        table_empty = cs.fetchone()[0] == 0
+    # if  table_exists:
+    #     check_table_query = f"SELECT COUNT(*) FROM NWTDATA.NWT.RAW_{table_name};"
+    #     cs.execute(check_table_query)
+    #     table_empty = cs.fetchone()[0] == 0
 
-        if table_empty:
-            # Load data into the table
-            load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
-            print(load_data_query)
-            cs.execute(load_data_query)
+    #     if table_empty:
+    #         # Load data into the table
+    #         load_data_query = f"COPY INTO NWTDATA.NWT.RAW_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
+    #         print(load_data_query)
+    #         cs.execute(load_data_query)
 
-            print(f"Successfully copied {file_name} into RAW_{table_name}")
-        else:
-            print("Table contains data, do not load more data in.")
+    #         print(f"Successfully copied {file_name} into RAW_{table_name}")
+    #     else:
+    #         print("Table contains data, do not load more data in.")
 
-    else:
-        print(f"Table {table_name} does not exist.")
+    # else:
+    #     print(f"Table {table_name} does not exist.")
+    print(f"Successfully copied {file_name} into RAW_{table_name}")
 
 cs.close()
 ctx.close()
