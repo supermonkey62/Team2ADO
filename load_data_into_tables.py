@@ -29,11 +29,10 @@ cs.execute(f"CREATE OR REPLACE FILE FORMAT {load_format_name} TYPE = CSV FIELD_O
 
 # List CSV files in the stage
 cs.execute(f"LIST @NWT_STAGING")
-files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
-#print(f"Files in the stage: {files}")
+files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv') and 'product_fresh.csv' not in row[0]]
 
 # Process each CSV file
-for file in [file for file in files if file['name'].startswith('product_fresh')]:
+for file in files :
     # Extract the table name from the file path
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
