@@ -1,9 +1,7 @@
 name: DataOps Pipeline
 
 on:
-  push:
-    paths:
-      - 'DataOps_Pipeline.txt'
+  workflow_dispatch:
       
 jobs:
   Upload-to-S3-Bucket:
