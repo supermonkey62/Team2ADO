@@ -1,9 +1,7 @@
 name: Create Temporary Tables in NWT_STAGING to check for data integrity
 
 on:
-  push:
-    paths:
-      - 'create_temporary_table.txt'
+  workflow_dispatch:
 
 jobs:
   load-data:
