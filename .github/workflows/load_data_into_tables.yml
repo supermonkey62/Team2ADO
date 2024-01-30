@@ -1,4 +1,4 @@
-name: Create Tables from csv files from NWT_STAGING
+name: Load Data from Stage into Tables
 
 on:
   workflow_dispatch:
