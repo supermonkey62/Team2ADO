@@ -125,6 +125,12 @@ jobs:
           pip install snowflake-connector-python
 
       - name: Run testing_raw and testing_intermediate Script
+        env:
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
         run: |
           if [ "${{ matrix.script-type }}" == "testing_raw" ]; then
             python testing_raw.py
