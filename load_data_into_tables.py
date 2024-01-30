@@ -33,7 +33,7 @@ files = [row[0] for row in cs.fetchall() if row[0].endswith('.csv')]
 #print(f"Files in the stage: {files}")
 
 # Process each CSV file
-for file in [file for file in files if file.get('name') != 'product_fresh.csv']:
+for file in [file for file in files if file['name'].startswith('product_fresh')]:
     # Extract the table name from the file path
     table_name = file.split('/')[-1].replace('.csv', '')
     file_name = file.split('/')[-1]
