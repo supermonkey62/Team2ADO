@@ -1,9 +1,7 @@
-name: Create Tables from csv files from NWT_STAGING
+name: Load Data from Stage into Tables
 
 on:
-  push:
-    paths:
-      - 'load_data_into_tables.txt'
+  workflow_dispatch:
 
 jobs:
   load-data:
@@ -32,4 +30,4 @@ jobs:
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
         run: |
-          python create_table_and_load_data.py
+          python load_data_into_tables.py

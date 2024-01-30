@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  replace_fresh_tables:
+  Check-For-Updates:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,24 +39,24 @@ jobs:
     outputs:
       some-output: ${{ steps.check_files.outputs.some-output }}
 
-  if_table_replaced:
-    needs: replace_fresh_tables
+  if_new_data:
+    needs: Check-For-Updates
     runs-on: ubuntu-latest
-    if: ${{ needs.replace_fresh_tables.outputs.some-output == 'true' }}
+    if: ${{ needs.Check-For-Updates.outputs.some-output == 'true' }}
     steps:
       - name: Have fresh data
         run: echo "new data from NWT Repository, commence sync using dbt run" 
 
-  if_table_not_replaced:
-    needs: replace_fresh_tables
+  if_no_new_data:
+    needs: Check-For-Updates
     runs-on: ubuntu-latest
-    if: ${{ needs.replace_fresh_tables.outputs.some-output == 'false' }}
+    if: ${{ needs.Check-For-Updates.outputs.some-output == 'false' }}
     steps:
       - name: No fresh data
         run: echo "No new data from NWT Repository"
 
   dbt-run:
-    needs: if_table_replaced
+    needs: if_new_data
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -102,5 +102,41 @@ jobs:
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
         run: dbt test --profiles-dir profiles
+
+  Generate-Test-Documentation:
+    needs: dbt-test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        script-type: ['testing_raw', 'testing_intermediate']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install snowflake-connector-python
+
+      - name: Run testing_raw and testing_intermediate Script
+        env:
+          DBT_USER: ${{ secrets.DBT_USER }}
+          DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+          DBT_ACCOUNT: ${{ secrets.DBT_ACCOUNT }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
+        run: |
+          if [ "${{ matrix.script-type }}" == "testing_raw" ]; then
+            python testing_raw.py
+          elif [ "${{ matrix.script-type }}" == "testing_intermediate" ]; then
+            python testing_intermediate.py
+          fi
+
 
 
