@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  replace_fresh_tables:
+  Check-For-Updates:
     runs-on: ubuntu-latest
 
     steps:
