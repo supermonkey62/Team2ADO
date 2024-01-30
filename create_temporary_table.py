@@ -63,13 +63,13 @@ for file in files:
     create_table_query = f"CREATE TEMPORARY TABLE TEMP_{table_name} ({columns_string});"
     cs.execute(create_table_query)
 
-    print(f"Successfully created TEMP_{table_name}")
+    # print(f"Successfully created TEMP_{table_name}")
 
     # Load data into the table
     load_data_query = f"COPY INTO TEMP_{table_name} FROM @NWT_STAGING/{file_name} FILE_FORMAT = '{load_format_name}';"
     cs.execute(load_data_query)
 
-    print(f"Successfully copied {file_name} into TEMP_{table_name}")
+    # print(f"Successfully copied {file_name} into TEMP_{table_name}")
 
     # Get the number of rows and columns for the temporary table
     cs.execute(f"SELECT COUNT(*) FROM TEMP_{table_name}")
