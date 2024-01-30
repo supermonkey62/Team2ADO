@@ -160,8 +160,8 @@ jobs:
           run: |
             python compare_row_counts.py
 
-  Parallel-Scripts:
-    needs: Test-Data-Integrity
+  Generate-Test-Documentation:
+    needs: Compare-Row-Counts
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -181,7 +181,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install snowflake-connector-python
 
-      - name: Run Script
+      - name: Run testing_raw and testing_intermediate Script
         run: |
           if [ "${{ matrix.script-type }}" == "testing_raw" ]; then
             python testing_raw.py
