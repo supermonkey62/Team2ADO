@@ -1,9 +1,7 @@
 name: Create Tables from csv files from NWT_STAGING
 
 on:
-  push:
-    paths:
-      - 'load_data_into_tables.txt'
+  workflow_dispatch:
 
 jobs:
   load-data:
