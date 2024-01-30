@@ -91,7 +91,7 @@ for file in files:
     if temp_row_count == raw_row_count and num_temp_columns == num_raw_columns:
         print(f"Table comparison successful for TEMP_{table_name} ({temp_row_count},{num_temp_columns}) and RAW_{table_name} ({raw_row_count},{num_raw_columns})")
     else:
-        raise ValueError(f"Table comparison failed for TEMP_{table_name} and RAW_{table_name}. "
+        raise ValueError(f"Table comparison failed for TEMP_{table_name} ({temp_row_count},{num_temp_columns}) and RAW_{table_name} ({raw_row_count},{num_raw_columns}. "
                          f"Rows or columns do not match.")
     
 
