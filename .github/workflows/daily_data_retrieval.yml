@@ -42,7 +42,7 @@ jobs:
   if_new_data:
     needs: Check-For-Updates
     runs-on: ubuntu-latest
-    if: ${{ needs.replace_fresh_tables.outputs.some-output == 'true' }}
+    if: ${{ needs.Check-For-Updates.outputs.some-output == 'true' }}
     steps:
       - name: Have fresh data
         run: echo "new data from NWT Repository, commence sync using dbt run" 
@@ -50,7 +50,7 @@ jobs:
   if_no_new_data:
     needs: Check-For-Updates
     runs-on: ubuntu-latest
-    if: ${{ needs.replace_fresh_tables.outputs.some-output == 'false' }}
+    if: ${{ needs.Check-For-Updates.outputs.some-output == 'false' }}
     steps:
       - name: No fresh data
         run: echo "No new data from NWT Repository"
