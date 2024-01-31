@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  append-fresh-orders:
+  Update-Intermediate-Tables:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

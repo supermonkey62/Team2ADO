@@ -1,10 +1,10 @@
-name: Create Temporary Tables in NWT_STAGING to check for data integrity
+name: Verify Fresh Orders Were Appended
 
 on:
   workflow_dispatch:
 
 jobs:
-  Compare-Data-by-Rows-and-Columns:
+  Verify-fresh-orders-were-appended:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install snowflake-connector-python
 
-      - name: Run comparison
+      - name: Verify appended
         env:
           DBT_USER: ${{ secrets.DBT_USER }}
           DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
@@ -30,4 +30,4 @@ jobs:
           SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
         run: |
-          python create_temporary_table.py
+          python compare_row_counts.py
