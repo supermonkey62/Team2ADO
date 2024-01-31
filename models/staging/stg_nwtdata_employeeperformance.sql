@@ -9,10 +9,10 @@ SELECT
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfit,
     EXTRACT(MONTH FROM O.OrderDate) AS OrderMonth,
     EXTRACT(YEAR FROM O.OrderDate) AS OrderYear
-FROM {{ ref('raw_employee') }} AS E
-JOIN {{ ref('raw_order') }} AS O ON E.EmployeeID = O.EmployeeID
-JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
-JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
+FROM {{ ref('intermediate_employee') }} AS E
+JOIN {{ ref('intermediate_order') }} AS O ON E.EmployeeID = O.EmployeeID
+JOIN {{ ref('intermediate_order_detail') }} AS OD ON O.OrderID = OD.OrderID
+JOIN {{ ref('intermediate_product') }} AS P ON OD.ProductID = P.ProductID
 GROUP BY E.EmployeeID,OrderDate, OrderMonth, EmployeeName
 ORDER BY OrderYear, OrderMonth, OrderDate, NumberOfOrders DESC
 

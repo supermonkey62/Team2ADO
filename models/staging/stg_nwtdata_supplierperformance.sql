@@ -4,7 +4,7 @@ WITH SupplierProducts AS (
     SELECT
         SupplierID,
         SUM(UnitsInStock + UnitsOnOrder) AS TotalProductsSupplied
-    FROM {{ ref('raw_product') }}
+    FROM {{ ref('intermediate_product') }}
     GROUP BY SupplierID
 )
 
@@ -18,10 +18,10 @@ SELECT
     SUM(P.UnitCost * P.UnitsInStock) AS InventoryValue,
     SUM(OD.UnitPrice * OD.Quantity) AS TotalSalesBySupplier,
     SUM((OD.UnitPrice - P.UnitCost) * OD.Quantity) AS TotalProfitBySupplier
-FROM {{ ref('raw_supplier') }} AS S
+FROM {{ ref('intermediate_supplier') }} AS S
 LEFT JOIN SupplierProducts AS SP ON S.SupplierID = SP.SupplierID
-LEFT JOIN {{ ref('raw_product') }} AS P ON S.SupplierID = P.SupplierID
-LEFT JOIN {{ ref('raw_order_detail') }} AS OD ON P.ProductID = OD.ProductID
+LEFT JOIN {{ ref('intermediate_product') }} AS P ON S.SupplierID = P.SupplierID
+LEFT JOIN {{ ref('intermediate_order_detail') }} AS OD ON P.ProductID = OD.ProductID
 GROUP BY
     S.SupplierID, S.CompanyName, S.City, S.Country, SP.TotalProductsSupplied
 ORDER BY

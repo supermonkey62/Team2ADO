@@ -23,10 +23,10 @@ SELECT
         ELSE 'Shipped Late'
     END AS OrderStatus
 
-FROM {{ ref('raw_order') }} AS O
-JOIN {{ ref('raw_customer') }} AS C ON O.CustomerID = C.CustomerID
-JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
-JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
-JOIN {{ ref('raw_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
+FROM {{ ref('intermediate_order') }} AS O
+JOIN {{ ref('intermediate_customer') }} AS C ON O.CustomerID = C.CustomerID
+JOIN {{ ref('intermediate_order_detail') }} AS OD ON O.OrderID = OD.OrderID
+JOIN {{ ref('intermediate_product') }} AS P ON OD.ProductID = P.ProductID
+JOIN {{ ref('intermediate_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
 
 GROUP BY O.OrderID

@@ -12,8 +12,8 @@ WITH ShipperMetrics AS (
         ROUND(SUM(O.Freight), 2) As TotalFreightCost,
         COUNT(RequiredDate > ShippedDate OR ShippedDate NOT LIKE 'null') AS OnTimeShipments,
         COUNT(*) AS TotalShipments
-    FROM {{ ref('raw_order') }} AS O
-    JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
+    FROM {{ ref('intermediate_order') }} AS O
+    JOIN {{ ref('intermediate_order_detail') }} AS OD ON O.OrderID = OD.OrderID
     GROUP BY O.ShipVia
 )
 
@@ -30,7 +30,7 @@ SELECT
     SM.OnTimeShipments,
     SM.TotalShipments,
     ROUND(1.0 * SM.OnTimeShipments / SM.TotalShipments, 2) AS OnTimeDeliveryRate
-FROM {{ ref('raw_shipper') }} AS S
+FROM {{ ref('intermediate_shipper') }} AS S
 LEFT JOIN ShipperMetrics AS SM ON S.ShipperID = SM.ShipperID
 ORDER BY S.ShipperID
 

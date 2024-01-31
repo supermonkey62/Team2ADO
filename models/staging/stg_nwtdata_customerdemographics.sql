@@ -14,14 +14,14 @@ SELECT
     MAX(ProductName) AS ProductName,
     MAX(CategoryName) AS CategoryName
 
-FROM {{ ref('raw_customer') }} AS C
-JOIN {{ ref('raw_order') }} AS O ON C.CustomerID = O.CustomerID
-JOIN {{ ref('raw_order_detail') }} AS OD ON O.OrderID = OD.OrderID
-JOIN {{ ref('raw_product') }} AS P ON OD.ProductID = P.ProductID
-JOIN {{ ref('raw_employee') }} AS E ON O.EmployeeID = E.EmployeeID
-JOIN {{ ref('raw_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
-JOIN {{ ref('raw_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
-JOIN {{ ref('raw_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
+FROM {{ ref('intermediate_customer') }} AS C
+JOIN {{ ref('intermediate_order') }} AS O ON C.CustomerID = O.CustomerID
+JOIN {{ ref('intermediate_order_detail') }} AS OD ON O.OrderID = OD.OrderID
+JOIN {{ ref('intermediate_product') }} AS P ON OD.ProductID = P.ProductID
+JOIN {{ ref('intermediate_employee') }} AS E ON O.EmployeeID = E.EmployeeID
+JOIN {{ ref('intermediate_employee_territory') }} AS ET ON E.EmployeeID = ET.EmployeeID
+JOIN {{ ref('intermediate_territory') }} AS T ON ET.TerritoryID = T.TerritoryID
+JOIN {{ ref('intermediate_category') }} AS Ca ON P.CategoryId = Ca.CategoryId
 
 GROUP BY O.CustomerID
 ORDER BY Revenue DESC -- To get top customers by net sales
